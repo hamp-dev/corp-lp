@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hamp - 同人イベントを、もっとスマートに。</title>
+    <meta name="description" content="hampは、同人誌即売会のためのWebカタログ・申込み・配置図システムです。即売会主催者、サークル、そしてファンの「欲しい」をつなぎます。">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hamp: {
+                            50: '#fff7ed',   // 背景用：かなり薄いオレンジ（クリーム色）
+                            100: '#ffedd5',  // 背景アクセント
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',  // メインカラー
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        text: {
+                            main: '#433835', // 少し赤みのあるダークグレー（黒より優しい）
+                            sub: '#8c827d',  // サブテキスト
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(249, 115, 22, 0.15)',
+                        'card': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+
+<body class="antialiased bg-hamp-50">
+
+    <!-- Header -->
+    <header class="fixed w-full glass-nav z-50 transition-all duration-300" id="header">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+
+                    <img src="image/logo/logo.svg" alt="hamp Logo" class="flex items-center gap-2 group logo">
+
+
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class=" hidden md:flex space-x-6 lg:space-x-8 text-sm font-bold text-text-main">
+                    <a href="#organizer" class="hover:text-hamp-500 transition py-2 relative group">
+                        主催者の方
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-hamp-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#creator" class="hover:text-hamp-500 transition py-2 relative group">
+                        サークル参加
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-hamp-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#fan" class="hover:text-hamp-500 transition py-2 relative group">
+                        一般参加
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-hamp-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#message" class="hover:text-hamp-500 transition py-2 relative group">
+                        導入のご案内
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-hamp-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden md:flex items-center">
+                    <a href="https://hamp.ai/" target="_blank"
+                        class="bg-hamp-500 hover:bg-hamp-600 text-white px-6 py-2.5 rounded-full font-bold text-sm transition shadow-lg shadow-hamp-200 hover:shadow-hamp-300 flex items-center gap-2 transform hover:-translate-y-0.5 active:scale-95 duration-200">
+                        hampを利用する
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-hamp-600 hover:bg-hamp-100 p-2 rounded-full transition">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="md:hidden bg-white/95 backdrop-blur-md border-t border-hamp-100 shadow-lg absolute top-16 left-0 w-full transition-all duration-300 opacity-0 -translate-y-4 pointer-events-none z-40">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#organizer"
+                    class="block px-4 py-3 rounded-xl text-base font-bold text-text-main hover:bg-hamp-50 hover:text-hamp-600">主催者の方へ</a>
+                <a href="#creator"
+                    class="block px-4 py-3 rounded-xl text-base font-bold text-text-main hover:bg-hamp-50 hover:text-hamp-600">サークル参加の方へ</a>
+                <a href="#fan"
+                    class="block px-4 py-3 rounded-xl text-base font-bold text-text-main hover:bg-hamp-50 hover:text-hamp-600">一般参加の方へ</a>
+                <a href="#message"
+                    class="block px-4 py-3 rounded-xl text-base font-bold text-text-main hover:bg-hamp-50 hover:text-hamp-600">導入のご案内</a>
+                <div class="pt-4 px-4">
+                    <a href="https://hamp.ai/" target="_blank"
+                        class="block w-full text-center bg-hamp-500 text-white px-4 py-3 rounded-full font-bold shadow-md active:scale-95 duration-200">hampを利用する</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-40 overflow-hidden">
+        <!-- Background Decor -->
+        <div class="absolute inset-0 bg-gradient-to-b from-white via-hamp-50 to-hamp-100/50 -z-10"></div>
+        <div class="absolute top-0 right-0 w-full h-full bg-dot-pattern opacity-40 -z-10"></div>
+
+        <!-- Bubbles -->
+        <div
+            class="absolute top-20 left-[10%] w-32 h-32 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-60 animate-pulse">
+        </div>
+        <div
+            class="absolute top-40 right-[10%] w-40 h-40 bg-hamp-300 rounded-full mix-blend-multiply filter blur-xl opacity-60 animate-pulse delay-700">
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <div
+                    class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white border border-hamp-200 shadow-sm text-hamp-600 text-sm font-bold mb-8 animate-bounce duration-3000 fade-in-up">
+                    <span class="w-2 h-2 bg-hamp-500 rounded-full"></span>
+                    次世代の即売会プラットフォーム
+                </div>
+
+                <h1
+                    class="text-4xl sm:text-5xl md:text-7xl font-black text-text-main mb-8 leading-tight tracking-tight fade-in-up delay-100">
+                    同人イベントを、<br class="hidden md:inline">もっと
+                    <span class="relative inline-block px-2">
+                        <span class="relative z-10 text-hamp-600">スマート</span>
+                        <!-- Marker effect -->
+                        <span
+                            class="absolute bottom-2 left-0 w-full h-4 bg-yellow-200 -z-0 rotate-[-2deg] rounded-sm opacity-80"></span>
+                    </span>
+                    に。
+                </h1>
+
+                <p
+                    class="text-lg md:text-xl text-text-sub mb-10 max-w-2xl mx-auto leading-relaxed font-medium fade-in-up delay-200">
+                    <span class="whitespace-nowrap">hampは、同人誌売会のための</span><wbr><span
+                        class="whitespace-nowrap">Webカタログ・申込み・配置図システムです。</span>
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 fade-in-up delay-300">
+                    <a href="https://hamp.ai/" target="_blank"
+                        class="bg-hamp-500 hover:bg-hamp-600 text-white px-10 py-4 rounded-full font-bold text-lg shadow-soft hover:shadow-lg transition transform hover:-translate-y-1 active:scale-95 duration-200 flex items-center justify-center gap-2">
+                        即売会を探す・参加する
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#message"
+                        class="bg-white text-hamp-600 border-2 border-hamp-100 hover:border-hamp-400 px-10 py-4 rounded-full font-bold text-lg shadow-sm hover:shadow-md transition transform hover:-translate-y-1 active:scale-95 duration-200">
+                        主催者向け資料を見る
+                    </a>
+                </div>
+            </div>
+
+            <!-- Hero Image with softer look -->
+            <div class="mt-16 md:mt-20 relative max-w-5xl mx-auto fade-in-up delay-300">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-hamp-200 to-yellow-200 rounded-[2.5rem] blur opacity-30">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Curve Separator -->
+    <div class="w-full overflow-hidden leading-[0]">
+        <svg class="relative block w-[calc(100%+1.3px)] h-[60px] md:h-[100px]" data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                class="fill-hamp-50"></path>
+            <path d="M0,0V120H1200V0Z" fill="white"></path>
+        </svg>
+    </div>
+
+    <!-- Organizer Section -->
+    <section id="organizer" class="py-20 bg-white relative">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 fade-in-up">
+                <span
+                    class="bg-orange-100 text-hamp-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-3 inline-block">For
+                    Organizer</span>
+                <h2 class="text-3xl md:text-4xl font-black text-text-main mb-4">即売会を開催する！</h2>
+                <p class="text-text-sub font-medium">
+                    面倒な事務作業はhampにお任せ。<br>
+                    イベントの熱量を高める企画に集中できます。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-10 items-start">
+                <!-- Feature 1 -->
+                <div class="group fade-in-up delay-100">
+                    <div
+                        class="bg-white rounded-[2rem] p-2 shadow-card hover:shadow-soft transition duration-300 border border-gray-100 active:scale-[0.98]">
+                        <div class="bg-hamp-50 rounded-[1.5rem] overflow-hidden mb-4 h-56">
+                            <img src="image/logo/form.png" alt="申込みフォーム・決済代行"
+                                class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500" />
+                        </div>
+                        <div class="px-4 pb-5">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span
+                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-hamp-100 text-hamp-600 font-bold text-sm">01</span>
+                                <h3 class="text-lg font-bold text-text-main">申し込みフォーム・決済代行</h3>
+                            </div>
+                            <p class="text-text-sub text-sm leading-relaxed">
+                                カスタマイズ可能な即売会の参加申込から決済までをワンストップで簡単に制作。フォーム作成、申込受付、入金管理まで自動化できます。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group fade-in-up delay-200">
+                    <div
+                        class="bg-white rounded-[2rem] p-2 shadow-card hover:shadow-soft transition duration-300 border border-gray-100 active:scale-[0.98]">
+                        <div class="bg-hamp-50 rounded-[1.5rem] overflow-hidden mb-4 h-56">
+                            <img src="image/logo/circlelist.webp" alt="カタログ制作"
+                                class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500" />
+                        </div>
+                        <div class="px-4 pb-5">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span
+                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-hamp-100 text-hamp-600 font-bold text-sm">02</span>
+                                <h3 class="text-lg font-bold text-text-main">カタログ制作</h3>
+                            </div>
+                            <p class="text-text-sub text-sm leading-relaxed">
+                                登録された情報から、即売会のWebカタログを自動生成。サークル情報やお品書き、サンプル画像を一覧表示できます。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group fade-in-up delay-300">
+                    <div
+                        class="bg-white rounded-[2rem] p-2 shadow-card hover:shadow-soft transition duration-300 border border-gray-100 active:scale-[0.98]">
+                        <div class="bg-hamp-50 rounded-[1.5rem] overflow-hidden mb-4 h-56">
+                            <img src="image/logo/map_ui.webp" alt="リアクティブ配置図"
+                                class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500" />
+                        </div>
+                        <div class="px-4 pb-5">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span
+                                    class="flex items-center justify-center w-8 h-8 rounded-full bg-hamp-100 text-hamp-600 font-bold text-sm">03</span>
+                                <h3 class="text-lg font-bold text-text-main">リアクティブ配置図</h3>
+                            </div>
+                            <p class="text-text-sub text-sm leading-relaxed">
+                                サークルチェックが地図に反映される「リアクティブ配置図」。気になるサークルを色付けし、現地でもスムーズに回遊できます。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Circles Section -->
+    <section id="creator" class="py-24 bg-hamp-50 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute top-0 left-0 w-full h-full bg-dot-pattern opacity-30"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-20 fade-in-up">
+                <span
+                    class="bg-white text-hamp-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-3 inline-block shadow-sm">For
+                    Circles</span>
+                <h2 class="text-3xl md:text-4xl font-black text-text-main mb-4">お品書きを登録する！</h2>
+                <p class="text-text-sub font-medium">
+                    あなたの作品を、もっと多くの人に。<br>
+                    イベント前の告知も、当日のアピールもこれ一つで。
+                </p>
+            </div>
+
+            <div class="space-y-24">
+                <!-- Feature Block 1 -->
+                <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-16 fade-in-up">
+                    <div class="w-full md:w-1/2 relative">
+                        <!-- Blob Background -->
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white rounded-full blur-3xl opacity-60">
+                        </div>
+                        <div
+                            class="relative bg-white rounded-[2.5rem] shadow-xl overflow-hidden border-[6px] border-white group rotate-1 hover:rotate-0 transition duration-500">
+                            <img src="image/logo/form02.png" alt="超高速！サークル申込み" class="w-full h-auto block" />
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-2xl font-bold mb-4 text-text-main">
+                            <span class="text-hamp-500 text-lg block mb-1">POINT 01</span>
+                            超高速！サークル申込み
+                        </h3>
+                        <p class="text-text-sub leading-relaxed mb-6">
+                            シンプルで、入力補助が満載の申込みフォームで、申込みが高速！<br>
+                            過去の申込みが、ほとんどの項目で引用できるので、場合によっては、入力がゼロかも。
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">SNSまとめ</span>
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">活動履歴</span>
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">ファンとつながる</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Block 2 (Reverse) -->
+                <div class="flex flex-col md:flex-row-reverse items-center gap-10 lg:gap-16 fade-in-up">
+                    <div class="w-full md:w-1/2 relative">
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white rounded-full blur-3xl opacity-60">
+                        </div>
+                        <div
+                            class="relative bg-white rounded-[2.5rem] shadow-xl overflow-hidden border-[6px] border-white group -rotate-1 hover:rotate-0 transition duration-500">
+                            <img src="image/logo/space.png" alt="サークルページとお品書き" class="w-full h-auto block" />
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-2xl font-bold mb-4 text-text-main">
+                            <span class="text-hamp-500 text-lg block mb-1">POINT 02</span>
+                            サークルページとお品書き
+                        </h3>
+                        <p class="text-text-sub leading-relaxed mb-6">
+                            作品タイトル、価格、サンプル画像を登録するだけでお品書きが完成。カタログと合体しているため、来場者が事前にチェックして作品を知ってもらえる機能です。
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">SNSまとめ</span>
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">活動履歴</span>
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">スマホで完結</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Block 3 -->
+                <div class="flex flex-col md:flex-row items-center gap-10 lg:gap-16 fade-in-up">
+                    <div class="w-full md:w-1/2 relative">
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white rounded-full blur-3xl opacity-60">
+                        </div>
+                        <div
+                            class="relative bg-white rounded-[2.5rem] shadow-xl overflow-hidden border-[6px] border-white group rotate-1 hover:rotate-0 transition duration-500">
+                            <img src="image/logo/sakuhin.png" alt="作品管理" class="w-full h-auto block" />
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-2xl font-bold mb-4 text-text-main">
+                            <span class="text-hamp-500 text-lg block mb-1">POINT 03</span>
+                            作品管理
+                        </h3>
+                        <p class="text-text-sub leading-relaxed mb-6">
+                            作品データを一元管理。過去イベントの作品情報も簡単に再利用できます。
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">一元管理</span>
+                            <span
+                                class="bg-white px-3 py-1 rounded-full text-xs font-bold text-gray-500 border border-gray-100">再利用ボタン</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fan Section -->
+    <section id="fan" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16 fade-in-up">
+                <span
+                    class="bg-orange-100 text-hamp-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-3 inline-block">For
+                    Fans</span>
+                <h2 class="text-3xl md:text-4xl font-black text-text-main mb-4">サークルチェックしよう！</h2>
+                <p class="text-text-sub font-medium">
+                    行きの電車や、暇な待機列でも。スマホからチェック。オフラインでも動きます。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 max-w-5xl mx-auto">
+                <!-- Card 1 -->
+                <div
+                    class="bg-gradient-to-br from-white to-orange-50 border border-orange-100 rounded-[2.5rem] p-8 shadow-lg hover:shadow-soft transition duration-300 transform hover:-translate-y-1 group fade-in-up delay-100 active:scale-[0.98]">
+                    <div class="mb-6 rounded-3xl overflow-hidden shadow-sm bg-white">
+                        <img src="image/logo/checklist_ui.webp" alt="カラーサークルカットとチェックをリスト化"
+                            class="w-full h-auto block" />
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-text-main flex items-center gap-2">
+                        <span class="text-2xl">🖍️</span>
+                        カラーサークルカットとチェックをリスト化
+                    </h3>
+                    <p class="text-text-sub text-sm leading-relaxed">
+                        サークルをワンタップでチェック。好きなサークルをフォローすれば、次回イベントからは、初めからリストに入っています。
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-gradient-to-br from-white to-orange-50 border border-orange-100 rounded-[2.5rem] p-8 shadow-lg hover:shadow-soft transition duration-300 transform hover:-translate-y-1 group">
+                    <div class="mb-6 rounded-3xl overflow-hidden shadow-sm bg-white">
+                        <img src="image/logo/map_ui.webp" alt="地図にマーキングされるリアクティブ配置図" class="w-full h-auto block" />
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-text-main flex items-center gap-2">
+                        <span class="text-2xl">📍</span>
+                        地図にマーキングされるリアクティブ配置図
+                    </h3>
+                    <p class="text-text-sub text-sm leading-relaxed">
+                        チェックしたサークルに色がつく「リアクティブ配置図」。
+                        「あの人どこ？」ペンネームでも地図検索できます。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Message & CTA Section (Softer Dark Theme) -->
+    <section id="message" class="py-24 bg-[#2d2a26] text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div
+            class="absolute inset-0 opacity-5 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:24px_24px]">
+        </div>
+        <div class="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white to-transparent opacity-10"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2">
+                    <div
+                        class="inline-block bg-gray-700/50 border border-gray-600 px-4 py-1 rounded-full text-xs font-bold tracking-widest mb-6 text-orange-300">
+                        MESSAGE</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-snug">
+                        hampご利用をご検討の<br>
+                        <span class="text-hamp-500">即売会主催者様へ</span>
+                    </h2>
+                    <div class="space-y-6 text-gray-300 leading-relaxed text-lg font-medium">
+                        <p>
+                            hampは、様々なジャンルで活動するクリエイターや作家の作品をより多くの人に届けることを目的とした「スマートカタログ」サービスです。
+                        </p>
+                        <p>
+                            同人活動経験が10年以上ある有志らによって運営されており、イベント主催者の立場から使いやすさを追求しています。
+                        </p>
+                        <p>
+                            一次創作・アート・文学系の即売会をはじめ、音楽・ゲーム・女性向けジャンルなど、幅広いイベントでご活用いただけます。各イベントの規模や形式に合わせた柔軟な導入が可能です。
+                        </p>
+
+                        <div class="bg-gray-800/50 p-6 rounded-2xl border border-gray-700 mt-8 backdrop-blur-sm">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-hamp-500 p-2 rounded-xl shadow-lg shadow-orange-500/20">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-lg mb-1">導入は基本無料</h4>
+                                    <p class="text-sm text-gray-400">hampの導入は基本無料でご利用いただけます。<br><span
+                                            class="text-xs opacity-70">（※申込みフォームをご利用の場合のみ、1サークルあたり500円のシステム手数料を頂戴いたします。）</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 w-full">
+                    <div
+                        class="bg-white text-text-main rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-40 h-40 bg-orange-100 rounded-full mix-blend-multiply filter blur-3xl opacity-60 -translate-y-1/2 translate-x-1/2">
+                        </div>
+
+                        <h3 class="text-2xl font-bold mb-2 text-center">まずはお気軽にご相談ください</h3>
+                        <p class="text-text-sub text-center mb-8 text-sm">お問い合わせの増加を歓迎しております。<br>メディア運用の相談などもお気軽にどうぞ。
+                        </p>
+
+                        <div class="space-y-4">
+                            <a href="https://hamp.ai/about/form"
+                                class="block w-full bg-gradient-to-r from-hamp-500 to-hamp-600 hover:from-hamp-600 hover:to-hamp-700 text-white font-bold py-4 rounded-2xl text-center transition shadow-lg shadow-orange-200 transform hover:-translate-y-0.5">
+                                導入相談・お問い合わせ
+                            </a>
+                            <a href="https://discord.gg/zeWg4UWYhw"
+                                class="block w-full bg-gray-50 hover:bg-gray-100 text-text-main font-bold py-4 rounded-2xl text-center transition flex items-center justify-center gap-2">
+                                hampご利用検討中の方用Discordサーバー
+                            </a>
+                            <a href="#"
+                                class="block w-full bg-gray-50 hover:bg-gray-100 text-text-main font-bold py-4 rounded-2xl text-center transition flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                主催者向け資料を見る (PDF)
+                            </a>
+                        </div>
+
+                        <div class="mt-6 text-center">
+                            <p class="text-xs text-gray-400">※外部サイトへ遷移します</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Clean & Trustworthy) -->
+    <footer class="bg-hamp-50 pt-16 pb-24 md:pb-8 border-t border-hamp-100">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1 md:col-span-2 pr-8">
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="image/logo/logo.svg" alt="hamp Logo" class="h-10 w-auto">
+                    </div>
+                    <p class="text-sm text-text-sub leading-relaxed mb-6 font-medium">
+                        hampは、同人イベントの開催、参加、そして作品との出会いを、<br>もっと身近に、もっと便利にするためのプラットフォームです。
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-text-main mb-4">サービス</h4>
+                    <ul class="space-y-3 text-sm text-text-sub">
+                        <li><a href="#" class="hover:text-hamp-500 transition">hampトップ</a></li>
+                        <li><a href="#" class="hover:text-hamp-500 transition">即売会一覧</a></li>
+                        <li><a href="#" class="hover:text-hamp-500 transition">よくある質問</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-text-main mb-4">運営情報</h4>
+                    <ul class="space-y-3 text-sm text-text-sub">
+                        <li><a href="https://verbose-sing-ad8.notion.site/hamp-d35be3bd435e421d9d454c5a4bfbcef3"
+                                class="hover:text-hamp-500 transition">会社概要</a></li>
+                        <li><a href="https://verbose-sing-ad8.notion.site/hamp-d35be3bd435e421d9d454c5a4bfbcef3"
+                                class="hover:text-hamp-500 transition">利用規約</a></li>
+                        <li><a href="https://verbose-sing-ad8.notion.site/953f1113bf534ce3b09be8a957689775"
+                                class="hover:text-hamp-500 transition">プライバシーポリシー</a></li>
+                        <li><a href="https://verbose-sing-ad8.notion.site/b5bc67dc67e745e08748cf63804493c4"
+                                class="hover:text-hamp-500 transition">特商法に基づく表記</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-hamp-200/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-text-sub text-center md:text-left font-medium">
+                    &copy; 2026 hamp.ai All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky Mobile CTA -->
+    <div class="fixed bottom-6 left-4 right-4 z-40 md:hidden transition-transform duration-300 transform translate-y-0 fade-in-up delay-300"
+        id="sticky-footer">
+        <a href="https://hamp.ai/" target="_blank"
+            class="block w-full bg-gradient-to-r from-hamp-500 to-hamp-600 text-white text-center font-bold py-4 rounded-full shadow-lg shadow-orange-200 active:scale-95 transition-transform flex items-center justify-center gap-2">
+            <span>hampを利用する</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </a>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                // Toggle classes for transition
+                if (menu.classList.contains('opacity-0')) {
+                    menu.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+                    menu.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                } else {
+                    menu.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+                    menu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            const mobileLinks = menu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+                    menu.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                });
+            });
+        }
+
+        // Header Scroll Effect (Softer)
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+                header.classList.add('bg-white/90');
+            } else {
+                header.classList.remove('shadow-sm');
+                header.classList.remove('bg-white/90');
+            }
+        });
+
+        // Scroll Animation Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
