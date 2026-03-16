@@ -556,16 +556,16 @@
                                 class="block w-full bg-gray-50 hover:bg-gray-100 text-text-main font-bold py-4 rounded-2xl text-center transition flex items-center justify-center gap-2">
                                 hampご利用検討中の方用Discordサーバー
                             </a>
-                            <a href="#"
-                                class="block w-full bg-gray-50 hover:bg-gray-100 text-text-main font-bold py-4 rounded-2xl text-center transition flex items-center justify-center gap-2">
+                            <button id="open-hsform-modal"
+                                class="block w-full bg-gray-50 hover:bg-gray-100 text-text-main font-bold py-4 rounded-2xl text-center transition flex items-center justify-center gap-2 cursor-pointer">
                                 <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
                                     </path>
                                 </svg>
-                                主催者向け資料を見る (PDF)
-                            </a>
+                                主催者向け資料を見る
+                            </button>
                         </div>
 
                         <div class="mt-6 text-center">
@@ -618,6 +618,31 @@
         </div>
     </footer>
 
+    <!-- HubSpot Form Modal -->
+    <div id="hsform-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <!-- Overlay -->
+        <div id="hsform-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <!-- Modal Content -->
+        <div id="hsform-content"
+            class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto p-8 md:p-10 transform scale-95 transition-transform duration-300">
+            <!-- Close Button -->
+            <button id="close-hsform-modal"
+                class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <h3 class="text-xl font-bold text-text-main mb-2">主催者向け資料のご請求</h3>
+            <p class="text-text-sub text-sm mb-6">下記フォームにご入力いただくと、資料をお送りします。</p>
+            <!-- HubSpot Form Container -->
+            <div id="hsform-container">
+                <div class="hs-form-frame" data-region="na2" data-form-id="8c06fd40-517a-44f0-aa4b-dfb843e338fc"
+                    data-portal-id="245549481"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Sticky Mobile CTA -->
     <div class="fixed bottom-6 left-4 right-4 z-40 md:hidden transition-transform duration-300 transform translate-y-0 fade-in-up delay-300"
         id="sticky-footer">
@@ -632,6 +657,55 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+            // --- HubSpot Form Modal ---
+            (function () {
+                const modal = document.getElementById('hsform-modal');
+                const overlay = document.getElementById('hsform-overlay');
+                const content = document.getElementById('hsform-content');
+                const openBtn = document.getElementById('open-hsform-modal');
+                const closeBtn = document.getElementById('close-hsform-modal');
+                let hsScriptLoaded = false;
+
+                function openModal() {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.classList.add('opacity-100');
+                    content.classList.remove('scale-95');
+                    content.classList.add('scale-100');
+                    document.body.style.overflow = 'hidden';
+
+                    // HubSpotスクリプトを初回のみ動的ロード
+                    if (!hsScriptLoaded) {
+                        hsScriptLoaded = true;
+                        const s = document.createElement('script');
+                        s.src = 'https://js-na2.hsforms.net/forms/embed/245549481.js';
+                        s.defer = true;
+                        document.head.appendChild(s);
+                    }
+                }
+
+                function closeModal() {
+                    modal.classList.add('opacity-0');
+                    content.classList.add('scale-95');
+                    content.classList.remove('scale-100');
+                    setTimeout(function () {
+                        modal.classList.add('pointer-events-none');
+                        modal.classList.remove('opacity-100');
+                    }, 300);
+                    document.body.style.overflow = '';
+                }
+
+                if (openBtn) openBtn.addEventListener('click', openModal);
+                if (closeBtn) closeBtn.addEventListener('click', closeModal);
+                if (overlay) overlay.addEventListener('click', closeModal);
+
+                // Escキーでも閉じる
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') closeModal();
+                });
+            })();
+    </script>
+
     <script>
         // Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
