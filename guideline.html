@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>コミュニティガイドライン | hamp</title>
+    <meta
+      name="description"
+      content="hampのコミュニティガイドラインです。投稿、コメント、画像投稿、将来的に提供される音声配信などに適用されるルールをまとめています。"
+    />
+    <style>
+      :root {
+        --bg: #fffdfa;
+        --muted: #faf6f1;
+        --line: #eadfd3;
+        --text: #1f1a16;
+        --sub: #6e6257;
+        --link: #b96c2c;
+        --accent: #f8e8d6;
+        --accent-soft: #fdf4ea;
+        --max: 900px;
+        --radius: 12px;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background: linear-gradient(180deg, #fffdfa 0%, #fff6ec 100%);
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+          "Yu Gothic", "Noto Sans JP", sans-serif;
+        line-height: 1.75;
+        font-size: 16px;
+      }
+
+      a { color: var(--link); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .header-inner {
+        width: min(calc(100% - 24px), var(--max));
+        margin: 0 auto;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .header-nav { display: none; }
+
+      .page {
+        width: min(calc(100% - 24px), var(--max));
+        margin: 0 auto;
+        padding: 32px 0 64px;
+      }
+
+      .hero {
+        padding: 32px 0 28px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-label {
+        font-size: 12px;
+        color: var(--sub);
+      }
+
+      h1 {
+        margin-top: 8px;
+        font-size: 34px;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+      }
+
+      .hero-copy {
+        margin-top: 12px;
+        color: var(--sub);
+        max-width: 720px;
+      }
+      .hero-summary {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--accent-soft);
+      }
+
+      .hero-summary-title {
+        margin: 0 0 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--link);
+      }
+
+      .hero-summary ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .hero-summary li + li {
+        margin-top: 6px;
+      }
+
+      .hero-links {
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .hero-links a {
+        padding: 7px 11px;
+        border-radius: 8px;
+        background: var(--accent);
+        font-size: 14px;
+        color: #8f5423;
+      }
+
+      .layout { margin-top: 24px; }
+      .toc { display: none; }
+
+      .section {
+        padding: 32px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section:first-child {
+        border-top: none;
+        padding-top: 0;
+      }
+
+      .section-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--accent);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--link);
+        flex: 0 0 32px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+      }
+
+      h2 {
+        margin-top: 6px;
+        font-size: 26px;
+        line-height: 1.4;
+      }
+
+      .section-copy {
+        margin-top: 10px;
+        color: var(--sub);
+      }
+
+      .simple-grid {
+        margin-top: 18px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .simple-card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--accent-soft);
+        transition: all 0.12s ease;
+      }
+
+      .simple-card:hover {
+        transform: translateY(-2px);
+        background: var(--accent);
+      }
+
+      .simple-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .simple-card h3 {
+        font-size: 16px;
+      }
+
+      .simple-card ul {
+        margin-top: 10px;
+        padding-left: 18px;
+      }
+
+      .text-block { margin-top: 16px; }
+
+      .text-block p { margin-top: 8px; }
+
+      .text-block ul {
+        margin-top: 10px;
+        padding-left: 18px;
+      }
+
+      .rule-group + .rule-group { margin-top: 20px; }
+
+      .rule-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      details {
+        border-top: 1px solid var(--line);
+      }
+
+      summary {
+        cursor: pointer;
+        padding: 14px 0;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .details-body {
+        padding-bottom: 12px;
+      }
+
+      .details-body ul {
+        padding-left: 18px;
+      }
+
+      .tabs { margin-top: 16px; }
+
+      .tab-buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tab-button {
+        padding: 8px 14px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: #fff;
+        color: var(--sub);
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+
+      .tab-button.is-active {
+        color: var(--text);
+        background: var(--accent);
+        border-color: #e2c7aa;
+      }
+
+      .tab-panel {
+        display: none;
+        margin-top: 12px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fff;
+      }
+
+      .tab-panel.is-active { display: block; }
+
+      .flow { margin-top: 16px; display: grid; gap: 10px; }
+
+      .flow-item {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--muted);
+        transition: all 0.12s ease;
+      }
+
+      .flow-item:hover {
+        background: var(--accent-soft);
+      }
+
+      .flow-item:hover {
+        background: #f6e6d3;
+      }
+
+      .faq-item summary {
+        padding: 14px 0;
+        font-size: 15px;
+      }
+
+      .faq-answer {
+        padding-bottom: 12px;
+        color: var(--sub);
+      }
+
+      .link-list {
+        margin-top: 10px;
+        padding-left: 18px;
+      }
+
+      .footer {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        color: var(--sub);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="#top" class="brand">hamp コミュニティガイドライン</a>
+        <nav class="header-nav" aria-label="ページ内リンク">
+          <a href="#welcome">歓迎する使い方</a>
+          <a href="#prohibited">禁止される投稿・行為</a>
+          <a href="#reporting">通報・審査・措置</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page" id="top">
+      <section class="hero">
+        <div class="hero-inner">
+          <p class="hero-label">Community Guidelines</p>
+          <h1>コミュニティガイドライン</h1>
+          <p class="hero-copy">
+            hampのコミュニティ機能は、イベントに参加する人、作品を頒布・発表する人、主催・スタッフが、安心して交流し、告知し、感想を共有し、当日の熱量を残せる場であることを目指しています。
+          </p>
+          <p class="hero-copy">
+            一方で、権利侵害、嫌がらせ、個人情報の晒し、未成年者への不適切な接触、詐欺やスパムなどが起きると、イベントそのものの体験が壊れます。
+          </p>
+          <p class="hero-copy">
+            このガイドラインは、タイムライン投稿、コメント、リアクション、画像投稿、将来的に提供される音声配信その他これらに付随する機能に適用されます。
+          </p>
+            <div class="hero-summary" aria-label="このページの要点">
+            <p class="hero-summary-title">まずここだけ読めば大丈夫です</p>
+            <ul>
+              <li>hampでは、イベントに関する感想・告知・交流・レポート投稿を歓迎します。</li>
+              <li>一方で、権利侵害、嫌がらせ、個人情報の晒し、未成年者保護に反する行為、スパムは禁止します。</li>
+              <li>問題のある投稿は、hampが通報受付・審査・措置を行います。</li>
+              <li>コミュニティ機能は主催者に管理負担を課さず、hamp運営が全ての参加者が交流できる場として提供しています。</li>
+            </ul>
+          </div>
+          <div class="hero-links">
+            <a href="#welcome">歓迎する使い方を見る</a>
+            <a href="#prohibited">禁止される投稿・行為を見る</a>
+            <a href="#reporting">通報・審査・措置を見る</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="layout">
+        <div class="content">
+          <section class="section" id="welcome">
+            <div class="section-head">
+              <p class="section-label">1</p>
+              <h2>歓迎する使い方</h2>
+            </div>
+            <p class="section-copy">hampでは、たとえば次のような利用を歓迎します。</p>
+
+            <div class="simple-grid">
+              <article class="simple-card">
+                <h3>一般参加者による利用</h3>
+                <ul>
+                  <li>作品への感想、応援、リアクション</li>
+                  <li>参加予定イベントについての交流</li>
+                  <li>行く予定のサークルや配置図、チェックリストの共有</li>
+                  <li>イベント当日の実況投稿</li>
+                  <li>戦利品の写真や参加レポートの共有</li>
+                  <li>打ち上げやオフ会の呼びかけ</li>
+                  <li>コスプレ合わせ募集</li>
+                  <li>イベント前後の企画募集や感想戦</li>
+                </ul>
+              </article>
+
+              <article class="simple-card">
+                <h3>サークル・クリエイターによる利用</h3>
+                <ul>
+                  <li>イラスト、作品情報、進捗報告の投稿</li>
+                  <li>お品書きや頒布物情報の告知</li>
+                  <li>当日のスペース写真や実況</li>
+                  <li>頒布開始・完売・撤収などの状況共有</li>
+                  <li>アンソロジー・合同誌・アートプロジェクトなどの企画募集</li>
+                  <li>イベント後の感謝投稿やレポート</li>
+                </ul>
+              </article>
+
+              <article class="simple-card">
+                <h3>主催者・スタッフによる利用</h3>
+                <ul>
+                  <li>イベント告知</li>
+                  <li>当日の案内やラフなお知らせ</li>
+                  <li>注意喚起やルール周知</li>
+                  <li>トラブル時の一次案内</li>
+                  <li>主催・スタッフからの軽い日常投稿や裏話</li>
+                </ul>
+              </article>
+            </div>
+
+            <div class="text-block">
+              <p>
+                イベントに直接関係する内容だけでなく、前後の雑談や軽い日常投稿も認められます。
+                イベントタイムラインの趣旨を著しく損なう投稿は禁止します。
+                たとえば、当該イベントと無関係な話題の反復投稿、他イベント・他ジャンル・他コミュニティとの対立を煽る投稿、特定の参加者層や創作傾向を排斥する投稿、イベントの空気を壊すことを目的とした投稿を含みます。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="basic-rules">
+            <div class="section-head">
+              <p class="section-label">2</p>
+              <h2>利用者に守ってほしいこと</h2>
+            </div>
+
+            <div class="rule-group text-block">
+              <h3 class="rule-title">2-1. 他の人が安心して見られるようにすること</h3>
+              <p>
+                投稿内容に応じて、当社が提供または指定するタグ、警告表示、公開範囲設定がある場合は、それを適切に利用してください。
+              </p>
+              <p>
+                年齢制限、ネタバレ、暴力表現、性的表現、カップリング、AI生成その他当社所定の表示が必要な場合、それを隠すために虚偽の設定をすることは禁止します。
+              </p>
+            </div>
+
+            <div class="rule-group text-block">
+              <h3 class="rule-title">2-2. 他人の権利とプライバシーを侵害しないこと</h3>
+              <p>
+                自分が投稿または配信する権利を持たない画像、音声、文章、動画その他のコンテンツは投稿しないでください。
+              </p>
+              <p>
+                また、他人の個人情報、連絡先、顔写真、位置情報、私的な会話、非公開情報などを、本人の意思に反して掲載してはいけません。
+              </p>
+            </div>
+
+            <div class="rule-group text-block">
+              <h3 class="rule-title">2-3. トラブルをタイムライン上で拡大しないこと</h3>
+              <p>
+                不満や問題提起そのものを一律に禁止するものではありません。
+              </p>
+              <p>
+                ただし、晒し、断定的な誹謗中傷、人格攻撃、集団での叩き、嫌がらせ目的の投稿は禁止します。
+              </p>
+              <p>
+                緊急性のある問題や、権利侵害・安全上の問題は、タイムライン上で煽るのではなく、通報機能または当社所定の連絡手段を利用してください。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="prohibited">
+            <div class="section-head">
+              <p class="section-label">3</p>
+              <h2>禁止される投稿・行為</h2>
+            </div>
+            <p class="section-copy">
+              次のような投稿または行為は禁止します。これは例示であり、これらに限りません。
+            </p>
+
+            <details open>
+              <summary>3-1. 権利侵害</summary>
+              <div class="details-body">
+                <ul>
+                  <li>著作権、商標権、肖像権、パブリシティ権、プライバシー権その他の権利を侵害する投稿</li>
+                  <li>他者の作品、画像、音声、文章等の無断転載</li>
+                  <li>公式素材、スクリーンショット、歌詞、配布物等の無断掲載</li>
+                  <li>権利者の削除要請や当社の措置を回避するための再投稿</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>3-2. 誹謗中傷・差別・嫌がらせ</summary>
+              <div class="details-body">
+                <ul>
+                  <li>誹謗中傷、脅迫、威圧、侮辱</li>
+                  <li>差別的言動、ヘイト表現</li>
+                  <li>晒し行為、つきまとい、粘着的な投稿</li>
+                  <li>他の利用者、サークル、主催者、スタッフへの攻撃を目的とした投稿</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>3-3. 個人情報の晒し・危険行為</summary>
+              <div class="details-body">
+                <ul>
+                  <li>住所、電話番号、メールアドレス、学校名、勤務先、SNSアカウントその他の個人情報の投稿</li>
+                  <li>本人の同意なく他人の顔写真や会話内容を投稿する行為</li>
+                  <li>位置情報や行動予定を不適切に共有する行為</li>
+                  <li>危険行為、違法行為、自傷・他害を助長する投稿</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>3-4. 未成年者に対する不適切な行為</summary>
+              <div class="details-body">
+                <ul>
+                  <li>未成年者を性的対象として扱う内容</li>
+                  <li>未成年者への性的接触、出会い、個別連絡を誘導する行為</li>
+                  <li>年齢を偽って接触する行為</li>
+                  <li>当社が不適切と判断する未成年者保護に反する投稿</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>3-5. 詐欺・スパム・不当な勧誘</summary>
+              <div class="details-body">
+                <ul>
+                  <li>詐欺、虚偽の販売、なりすまし、フィッシング</li>
+                  <li>無差別投稿、同一または類似内容の反復投稿</li>
+                  <li>無断広告、過度な宣伝、イベントと無関係な営業行為</li>
+                  <li>外部サービスへの過度な誘導</li>
+                  <li>マルチ商法、投資勧誘、反社会的勢力への利益供与</li>
+                  <li>当社が認めていない外部サイト、外部フォーム、外部決済手段、個人連絡先への誘導を行うこと</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>3-6. サービスや運営を妨げる行為</summary>
+              <div class="details-body">
+                <ul>
+                  <li>スクレイピング、自動取得、自動投稿その他これらに類する行為</li>
+                  <li>当社または第三者のシステムに過度な負荷をかける行為</li>
+                  <li>制限措置を回避するための複数アカウント利用</li>
+                  <li>主催者権限、サークル権限その他の管理権限を濫用する行為</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>3-7. 誤認を生じさせる行為</summary>
+              <div class="details-body">
+                <ul>
+                  <li>公式、公認、主催者、権利者、当社との関係について誤認を生じさせる表示</li>
+                  <li>他人または他団体になりすます行為</li>
+                  <li>実在人物を素材にした性的ディープフェイク、無断加工、なりすまし表現</li>
+                  <li>誤認を招く表示、過度な個人情報の掲載、商品販売や金銭取引を目的とした個人連絡先の掲載</li>
+                </ul>
+              </div>
+            </details>
+          </section>
+
+          <section class="section" id="sensitive">
+            <div class="section-head">
+              <p class="section-label">4</p>
+              <h2>年齢制限・センシティブな表現について</h2>
+            </div>
+            <div class="text-block">
+              <p>
+                成人向け、性的、暴力的、グロテスクその他年齢制限や警告表示を要する内容を含む場合は、当社所定の表示設定、警告表示、公開範囲設定を行ってください。
+              </p>
+              <p>
+                イベントごとに成人向けコンテンツが禁止されている場合、そのイベントのタイムライン上では、関連する告知、画像、音声その他の投稿もできません。
+              </p>
+              <p>次の内容は、表示設定の有無にかかわらず禁止です。</p>
+              <ul>
+                <li>法令に違反する内容</li>
+                <li>児童を性的対象とする内容</li>
+                <li>実在人物の性的画像や性的加工</li>
+                <li>当社が著しく不適切と判断する内容</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" id="fanwork">
+            <div class="section-head">
+              <p class="section-label">5</p>
+              <h2>二次創作・ファンアートについて</h2>
+            </div>
+            <div class="text-block">
+              <p>hampは、二次創作そのものを一律に禁止するものではありません。</p>
+              <p>
+                ただし、投稿者自身が、法令、権利者のルール、イベントごとのルールを確認し、それに従う責任を負います。
+              </p>
+              <p>
+                当社は、二次創作作品の掲載可能性、適法性、継続公開可能性を保証しません。
+              </p>
+              <p>特に、次の行為は禁止です。</p>
+              <ul>
+                <li>公式画像、映像、音声、文章等の無断転載</li>
+                <li>権利者ガイドラインに反する投稿</li>
+                <li>公認・監修済みであるかのような誤認表示</li>
+              </ul>
+              <p>
+                権利者から申立てがあった場合、または当社が必要と判断した場合、当社は事前通知なく、非表示、削除、公開範囲変更その他必要な措置を行うことがあります。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="ai-content">
+            <div class="section-head">
+              <p class="section-label">6</p>
+              <h2>AI生成コンテンツについて</h2>
+            </div>
+            <div class="text-block">
+              <p>
+                AI生成コンテンツを投稿する場合は、当社が表示機能または指定方法を設けている場合は、AI生成であることがわかる表示を行ってください。
+              </p>
+              <p>また、次の行為は禁止します。</p>
+              <ul>
+                <li>実在人物や第三者を素材とした不適切な加工</li>
+                <li>なりすましや虚偽表示</li>
+                <li>他人の権利を侵害する形での投稿</li>
+                <li>本サービス上の投稿コンテンツや利用者情報を、当社または権利者の明示的な許可なく、自動取得、学習、データセット化、検索インデックス化その他これらに類する目的で利用する行為</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" id="images">
+            <div class="section-head">
+              <p class="section-label">7</p>
+              <h2>画像投稿について</h2>
+            </div>
+            <div class="text-block">
+              <p>画像投稿は歓迎します。</p>
+              <p>ただし、次の点に注意してください。</p>
+              <ul>
+                <li>他人の顔や私物、会場内の様子を写す場合は、無断で個人が特定されないよう配慮すること</li>
+                <li>戦利品写真、スペース写真、打ち上げ写真等であっても、個人情報や未公開情報が写り込んでいないこと</li>
+                <li>センシティブな画像は適切な設定を行うこと</li>
+                <li>権利を持たない画像を投稿しないこと</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" id="audio">
+            <div class="section-head">
+              <p class="section-label">8</p>
+              <h2>音声配信について</h2>
+            </div>
+            <div class="text-block">
+              <p>
+                将来的に提供される音声配信機能にも、このガイドラインが適用されます。
+              </p>
+              <p>
+                配信者は、配信内容に責任を持ち、次の事項を守るものとします。
+              </p>
+              <ul>
+                <li>自分が配信する権利を持つ音声、BGM、読み上げ内容のみを使用すること</li>
+                <li>無許可の音源、市販音源、第三者コンテンツを権限なく配信しないこと</li>
+                <li>未成年者への不適切な発言や接触誘導をしないこと</li>
+                <li>配信中に個人情報や非公開情報を不用意に公開しないこと</li>
+              </ul>
+              <p>
+                また、他の利用者は、当社または権利者の許可なく、他人の配信コンテンツを録音、録画、転載、再配信してはなりません。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="offline">
+            <div class="section-head">
+              <p class="section-label">9</p>
+              <h2>オフ会募集・打ち上げ募集・合わせ募集について</h2>
+            </div>
+            <div class="text-block">
+              <p>
+                オフ会、打ち上げ、アンソロジー、コスプレ合わせその他イベント前後の呼びかけ自体を一律に禁止するものではありません。
+              </p>
+              <p>ただし、次の条件を守ってください。</p>
+              <ul>
+                <li>主催者ルールや会場ルールに反しないこと</li>
+                <li>未成年者保護に反しないこと</li>
+                <li>危険行為や違法行為を伴わないこと</li>
+                <li>個人情報の交換や待ち合わせ方法について過度に公開しないこと</li>
+                <li>出会い目的、性的接触目的、しつこい勧誘を行わないこと</li>
+              </ul>
+              <p>
+                当社は、安全上または運営上必要がある場合、これらの投稿を制限または非表示にすることがあります。主催者は、必要に応じて当社へ対応を申告できます。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="roles">
+            <div class="section-head">
+              <p class="section-label">10</p>
+              <h2>主催者・サークル・一般参加者ごとの補足</h2>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-buttons" role="tablist" aria-label="立場別の補足">
+                <button class="tab-button is-active" type="button" data-tab="attendee" aria-selected="true">一般参加者</button>
+                <button class="tab-button" type="button" data-tab="creator" aria-selected="false">サークル・クリエイター</button>
+                <button class="tab-button" type="button" data-tab="organizer" aria-selected="false">主催者・スタッフ</button>
+              </div>
+
+              <div class="tab-panel is-active" data-panel="attendee">
+                <p>
+                  感想、応援、チェック共有、実況、戦利品報告などは歓迎します。
+                </p>
+                <p>
+                  ただし、購入報告や写真投稿が、他人の権利侵害や個人情報の晒しにならないよう注意してください。
+                </p>
+              </div>
+
+              <div class="tab-panel" data-panel="creator">
+                <p>
+                  お品書き、進捗、頒布告知、当日の実況などは歓迎します。
+                </p>
+                <p>
+                  ただし、過度な連投、無関係な営業、権利侵害、イベントルールに反する告知は禁止します。
+                </p>
+              </div>
+
+              <div class="tab-panel" data-panel="organizer">
+                <p>
+                  主催者・スタッフは、イベント告知、当日の案内、注意喚起、ラフなお知らせ等を行うことができます。
+                </p>
+                <p>
+                  イベントタイムラインの基本的な監視、通報受付、審査および措置は、hampが行います。
+                </p>
+                <p>
+                  主催者は、イベントタイムラインについて常時監視義務または個別投稿への対応義務を負うものではありません。
+                </p>
+                <p>
+                  ただし、イベント運営上必要がある場合、主催者は当社所定の方法により、違反投稿の報告、コメント制限の申請その他必要な対応を求めることができます。
+                </p>
+                <p>
+                  当社は、主催者からの申告の有無にかかわらず、本ガイドラインまたは利用規約違反、不正利用、紛争防止その他必要があると判断した場合、投稿の非表示、削除、公開範囲変更、機能制限その他必要な措置を行うことがあります。
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="reporting">
+            <div class="section-head">
+              <p class="section-label">11</p>
+              <h2>通報・審査・措置</h2>
+            </div>
+            <div class="flow">
+              <div class="flow-item">
+                <strong>通報</strong>
+                <p>
+                  利用者は、本ガイドラインまたは利用規約に違反すると考えられる投稿、コメント、画像、配信を見つけた場合、当社所定の方法で通報できます。
+                </p>
+              </div>
+              <div class="flow-item">
+                <strong>審査</strong>
+                <p>
+                  イベントタイムラインに関する通報の受付、審査および措置は、原則としてhampが行います。主催者は、イベント運営に重大な支障がある場合に限り、当社所定の範囲で補助的な対応または申請を行うことができます。
+                </p>
+              </div>
+              <div class="flow-item">
+                <strong>措置</strong>
+                <p>
+                  当社は、違反の重大性、反復性、他者への危険性、過去の違反歴その他の事情を考慮し、投稿の非表示、削除、タグまたは公開範囲の変更、コメント制限、アカウント停止その他必要な措置を行うことがあります。
+                </p>
+              </div>
+            </div>
+
+            <div class="text-block">
+              <p>当社は、通報の有無にかかわらず、必要があると判断した場合、次の措置を行うことがあります。</p>
+              <ul>
+                <li>投稿、コメント、配信の非表示または削除</li>
+                <li>タグ、警告表示、公開範囲の変更</li>
+                <li>コメント機能その他機能の制限</li>
+                <li>アカウント停止</li>
+                <li>再登録拒否</li>
+                <li>関連アカウントへの措置</li>
+                <li>精算または振込の保留</li>
+              </ul>
+              <p>
+                当社は、違反の重大性、反復性、他者への危険性、過去の違反歴、措置回避行為の有無その他の事情を考慮して判断します。
+              </p>
+              <p>
+                また、運営上または安全上開示が不適切な情報については、開示しない場合があります。
+                嫌がらせ、報復、排斥その他不当な目的で、特定の利用者、サークル、主催者または投稿に対して、虚偽または過剰な通報を繰り返す行為を禁止します。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="logging">
+            <div class="section-head">
+              <p class="section-label">12</p>
+              <h2>データの記録と保存</h2>
+            </div>
+            <div class="text-block">
+              <p>
+                当社は、不正対策、品質改善、紛争対応、モデレーション、障害調査その他運営上必要な目的で、アクセスログ、操作ログ、タイムライン投稿、配信コンテンツまたはそのメタデータ等を記録、保存または確認することがあります。
+              </p>
+              <p>
+                投稿やアカウントが削除・退会された後も、法令対応、会計・税務処理、不正対策、紛争対応その他正当な理由により、一定期間データが残ることがあります。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="terms-relation">
+            <div class="section-head">
+              <p class="section-label">13</p>
+              <h2>このガイドラインと利用規約の関係</h2>
+            </div>
+            <div class="text-block">
+              <p>
+                このガイドラインは、hampのコミュニティ機能を安全かつ円滑に運用するためのルールです。利用規約、プライバシーポリシー、ヘルプ、主催者ルール等とあわせて適用されます。
+              </p>
+              <p>
+                イベントごとに主催者ルールが定められている場合、利用者はこれを尊重するものとします。ただし、投稿の削除、アカウント制限その他の執行措置は、原則として当社が判断し実施します。主催者ルールが当社の利用規約、コミュニティガイドラインまたは法令に反する場合、当該主催者ルールは優先されません。
+              </p>
+              <p>
+                これらの間に矛盾がある場合は、当社が別途定める優先関係に従います。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="faq">
+            <p class="section-label">FAQ</p>
+            <h2>よくある質問</h2>
+
+            <div class="faq-list">
+              <details class="faq-item" open>
+                <summary>二次創作の投稿はできますか</summary>
+                <div class="faq-answer">
+                  二次創作そのものを一律に禁止するものではありません。ただし、法令、権利者のルール、イベントごとのルールを確認し、それに従う必要があります。
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>AI生成コンテンツは投稿できますか</summary>
+                <div class="faq-answer">
+                  投稿できますが、当社所定の方法でAI生成であることがわかる表示が必要です。なりすましや権利侵害、不適切な加工は禁止されます。
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>会場写真や戦利品写真は投稿できますか</summary>
+                <div class="faq-answer">
+                  投稿できますが、他人の顔や私物、個人情報、未公開情報の写り込みに配慮してください。センシティブな画像は適切な設定が必要です。
+                </div>
+              </details>
+
+              <details class="faq-item">
+                <summary>迷惑な投稿を見つけたらどうすればいいですか</summary>
+                <div class="faq-answer">
+                  タイムライン上で煽るのではなく、通報機能または当社所定の連絡手段を利用してください。
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <section class="section" id="links">
+            <p class="section-label">Links</p>
+            <h2>関連リンク</h2>
+            <ul class="link-list">
+              <li><a href="#">利用規約</a></li>
+              <li><a href="#">プライバシーポリシー</a></li>
+              <li><a href="#">ヘルプ</a></li>
+              <li><a href="#">通報方法</a></li>
+              <li><a href="#">お問い合わせ</a></li>
+            </ul>
+          </section>
+
+          <footer class="footer">最終更新日：2026年4月7日</footer>
+        </div>
+
+        <aside class="toc" aria-label="目次">
+          <div class="toc-title">Contents</div>
+          <ul class="toc-list">
+            <li><a href="#welcome">歓迎する使い方</a></li>
+            <li><a href="#basic-rules">利用者に守ってほしいこと</a></li>
+            <li><a href="#prohibited">禁止される投稿・行為</a></li>
+            <li><a href="#sensitive">年齢制限・センシティブな表現</a></li>
+            <li><a href="#fanwork">二次創作・ファンワーク</a></li>
+            <li><a href="#ai-content">AI生成コンテンツ</a></li>
+            <li><a href="#images">画像投稿</a></li>
+            <li><a href="#audio">音声配信</a></li>
+            <li><a href="#offline">オフ会募集など</a></li>
+            <li><a href="#roles">立場ごとの補足</a></li>
+            <li><a href="#reporting">通報・審査・措置</a></li>
+            <li><a href="#logging">データの記録と保存</a></li>
+            <li><a href="#terms-relation">利用規約との関係</a></li>
+            <li><a href="#faq">よくある質問</a></li>
+            <li><a href="#links">関連リンク</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+      const tocLinks = document.querySelectorAll('.toc-list a');
+      const sections = document.querySelectorAll('.section[id]');
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.tab;
+
+          tabButtons.forEach((item) => {
+            item.classList.remove('is-active');
+            item.setAttribute('aria-selected', 'false');
+          });
+
+          tabPanels.forEach((panel) => {
+            panel.classList.toggle('is-active', panel.dataset.panel === target);
+          });
+
+          button.classList.add('is-active');
+          button.setAttribute('aria-selected', 'true');
+        });
+      });
+
+      const activateToc = (id) => {
+        tocLinks.forEach((link) => {
+          link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              activateToc(entry.target.id);
+            }
+          });
+        },
+        {
+          rootMargin: '-25% 0px -60% 0px',
+          threshold: 0.01,
+        }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    </script>
+  </body>
+</html>
