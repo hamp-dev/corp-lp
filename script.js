@@ -54,12 +54,24 @@
 
   document.querySelectorAll(".js-guide-shot[data-src]").forEach((placeholder) => {
     const src = placeholder.getAttribute("data-src");
+    const link = placeholder.getAttribute("data-link");
     if (!src) return;
 
     const img = new Image();
     img.onload = () => {
       img.alt = placeholder.getAttribute("data-title") || "hampの操作画面";
-      placeholder.appendChild(img);
+      if (link) {
+        const anchor = document.createElement("a");
+        anchor.className = "guide-shot-link";
+        anchor.href = link;
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        anchor.setAttribute("aria-label", `${img.alt}を開く`);
+        anchor.appendChild(img);
+        placeholder.appendChild(anchor);
+      } else {
+        placeholder.appendChild(img);
+      }
       placeholder.classList.add("has-image");
     };
     img.onerror = () => {

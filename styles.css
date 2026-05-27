@@ -577,6 +577,41 @@ tr:last-child td {
   object-position: top center;
 }
 
+.guide-shot-link {
+  display: block;
+  height: 100%;
+  color: inherit;
+}
+
+.guide-shot-link::after {
+  content: "公開ページを開く";
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 2;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.68);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.guide-shot-link:hover::after,
+.guide-shot-link:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.guide-shot-link:hover img,
+.guide-shot-link:focus-visible img {
+  filter: brightness(0.94);
+}
+
 .guide-shot.has-image {
   border-style: solid;
   background: #f2f0eb;
