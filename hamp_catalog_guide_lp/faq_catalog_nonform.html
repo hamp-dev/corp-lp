@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>hampでカタログを作る方法</title>
+    <meta
+      name="description"
+      content="hampでイベントページを作成し、参加サークルリストとサークルカットを登録してWebカタログを公開するまでの手順です。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="read-progress" aria-hidden="true"><span></span></div>
+
+    <header class="site-header">
+      <a class="brand" href="https://lp.hamp.ai" aria-label="hamp LPへ戻る">
+        <img class="brand-logo" src="./image/logo/logo.svg" alt="hamp" />
+      </a>
+      <nav class="header-nav" aria-label="ページ内メニュー">
+        <a class="header-cta" href="#flow">作業の流れ</a>
+        <a href="#step-8">権限付与</a>
+        <a href="#faq">よくあるつまずき</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">主催者向けガイド</p>
+          <h1>hampでカタログを作る方法</h1>
+          <p class="hero-lead">
+            hampをカタログのみで利用する場合に、イベントページを作成し、参加サークルリストとサークルカットを登録して、参加者が見やすいWebカタログを公開するまでの流れを説明します。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#flow">手順を見る</a>
+          </div>
+          <p class="hero-note">
+            カタログの公開後は、アクティベートURLを発行してサークル参加者に編集権限を付与します。発行にはhamp運営の承認が必要です。
+          </p>
+        </div>
+        <div
+          class="guide-shot guide-shot-hero js-guide-shot"
+          data-src="./images/13-final-public-page.png"
+          data-title="完成したカタログページ"
+          data-note="参加者が見る公開ページの例を入れてください。"
+        ></div>
+      </section>
+
+      <section class="section" id="prepare">
+        <div class="section-heading">
+          <p class="eyebrow">準備</p>
+          <h2>まず用意するもの</h2>
+          <p>入力画面で迷わないよう、先に手元へ揃えておきたい情報です。未確定のものは、あとから更新できます。</p>
+        </div>
+        <div class="prepare-list" aria-label="用意するもの一覧">
+          <article class="prepare-card">
+            <span>01</span>
+            <h3>イベント名</h3>
+            <p>例：日本創作イベント2026</p>
+          </article>
+          <article class="prepare-card">
+            <span>02</span>
+            <h3>開催日・時間</h3>
+            <p>開催日、開始時間、終了時間</p>
+          </article>
+          <article class="prepare-card">
+            <span>03</span>
+            <h3>会場情報</h3>
+            <p>会場名、住所。オンライン開催の場合は開催形式。</p>
+          </article>
+          <article class="prepare-card">
+            <span>04</span>
+            <h3>トップ画像</h3>
+            <p>イベントページ上部に表示する画像。16:9の横長画像がおすすめです。</p>
+          </article>
+          <article class="prepare-card">
+            <span>05</span>
+            <h3>サムネイル画像</h3>
+            <p>イベント一覧などで表示される正方形画像です。</p>
+          </article>
+          <article class="prepare-card">
+            <span>06</span>
+            <h3>参加サークルリスト</h3>
+            <p>Excel、Numbers、CSVなどで管理しているサークル一覧。</p>
+          </article>
+          <article class="prepare-card">
+            <span>07</span>
+            <h3>サークルカット画像</h3>
+            <p>任意です。まだ揃っていない場合は、あとから登録できます。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="flow">
+        <div class="section-heading">
+          <p class="eyebrow">進め方</p>
+          <h2>作業の流れ</h2>
+          <p>上から順番に進めます。公開後の編集権限付与まで含めて、カタログ利用時の一連の流れです。</p>
+        </div>
+        <ol class="flow-list">
+          <li><a href="#step-1"><span>1</span>イベントを作成する</a></li>
+          <li><a href="#step-2"><span>2</span>イベントの基本情報を登録する</a></li>
+          <li><a href="#step-3"><span>3</span>テンプレートをダウンロードする</a></li>
+          <li><a href="#step-4"><span>4</span>サークル情報を入力する</a></li>
+          <li><a href="#step-5"><span>5</span>サークルリストをアップロードする</a></li>
+          <li><a href="#step-6"><span>6</span>サークルカットをアップロードする</a></li>
+          <li><a href="#step-7"><span>7</span>本番反映して公開ページを確認する</a></li>
+          <li><a href="#step-8"><span>8</span>アクティベートURLの発行を依頼する</a></li>
+        </ol>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="toc" aria-label="ページ内目次">
+          <p>目次</p>
+          <a href="#step-1">1. イベントを作成する</a>
+          <a href="#step-2">2. 基本情報を登録する</a>
+          <a href="#step-3">3. テンプレートをDLする</a>
+          <a href="#step-4">4. サークル情報を入力する</a>
+          <a href="#step-5">5. リストをアップロードする</a>
+          <a href="#step-6">6. カットをアップロードする</a>
+          <a href="#step-7">7. 本番反映して確認する</a>
+          <a href="#step-8">8. アクティベートURLを発行する</a>
+          <a href="#faq">よくあるつまずき</a>
+        </aside>
+
+        <div class="guide-content">
+          <section class="step" id="step-1">
+            <div class="step-heading">
+              <span class="step-number">1</span>
+              <div>
+                <h2>イベントを作成する</h2>
+                <p>まず、カタログを載せるイベントページを作成します。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>hampにログインします。</li>
+              <li>イベント管理画面を開きます。</li>
+              <li>「イベントを作成する」を押します。</li>
+              <li>イベントの形式に合わせて、「単独の主催」または「親子型の主催」を選びます。</li>
+              <li>「タイトル・イベント名」を入力します。</li>
+              <li>「URL末尾」を入力します。</li>
+              <li>「作成」を押します。</li>
+            </ol>
+            <div class="info-box">
+              <h3>「単独の主催」と「親子型の主催」の違い</h3>
+              <p>単独の主催は、1つのイベントに1つのイベント名がある場合に選びます。</p>
+              <p>親子型の主催は、1つのイベントの中に複数のオンリーイベントなどが存在する場合に選びます。</p>
+            </div>
+            <div class="info-box">
+              <h3>URL末尾とは</h3>
+              <p>
+                イベントページのURLに使われる文字列です。たとえば <code>nihonsousaku2026</code> と入力すると、イベントページのURL末尾にその文字列が使われます。
+              </p>
+              <p>日本語やスペースではなく、半角英数字、ハイフン、アンダースコアを使ってください。</p>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/01-create-event.png"
+              data-title="イベント作成画面"
+              data-note="「イベントを作成する」「単独の主催」「親子型の主催」「イベント名」「URL末尾」「作成」ボタンが見える画面を入れてください。"
+            ></div>
+          </section>
+
+          <section class="step" id="step-2">
+            <div class="step-heading">
+              <span class="step-number">2</span>
+              <div>
+                <h2>イベントの基本情報を登録する</h2>
+                <p>参加者に見せるイベント情報を入力します。</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>項目</th><th>入力する内容</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>トップ画像</td><td>イベントページ上部に表示される横長画像</td></tr>
+                  <tr><td>サムネイル</td><td>イベント一覧などで表示される正方形画像</td></tr>
+                  <tr><td>イベント名</td><td>イベントの正式名称</td></tr>
+                  <tr><td>イベント名の読み</td><td>ひらがな、またはカタカナで入力します</td></tr>
+                  <tr><td>URL末尾</td><td>イベントページのURLに使われます</td></tr>
+                  <tr><td>説明文</td><td>イベントの内容を短く説明します</td></tr>
+                  <tr><td>イベントジャンル</td><td>イベントのジャンルを選びます</td></tr>
+                  <tr><td>開催日時</td><td>開催日、開始時間、終了時間を入力します</td></tr>
+                  <tr><td>開催場所</td><td>会場名や住所を入力します</td></tr>
+                  <tr><td>関連リンク</td><td>公式サイト、X、サークル申込ページ、チケット販売ページなど</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>入力が終わったら、「更新して保存」を押します。画像はJPGまたはPNG形式を使うと扱いやすいです。</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/02-basic-settings.png"
+              data-title="イベント基本設定画面"
+              data-note="トップ画像、サムネイル、イベント名、開催日時、関連リンク、更新して保存ボタンが見える画面を入れてください。"
+            ></div>
+          </section>
+
+          <section class="step" id="step-3">
+            <div class="step-heading">
+              <span class="step-number">3</span>
+              <div>
+                <h2>サークルリスト用テンプレートをダウンロードする</h2>
+                <p>参加サークルを登録するためのテンプレートをダウンロードします。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>イベント管理画面で「参加サークル」を開きます。</li>
+              <li>「hamp外イベント用テンプレート」の「EXCELテンプレートをDL」を押します。</li>
+              <li>ダウンロードされたファイルを開きます。</li>
+            </ol>
+            <div class="info-box">
+              <h3>MacでNumbersを使う場合</h3>
+              <p>「CSV形式でダウンロード」にチェックを入れてからダウンロードしてください。</p>
+            </div>
+            <p>テンプレートの見出し行は、できるだけ変更しないでください。</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/03-template-download.png"
+              data-title="テンプレートのダウンロード画面"
+              data-note="参加サークル画面で、CSVチェックボックスとEXCELテンプレートDLボタンが見える画面を入れてください。"
+            ></div>
+          </section>
+
+          <section class="step" id="step-4">
+            <div class="step-heading">
+              <span class="step-number">4</span>
+              <div>
+                <h2>テンプレートにサークル情報を入力する</h2>
+                <p>テンプレートを開いたら、1行に1サークルずつ入力します。</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>列</th><th>入力する内容</th><th>入力例</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>スペース</td><td>サークルの配置番号</td><td>A-01、あ-02、A-04,05</td></tr>
+                  <tr><td>サークル名</td><td>サークルの名前</td><td>hamp開発</td></tr>
+                  <tr><td>サークル名（カナ）</td><td>サークル名の読み</td><td>はんぷかいはつ</td></tr>
+                  <tr><td>作家名</td><td>代表者名、ペンネームなど</td><td>開発主任</td></tr>
+                  <tr><td>作家名（カナ）</td><td>作家名の読み</td><td>かいはつしゅにん</td></tr>
+                  <tr><td>サークルカット</td><td>サークルカット画像のファイル名</td><td>cut01</td></tr>
+                  <tr><td>メールアドレス</td><td>必要な場合のみ入力</td><td>circle@example.com</td></tr>
+                  <tr><td>X（Twitter）</td><td>XのURLまたはID</td><td>https://x.com/example</td></tr>
+                  <tr><td>pixiv</td><td>pixivのURLまたはID</td><td>https://www.pixiv.net/users/xxxxx</td></tr>
+                  <tr><td>HP・Web</td><td>WebサイトのURL</td><td>https://example.com</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warning-box">
+              <h3>スペース番号の入力ルール</h3>
+              <ul>
+                <li>ブロック名とスペース番号の間には、必ず半角ハイフン <code>-</code> を入れてください。</li>
+                <li><code>A-01</code>、<code>あ-2</code>、<code>その他-01</code>、<code>デジタル-02</code> のように入力できます。</li>
+                <li><code>あ-01a</code> や <code>A-01b</code> のような接尾辞にも対応しています。</li>
+                <li>2スペースの場合は <code>あ-01,02</code> のように、スペース番号の間に半角カンマ <code>,</code> を入れます。</li>
+                <li><code>あ-01a</code> と <code>あ-01b</code> の接尾辞がある2スペースを持つ場合は、<code>あ-01ab</code> と入力します。</li>
+              </ul>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/04-template-filled.png"
+              data-title="テンプレート入力例"
+              data-note="ExcelまたはNumbersで、スペース、サークル名、作家名、サークルカット列に入力した例を入れてください。"
+            ></div>
+
+            <div class="subsection" id="cut-name">
+              <h3>サークルカット画像を登録する場合</h3>
+              <p>テンプレートの「サークルカット」列に、画像のファイル名を入力します。</p>
+              <div class="two-column">
+                <div class="mini-table">
+                  <h4>テンプレートの入力</h4>
+                  <table>
+                    <tbody>
+                      <tr><td>あめんぼ</td><td>cut01</td></tr>
+                      <tr><td>あかいな</td><td>cut02</td></tr>
+                      <tr><td>hamp開発</td><td>cut03</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mini-table">
+                  <h4>画像ファイル名</h4>
+                  <table>
+                    <tbody>
+                      <tr><td>cut01</td><td>cut01.png</td></tr>
+                      <tr><td>cut02</td><td>cut02.jpg</td></tr>
+                      <tr><td>cut03</td><td>cut03.webp</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <p>画像の名前が合っていないと、サークルカットが正しく紐づかない場合があります。画像は1つのフォルダにまとめ、フォルダの中にさらに別のフォルダを作らないでください。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-5">
+            <div class="step-heading">
+              <span class="step-number">5</span>
+              <div>
+                <h2>サークルリストをアップロードする</h2>
+                <p>テンプレートへの入力が終わったら、hampにアップロードします。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>テンプレートを保存します。</li>
+              <li>hampのイベント管理画面で「参加サークル」を開きます。</li>
+              <li>「ファイルを選択」を押します。</li>
+              <li>保存したテンプレートファイルを選びます。</li>
+              <li>「アップロード」を押します。</li>
+              <li>アップロードが終わるまで待ちます。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/05-upload-list.png"
+              data-title="サークルリストのアップロード画面"
+              data-note="参加サークル画面で、ファイル選択とアップロードボタンが見える画面を入れてください。"
+            ></div>
+            <p>アップロード後、サークル一覧に登録したサークルが表示されます。一覧の「状態」が <strong>OK</strong> になっているか確認してください。</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/06-upload-result-ok.png"
+              data-title="アップロード後の確認画面"
+              data-note="登録したサークル一覧と、状態のOKが見える画面を入れてください。"
+            ></div>
+
+            <div class="subsection" id="replace-add">
+              <h3>すでにサークルリストがある場合</h3>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr><th>選択肢</th><th>使う場面</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>リストの置換</td><td>いまのリストをすべて消して、新しいリストに入れ替えたいとき</td></tr>
+                    <tr><td>リストへの追加</td><td>いまのリストを残したまま、新しいサークルだけ追加したいとき</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>迷った場合は、「リストへの追加」を使ってください。「リストの置換」は、すべてのサークル情報を入れ直したいときだけ使います。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-6">
+            <div class="step-heading">
+              <span class="step-number">6</span>
+              <div>
+                <h2>サークルカットをアップロードする</h2>
+                <p>サークルカット画像を登録する場合は、サークルリストをアップロードしたあとに行います。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>イベント管理画面で「参加サークル」を開きます。</li>
+              <li>「カット」を押します。</li>
+              <li>「一括アップロード」を開きます。</li>
+              <li>サークルカット画像を直下に入れたZIPファイル、またはフォルダを選択します。</li>
+              <li>アップロードします。</li>
+            </ol>
+            <div class="info-box">
+              <h3>ファイル名を合わせる</h3>
+              <p>テンプレートに <code>cut01</code> と入力した場合、画像ファイル名は <code>cut01.png</code> や <code>cut01.jpg</code> にします。</p>
+              <p>サークル名や作家名と同じ名前でも紐づく場合がありますが、間違いを減らすため、<code>cut01</code>、<code>cut02</code> のようなシンプルな名前がおすすめです。</p>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/07-cut-upload.png"
+              data-title="サークルカットの一括アップロード画面"
+              data-note="カット画面、一括アップロード、ファイル選択の流れがわかる画面を入れてください。"
+            ></div>
+          </section>
+
+          <section class="step" id="step-7">
+            <div class="step-heading">
+              <span class="step-number">7</span>
+              <div>
+                <h2>本番反映して、公開ページを確認する</h2>
+                <p>サークルリストとサークルカットを登録したら、本番反映とサークル公開を行ってから参加者に見えるページを確認します。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>イベント管理画面で「参加サークル」を開きます。</li>
+              <li>サークル一覧の状態がOKになっているか確認します。</li>
+              <li>「本番反映」を押します。</li>
+              <li>サークルを公開状態にします。</li>
+              <li>表示が「公開」または「反映済み」になったことを確認します。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/09-production-reflect.png"
+              data-title="本番反映とサークル公開の画面"
+              data-note="本番反映ボタン、サークル公開の操作、反映後の状態が見える画面を入れてください。"
+            ></div>
+            <div class="info-box">
+              <h3>ブロックの並び順を変更したい場合</h3>
+              <p>イベント管理画面の「参加サークル」から「ブロック」を開きます。並び順を変更したら、「変更を保存」を押してください。</p>
+            </div>
+            <ol class="task-list">
+              <li>イベント管理画面で「公開ページへ」を押します。</li>
+              <li>公開ページにサークルリストが表示されているか確認します。</li>
+              <li>サークル名、作家名、配置、サークルカットを確認します。</li>
+              <li>表示順に問題がないか確認します。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/08-public-catalog.png"
+              data-title="公開カタログの確認画面"
+              data-note="公開ページでサークル一覧やサークルカットが表示されている画面を入れてください。"
+            ></div>
+            <p>サークル情報をあとから変更した場合は、変更内容を確認してから、必要に応じてもう一度本番反映と公開ページの確認を行ってください。</p>
+          </section>
+
+          <section class="step" id="step-8">
+            <div class="step-heading">
+              <span class="step-number">8</span>
+              <div>
+                <h2>アクティベートURLの発行を依頼する</h2>
+                <p>カタログの公開が完了したら、サークル参加者が自分の情報を編集できるように準備します。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>カタログが公開済み、または反映済みになっていることを確認します。</li>
+              <li>hamp運営に、アクティベートURLの発行を依頼します。</li>
+              <li>hamp運営の承認後、発行されたアクティベートURLを受け取ります。</li>
+              <li>サークル参加者へアクティベートURLを案内し、編集権限を付与します。</li>
+            </ol>
+            <div class="info-box">
+              <h3>発行にはhamp運営の承認が必要です</h3>
+              <p>現状、アクティベートURLの発行はhamp運営側での承認が必要です。カタログ公開後にサークル参加者へ編集権限を渡したい場合は、hamp運営まで連絡してください。</p>
+            </div>
+          </section>
+
+          <section class="section faq-section" id="faq">
+            <div class="section-heading compact">
+              <p class="eyebrow">FAQ</p>
+              <h2>よくあるつまずき</h2>
+            </div>
+            <div class="faq-list">
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  テンプレートのどこに入力すればいいかわからない
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>まずは、スペース、サークル名、サークル名（カナ）、作家名、作家名（カナ）を入力してください。サークルカットやSNSは、後からの追加やなくても登録は可能です</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  サークルカットが表示されない
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>テンプレートの「サークルカット」列と画像ファイル名が合っているか確認してください。画像がフォルダの中のさらに別フォルダに入っていないか、同じ画像名を複数のサークルで使っていないかも確認してください。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  間違って上書きしそうで不安
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>少しだけサークルを追加したい場合は、「リストへの追加」を使ってください。すべてのサークル情報を入れ直す場合だけ、「リストの置換」を使います。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  Excelがない
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Google Spreadsheetの利用やMacを使っている場合は、Numbersで編集できます。テンプレートをダウンロードするときに「CSV形式でダウンロード」を選ぶと、Numbersで扱いやすくなります。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  公開ページにサークルリストが表示されない
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>本番反映とサークル公開が完了しているか確認してください。サークル一覧の状態がOKになっていても、本番反映とサークル公開が済んでいない場合は、公開ページにサークルリストが表示されません。</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>© hamp</p>
+      <a href="#top">ページ上部へ戻る</a>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
