@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>配置図画像かんたん編集 | hamp</title>
+  <meta name="description" content="既存の会場図・配置図画像に、文字・図形・上塗り補修を追加できるhampの補助ツールです。ブラウザ上で編集し、WebPとして書き出せます。" />
+  <meta name="robots" content="noindex,follow" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            hamp: {
+              50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74',
+              400: '#fb923c', 500: '#f97316', 600: '#ea580c', 700: '#c2410c',
+              800: '#9a3412', 900: '#7c2d12'
+            },
+            text: { main: '#433835', sub: '#8c827d' }
+          },
+          fontFamily: { sans: ['"Noto Sans JP"', 'sans-serif'] },
+          boxShadow: {
+            soft: '0 10px 40px -10px rgba(249, 115, 22, 0.15)',
+            card: '0 4px 20px -2px rgba(0, 0, 0, 0.05)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;500;700;900&family=M+PLUS+1p:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;500;700;900&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDPMincho:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Old+Mincho:wght@400;500;700;900&family=Kosugi&family=Kosugi+Maru&family=Sawarabi+Gothic&family=Sawarabi+Mincho&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=Kaisei+Decol:wght@400;500;700&family=Kaisei+HarunoUmi:wght@400;500;700&family=Klee+One:wght@400;600&family=Yomogi&family=Yuji+Syuku&family=Kiwi+Maru:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Dela+Gothic+One&family=Mochiy+Pop+One&family=Reggae+One&family=RocknRoll+One&family=Rampart+One&family=Stick&family=Hina+Mincho&family=Murecho:wght@400;500;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --hamp: #f97316;
+      --text-main: #433835;
+      --text-sub: #8c827d;
+      --eyedropper-cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23433835' d='m22.9 4.7 2.4 2.4-5.8 5.8-2.4-2.4z'/%3E%3Cpath fill='%23fff' stroke='%23433835' stroke-width='2' d='M12.1 9.2 8.3 13a2 2 0 0 0 0 2.8l.6.6-5.1 5.1a2.5 2.5 0 0 0-.7 1.6v3.8h3.8a2.5 2.5 0 0 0 1.6-.7l5.1-5.1.6.6a2 2 0 0 0 2.8 0l3.8-3.8z'/%3E%3Cpath fill='%23f97316' d='M5.8 24.2 11 19l2 2-5.2 5.2H5.8z'/%3E%3C/svg%3E") 6 26, crosshair;
+    }
+
+    body { font-family: "Noto Sans JP", sans-serif; color: var(--text-main); }
+    .logo { height: 40px; width: auto; }
+    @media (min-width: 768px) { .logo { height: 52px; } }
+    .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 237, 213, 0.7); }
+    .bg-dot-pattern { background-image: radial-gradient(#fed7aa 1px, transparent 1px); background-size: 24px 24px; }
+    .range-input { accent-color: var(--hamp); }
+
+    .tool-button[aria-pressed="true"],
+    .align-button[aria-pressed="true"],
+    .valign-button[aria-pressed="true"],
+    .direction-button[aria-pressed="true"] {
+      background: var(--hamp);
+      border-color: #ea580c;
+      color: white;
+      box-shadow: 0 8px 18px -12px rgba(249, 115, 22, 0.85);
+    }
+
+    .canvas-shell {
+      background-color: #fffaf4;
+      background-image:
+        linear-gradient(45deg, rgba(251, 146, 60, 0.08) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(251, 146, 60, 0.08) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(251, 146, 60, 0.08) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(251, 146, 60, 0.08) 75%);
+      background-size: 28px 28px;
+      background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+    }
+
+    #canvasViewport { position: relative; display: inline-block; min-width: 320px; min-height: 180px; }
+    #editorCanvas { display: block; background: white; touch-action: none; user-select: none; cursor: default; }
+    #editorCanvas[data-tool="text"] { cursor: text; }
+    #editorCanvas[data-tool="brush"] { cursor: none; }
+    #editorCanvas[data-tool="patch"] { cursor: crosshair; }
+    #editorCanvas[data-tool="eyedropper"] { cursor: var(--eyedropper-cursor); }
+    #editorCanvas.is-panning { cursor: grab; }
+    #editorCanvas.is-grabbing { cursor: grabbing; }
+
+    #textEditor {
+      position: absolute;
+      display: none;
+      z-index: 25;
+      min-width: 48px;
+      min-height: 32px;
+      resize: none;
+      outline: none;
+      border: 2px solid var(--hamp);
+      border-radius: 8px;
+      padding: 6px 8px;
+      line-height: 1.25;
+      overflow: hidden;
+      color: #111827;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.16);
+    }
+
+    #brushCursor {
+      position: absolute;
+      display: none;
+      z-index: 24;
+      border: 2px solid rgba(67, 56, 53, 0.75);
+      border-radius: 999px;
+      background: rgba(249, 115, 22, 0.08);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.85);
+    }
+
+    #floatingPalette {
+      position: absolute;
+      z-index: 30;
+      display: none;
+      width: min(420px, calc(100vw - 48px));
+      border: 1px solid rgba(253, 186, 116, 0.9);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 18px 40px rgba(67, 56, 53, 0.14);
+    }
+
+    #dropOverlay { display: none; }
+    #canvasShell.is-dragover #dropOverlay { display: flex; }
+  </style>
+</head>
+
+<body class="antialiased bg-hamp-50 min-h-screen">
+  <header class="sticky top-0 z-50 glass-nav">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 md:h-20">
+        <a href="./" class="flex items-center gap-3" aria-label="hamp LPトップへ戻る">
+          <img src="image/logo/logo.svg" alt="hamp Logo" class="logo" />
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-text-main">
+          <a href="./#faq" class="hover:text-hamp-500 transition">FAQへ戻る</a>
+          <a href="https://hamp.ai/" target="_blank" rel="noopener noreferrer" class="bg-hamp-500 hover:bg-hamp-600 text-white px-6 py-2.5 rounded-full transition shadow-lg shadow-hamp-200">hampを利用する</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden pt-8 pb-5 md:pt-10 md:pb-7">
+      <div class="absolute inset-0 bg-gradient-to-b from-white via-hamp-50 to-hamp-100/50 -z-10"></div>
+      <div class="absolute inset-0 bg-dot-pattern opacity-40 -z-10"></div>
+      <div class="container mx-auto px-4">
+        <div class="max-w-5xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white border border-hamp-200 shadow-sm text-hamp-600 text-sm font-bold mb-4">
+            <span class="w-2 h-2 bg-hamp-500 rounded-full"></span>
+            FAQ用・配置図作成の下準備ツール
+          </div>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-text-main mb-4 leading-tight tracking-tight">配置図画像かんたん編集</h1>
+          <p class="text-base md:text-lg text-text-sub leading-relaxed font-medium max-w-3xl mx-auto">
+            既存の会場図・配置図画像に、文字・図形・上塗り補修を追加できます。<br class="hidden md:block" />
+            編集内容はhamp側には保存されません。作業後はWebPで書き出してください。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-16 md:pb-24">
+      <div class="container mx-auto px-4">
+        <div class="bg-white rounded-[1.5rem] shadow-card border border-hamp-100 overflow-hidden mb-5 lg:sticky lg:top-24 z-40">
+          <div class="flex flex-wrap items-stretch gap-0 divide-x divide-hamp-100">
+            <div class="p-3 min-w-[220px]">
+              <p class="text-[11px] font-black text-text-sub mb-2 tracking-wide">画像</p>
+              <div class="flex flex-wrap gap-2">
+                <label class="inline-flex items-center justify-center rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-black text-text-main hover:bg-hamp-100 transition cursor-pointer">
+                  画像を選ぶ
+                  <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp" class="sr-only" />
+                </label>
+                <button id="resetButton" type="button" class="rounded-xl border border-hamp-100 bg-white px-3 py-2 text-sm font-bold text-text-main hover:bg-hamp-50 transition disabled:opacity-40" disabled>リセット</button>
+              </div>
+              <p class="text-[11px] text-text-sub leading-relaxed mt-2">編集画面へのドラッグ&ドロップにも対応。</p>
+            </div>
+
+            <div class="p-3 min-w-[390px]">
+              <p class="text-[11px] font-black text-text-sub mb-2 tracking-wide">挿入・操作</p>
+              <div class="flex flex-wrap gap-2" role="toolbar" aria-label="編集ツール">
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="select" aria-pressed="true">選択</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="brush" aria-pressed="false">ブラシ上塗り</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="patch" aria-pressed="false">範囲上塗り</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="eyedropper" aria-pressed="false">スポイト</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="text" aria-pressed="false">文字</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="rect" aria-pressed="false">四角</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="ellipse" aria-pressed="false">丸</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="line" aria-pressed="false">線</button>
+                <button type="button" class="tool-button rounded-xl border border-hamp-100 bg-hamp-50 px-3 py-2 text-sm font-bold text-text-main transition" data-tool="arrow" aria-pressed="false">矢印</button>
+              </div>
+            </div>
+
+            <div class="p-3 min-w-[270px]">
+              <p class="text-[11px] font-black text-text-sub mb-2 tracking-wide">ズーム</p>
+              <div class="flex items-center gap-2">
+                <button id="zoomOutButton" type="button" class="rounded-xl border border-hamp-100 bg-white px-3 py-2 text-sm font-black text-text-main hover:bg-hamp-50 disabled:opacity-40" disabled>−</button>
+                <input id="zoomInput" type="range" min="20" max="400" value="100" class="range-input w-28" disabled />
+                <button id="zoomInButton" type="button" class="rounded-xl border border-hamp-100 bg-white px-3 py-2 text-sm font-black text-text-main hover:bg-hamp-50 disabled:opacity-40" disabled>＋</button>
+                <button id="zoomFitButton" type="button" class="rounded-xl border border-hamp-100 bg-white px-3 py-2 text-xs font-bold text-text-main hover:bg-hamp-50 disabled:opacity-40" disabled>全体</button>
+                <span id="zoomLabel" class="text-xs font-black text-hamp-600 min-w-[46px]">100%</span>
+              </div>
+              <p class="text-[11px] text-text-sub mt-2">拡大中は背景を掴むと移動できます。Ctrl/⌘+ホイールでも拡大縮小。</p>
+            </div>
+
+            <div class="p-3 flex-1 min-w-[560px]">
+              <p class="text-[11px] font-black text-text-sub mb-2 tracking-wide">選択中の編集</p>
+              <div class="flex flex-wrap items-center gap-3">
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">
+                  フォント
+                  <select id="fontFamilyInput" class="w-44 rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs outline-none focus:border-hamp-400 focus:bg-white">
+                    <option value="Noto Sans JP">Noto Sans JP</option>
+                    <option value="Noto Serif JP">Noto Serif JP</option>
+                    <option value="M PLUS 1p">M PLUS 1p</option>
+                    <option value="M PLUS Rounded 1c">M PLUS Rounded 1c</option>
+                    <option value="BIZ UDPGothic">BIZ UDPGothic</option>
+                    <option value="BIZ UDPMincho">BIZ UDPMincho</option>
+                    <option value="Zen Kaku Gothic New">Zen Kaku Gothic New</option>
+                    <option value="Zen Maru Gothic">Zen Maru Gothic</option>
+                    <option value="Zen Old Mincho">Zen Old Mincho</option>
+                    <option value="Kosugi">Kosugi</option>
+                    <option value="Kosugi Maru">Kosugi Maru</option>
+                    <option value="Sawarabi Gothic">Sawarabi Gothic</option>
+                    <option value="Sawarabi Mincho">Sawarabi Mincho</option>
+                    <option value="Shippori Mincho">Shippori Mincho</option>
+                    <option value="Kaisei Decol">Kaisei Decol</option>
+                    <option value="Kaisei HarunoUmi">Kaisei HarunoUmi</option>
+                    <option value="Klee One">Klee One</option>
+                    <option value="Yomogi">Yomogi</option>
+                    <option value="Yuji Syuku">Yuji Syuku</option>
+                    <option value="Kiwi Maru">Kiwi Maru</option>
+                    <option value="DotGothic16">DotGothic16</option>
+                    <option value="Dela Gothic One">Dela Gothic One</option>
+                    <option value="Mochiy Pop One">Mochiy Pop One</option>
+                    <option value="Reggae One">Reggae One</option>
+                    <option value="RocknRoll One">RocknRoll One</option>
+                    <option value="Rampart One">Rampart One</option>
+                    <option value="Stick">Stick</option>
+                    <option value="Hina Mincho">Hina Mincho</option>
+                    <option value="Murecho">Murecho</option>
+                    <option value="system-ui">system-ui</option>
+                  </select>
+                </label>
+
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">文字 <input id="textColorInput" type="color" value="#111827" class="h-8 w-10 rounded-lg border border-hamp-100 bg-white p-1" /></label>
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">線 <input id="strokeColorInput" type="color" value="#111827" class="h-8 w-10 rounded-lg border border-hamp-100 bg-white p-1" /></label>
+                <button id="clearStrokeButton" type="button" class="rounded-lg border border-hamp-100 bg-white px-2.5 py-1.5 text-xs font-bold text-text-main hover:bg-hamp-50">線なし</button>
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">塗り <input id="fillColorInput" type="color" value="#111827" class="h-8 w-10 rounded-lg border border-hamp-100 bg-white p-1" /></label>
+                <button id="clearFillButton" type="button" class="rounded-lg border border-hamp-100 bg-white px-2.5 py-1.5 text-xs font-bold text-text-main hover:bg-hamp-50">透過</button>
+
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">透過 <span id="fillOpacityLabel" class="text-hamp-600 min-w-[34px]">30%</span><input id="fillOpacityInput" type="range" min="0" max="100" value="30" class="range-input w-20" /></label>
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">線幅 <span id="strokeWidthLabel" class="text-hamp-600 min-w-[28px]">4px</span><input id="strokeWidthInput" type="range" min="0" max="32" value="4" class="range-input w-20" /></label>
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">文字 <span id="fontSizeLabel" class="text-hamp-600 min-w-[34px]">32px</span><input id="fontSizeInput" type="range" min="10" max="160" value="32" class="range-input w-20" /></label>
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">回転 <span id="rotationLabel" class="text-hamp-600 min-w-[42px]">0°</span><input id="rotationInput" type="range" min="-180" max="180" value="0" class="range-input w-24" /></label>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2 mt-3">
+                <span class="text-xs font-black text-text-sub">文字揃え</span>
+                <button type="button" class="align-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-align="left" aria-pressed="true">左</button>
+                <button type="button" class="align-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-align="center" aria-pressed="false">中央</button>
+                <button type="button" class="align-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-align="right" aria-pressed="false">右</button>
+                <span class="text-xs font-black text-text-sub ml-2">上下</span>
+                <button type="button" class="valign-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-valign="top" aria-pressed="true">上</button>
+                <button type="button" class="valign-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-valign="middle" aria-pressed="false">中央</button>
+                <button type="button" class="valign-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-valign="bottom" aria-pressed="false">下</button>
+                <span class="text-xs font-black text-text-sub ml-2">方向</span>
+                <button type="button" class="direction-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-direction="horizontal" aria-pressed="true">横</button>
+                <button type="button" class="direction-button rounded-lg border border-hamp-100 bg-hamp-50 px-2.5 py-1.5 text-xs font-bold text-text-main" data-direction="vertical" aria-pressed="false">縦</button>
+              </div>
+            </div>
+
+            <div class="p-3 min-w-[300px]">
+              <p class="text-[11px] font-black text-text-sub mb-2 tracking-wide">上塗り補修</p>
+              <div class="flex items-center gap-3">
+                <label class="text-xs font-bold text-text-main flex items-center gap-2">補修色 <input id="repairColorInput" type="color" value="#111827" class="h-8 w-10 rounded-lg border border-hamp-100 bg-white p-1" /></label>
+                <label class="text-xs font-bold text-text-main flex-1">ブラシ <span id="brushSizeLabel" class="text-hamp-600">24px</span><input id="brushSizeInput" type="range" min="4" max="180" value="24" class="range-input mt-1 w-full" /></label>
+              </div>
+              <p class="text-[11px] text-text-sub leading-relaxed mt-2">スポイトで色取得後は範囲上塗りに切り替わります。Shiftを押しながら範囲指定すると正方形になります。</p>
+            </div>
+
+            <div class="p-3 min-w-[260px]">
+              <p class="text-[11px] font-black text-text-sub mb-2 tracking-wide">操作</p>
+              <div class="flex flex-wrap gap-2">
+                <button id="undoButton" type="button" class="rounded-xl border border-hamp-100 bg-white px-3 py-2 text-sm font-bold text-text-main hover:bg-hamp-50 transition disabled:opacity-40" disabled>戻す</button>
+                <button id="redoButton" type="button" class="rounded-xl border border-hamp-100 bg-white px-3 py-2 text-sm font-bold text-text-main hover:bg-hamp-50 transition disabled:opacity-40" disabled>進む</button>
+                <button id="deleteButton" type="button" class="rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-sm font-bold text-red-600 hover:bg-red-100 transition disabled:opacity-40" disabled>削除</button>
+                <button id="exportButton" type="button" class="rounded-xl bg-hamp-500 px-4 py-2 text-sm font-black text-white shadow-soft hover:bg-hamp-600 transition disabled:opacity-40 disabled:hover:bg-hamp-500" disabled>WebPを書き出す</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="canvasFrame" class="relative bg-white rounded-[2rem] shadow-card border border-hamp-100 overflow-hidden">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-hamp-100 p-4 md:p-5">
+            <div>
+              <h2 class="text-lg font-black text-text-main">編集キャンバス</h2>
+              <p id="statusText" class="text-sm text-text-sub mt-1">画像を選択するか、このエリアへドラッグ&ドロップしてください。</p>
+            </div>
+            <div class="text-xs text-text-sub leading-relaxed md:text-right">
+              クリックで自動選択。ダブルクリックで文字を直接編集。<br class="hidden md:block" />
+              Ctrl / Cmd + C・V・Z、Deleteに対応。
+            </div>
+          </div>
+
+          <div id="canvasShell" class="relative canvas-shell min-h-[620px] max-h-[76vh] overflow-auto p-4 md:p-6">
+            <div id="dropOverlay" class="absolute inset-0 z-50 items-center justify-center bg-hamp-500/15 backdrop-blur-sm">
+              <div class="rounded-[2rem] bg-white border-2 border-dashed border-hamp-400 px-8 py-7 text-center shadow-card">
+                <p class="text-xl font-black text-text-main">画像をここにドロップ</p>
+                <p class="text-sm text-text-sub mt-2">PNG / JPG / WebP に対応しています。</p>
+              </div>
+            </div>
+
+            <div class="min-w-full text-center">
+              <div id="canvasViewport">
+                <canvas id="editorCanvas" width="1280" height="720" data-tool="select" class="rounded-2xl bg-white shadow-lg border border-hamp-100"></canvas>
+                <textarea id="textEditor" spellcheck="false" aria-label="文字を直接編集"></textarea>
+                <div id="brushCursor" aria-hidden="true"></div>
+                <div id="floatingPalette" class="rounded-2xl p-3" aria-hidden="true">
+                  <div class="flex items-center justify-between gap-3 mb-2">
+                    <p class="text-xs font-black text-text-sub">選択中</p>
+                    <button id="miniDeleteButton" type="button" class="rounded-lg border border-red-100 bg-red-50 px-2 py-1 text-[11px] font-bold text-red-600">削除</button>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <label class="text-[11px] font-bold text-text-main flex items-center gap-1">文字 <input id="miniTextColorInput" type="color" value="#111827" class="h-7 w-8 rounded border border-hamp-100 bg-white p-0.5" /></label>
+                    <label class="text-[11px] font-bold text-text-main flex items-center gap-1">線 <input id="miniStrokeColorInput" type="color" value="#111827" class="h-7 w-8 rounded border border-hamp-100 bg-white p-0.5" /></label>
+                    <button id="miniClearStrokeButton" type="button" class="rounded border border-hamp-100 bg-white px-2 py-1 text-[11px] font-bold text-text-main">線なし</button>
+                    <label class="text-[11px] font-bold text-text-main flex items-center gap-1">塗り <input id="miniFillColorInput" type="color" value="#111827" class="h-7 w-8 rounded border border-hamp-100 bg-white p-0.5" /></label>
+                    <button id="miniClearFillButton" type="button" class="rounded border border-hamp-100 bg-white px-2 py-1 text-[11px] font-bold text-text-main">透過</button>
+                    <label class="text-[11px] font-bold text-text-main flex items-center gap-1">文字 <input id="miniFontSizeInput" type="range" min="10" max="160" value="32" class="range-input w-20" /></label>
+                    <label class="text-[11px] font-bold text-text-main flex items-center gap-1">線幅 <input id="miniStrokeWidthInput" type="range" min="0" max="32" value="4" class="range-input w-20" /></label>
+                    <label class="text-[11px] font-bold text-text-main flex items-center gap-1">回転 <input id="miniRotationInput" type="range" min="-180" max="180" value="0" class="range-input w-24" /></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 border-t border-hamp-100 px-4 md:px-5 py-3 bg-white">
+            <p id="imageInfo" class="text-xs text-text-sub">画像はまだ読み込まれていません。</p>
+            <p class="text-xs text-text-sub">高度な編集が必要な場合は、画像編集ソフト等をご利用ください。</p>
+          </div>
+        </div>
+
+        <div class="mt-6 grid md:grid-cols-3 gap-4">
+          <article class="bg-white rounded-[1.5rem] border border-hamp-100 p-5 shadow-card">
+            <h3 class="font-black text-text-main mb-2">用途</h3>
+            <p class="text-sm text-text-sub leading-relaxed">配置番号や元の注記を背景色で消し、会場図に案内文・矢印・枠線を足すための簡易ツールです。</p>
+          </article>
+          <article class="bg-white rounded-[1.5rem] border border-hamp-100 p-5 shadow-card">
+            <h3 class="font-black text-text-main mb-2">補修のコツ</h3>
+            <p class="text-sm text-text-sub leading-relaxed">スポイトで背景色を取ったあと、範囲上塗りで文字や番号を一気に隠せます。細部はブラシ上塗りで整えてください。</p>
+          </article>
+          <article class="bg-white rounded-[1.5rem] border border-hamp-100 p-5 shadow-card">
+            <h3 class="font-black text-text-main mb-2">非対応</h3>
+            <p class="text-sm text-text-sub leading-relaxed">PDF直接編集、PSD、共同編集、高度な画像補正、レイヤー管理には対応していません。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[#2d2a26] text-white py-10">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <p class="text-sm text-white/70">© hamp</p>
+      <a href="./" class="text-sm font-bold text-orange-200 hover:text-white transition">LPトップへ戻る</a>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const MAX_CANVAS_DIMENSION = 4096;
+      const DEFAULT_BLACK = '#111827';
+      const MIN_SHAPE_SIZE = 8;
+      const HISTORY_LIMIT = 100;
+      const SNAP_VISUAL_THRESHOLD = 14;
+      const HANDLE_VISUAL_SIZE = 10;
+
+      const canvas = document.getElementById('editorCanvas');
+      const ctx = canvas.getContext('2d');
+      const canvasShell = document.getElementById('canvasShell');
+      const canvasViewport = document.getElementById('canvasViewport');
+      const dropOverlay = document.getElementById('dropOverlay');
+      const textEditor = document.getElementById('textEditor');
+      const brushCursor = document.getElementById('brushCursor');
+      const floatingPalette = document.getElementById('floatingPalette');
+
+      const imageInput = document.getElementById('imageInput');
+      const imageInfo = document.getElementById('imageInfo');
+      const statusText = document.getElementById('statusText');
+      const resetButton = document.getElementById('resetButton');
+      const exportButton = document.getElementById('exportButton');
+      const undoButton = document.getElementById('undoButton');
+      const redoButton = document.getElementById('redoButton');
+      const deleteButton = document.getElementById('deleteButton');
+      const toolButtons = Array.from(document.querySelectorAll('.tool-button'));
+
+      const zoomOutButton = document.getElementById('zoomOutButton');
+      const zoomInButton = document.getElementById('zoomInButton');
+      const zoomFitButton = document.getElementById('zoomFitButton');
+      const zoomInput = document.getElementById('zoomInput');
+      const zoomLabel = document.getElementById('zoomLabel');
+
+      const fontFamilyInput = document.getElementById('fontFamilyInput');
+      const fontSizeInput = document.getElementById('fontSizeInput');
+      const fontSizeLabel = document.getElementById('fontSizeLabel');
+      const rotationInput = document.getElementById('rotationInput');
+      const rotationLabel = document.getElementById('rotationLabel');
+      const textColorInput = document.getElementById('textColorInput');
+      const strokeColorInput = document.getElementById('strokeColorInput');
+      const clearStrokeButton = document.getElementById('clearStrokeButton');
+      const fillColorInput = document.getElementById('fillColorInput');
+      const clearFillButton = document.getElementById('clearFillButton');
+      const fillOpacityInput = document.getElementById('fillOpacityInput');
+      const fillOpacityLabel = document.getElementById('fillOpacityLabel');
+      const strokeWidthInput = document.getElementById('strokeWidthInput');
+      const strokeWidthLabel = document.getElementById('strokeWidthLabel');
+      const alignButtons = Array.from(document.querySelectorAll('.align-button'));
+      const valignButtons = Array.from(document.querySelectorAll('.valign-button'));
+      const directionButtons = Array.from(document.querySelectorAll('.direction-button'));
+      const repairColorInput = document.getElementById('repairColorInput');
+      const brushSizeInput = document.getElementById('brushSizeInput');
+      const brushSizeLabel = document.getElementById('brushSizeLabel');
+
+      const miniDeleteButton = document.getElementById('miniDeleteButton');
+      const miniTextColorInput = document.getElementById('miniTextColorInput');
+      const miniStrokeColorInput = document.getElementById('miniStrokeColorInput');
+      const miniClearStrokeButton = document.getElementById('miniClearStrokeButton');
+      const miniFillColorInput = document.getElementById('miniFillColorInput');
+      const miniClearFillButton = document.getElementById('miniClearFillButton');
+      const miniFontSizeInput = document.getElementById('miniFontSizeInput');
+      const miniStrokeWidthInput = document.getElementById('miniStrokeWidthInput');
+      const miniRotationInput = document.getElementById('miniRotationInput');
+
+      const state = {
+        tool: 'select',
+        image: null,
+        originalFileName: 'hamp-map-edited',
+        zoom: 1,
+        objects: [],
+        repairs: [],
+        selectedId: null,
+        draft: null,
+        pointerMode: null,
+        drag: null,
+        resize: null,
+        pan: null,
+        guides: [],
+        history: [],
+        historyIndex: -1,
+        idSeq: 0,
+        clipboard: null,
+        editingTextId: null,
+        textEditingOriginal: '',
+        lastRepairTool: 'patch',
+        nextFillColor: null,
+        isSyncingControls: false
+      };
+
+      const createId = () => `obj-${Date.now()}-${state.idSeq++}`;
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      const deepClone = (value) => JSON.parse(JSON.stringify(value));
+      const selectedObject = () => state.objects.find((object) => object.id === state.selectedId) || null;
+      const visualToCanvas = (value) => value / Math.max(state.zoom, 0.001);
+      const setStatus = (message) => { statusText.textContent = message; };
+
+      function getPressedValue(buttons, key) {
+        const button = buttons.find((candidate) => candidate.getAttribute('aria-pressed') === 'true');
+        return button ? button.dataset[key] : null;
+      }
+
+      function setButtonGroup(buttons, key, value) {
+        buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset[key] === value)));
+      }
+
+      function getDefaults() {
+        return {
+          textColor: textColorInput.value || DEFAULT_BLACK,
+          strokeColor: strokeColorInput.value || DEFAULT_BLACK,
+          fillColor: state.nextFillColor,
+          fillOpacity: Number(fillOpacityInput.value) / 100,
+          strokeWidth: Number(strokeWidthInput.value),
+          fontSize: Number(fontSizeInput.value),
+          fontFamily: fontFamilyInput.value || 'Noto Sans JP',
+          repairColor: repairColorInput.value || DEFAULT_BLACK,
+          brushSize: Number(brushSizeInput.value),
+          textAlign: getPressedValue(alignButtons, 'align') || 'left',
+          verticalAlign: getPressedValue(valignButtons, 'valign') || 'top',
+          direction: getPressedValue(directionButtons, 'direction') || 'horizontal',
+          rotation: Number(rotationInput.value) || 0
+        };
+      }
+
+      function snapshot() {
+        return JSON.stringify({ objects: state.objects, repairs: state.repairs });
+      }
+
+      function commitHistory() {
+        const current = snapshot();
+        if (state.history[state.historyIndex] === current) return;
+        state.history = state.history.slice(0, state.historyIndex + 1);
+        state.history.push(current);
+        if (state.history.length > HISTORY_LIMIT) state.history.shift();
+        state.historyIndex = state.history.length - 1;
+        updateButtons();
+      }
+
+      function restoreHistory(index) {
+        if (index < 0 || index >= state.history.length) return;
+        finishTextEdit(true);
+        const data = JSON.parse(state.history[index]);
+        state.objects = data.objects || [];
+        state.repairs = data.repairs || [];
+        state.selectedId = null;
+        state.historyIndex = index;
+        state.draft = null;
+        state.guides = [];
+        updateButtons();
+        render();
+      }
+
+      function updateLabels() {
+        fillOpacityLabel.textContent = `${fillOpacityInput.value}%`;
+        strokeWidthLabel.textContent = `${strokeWidthInput.value}px`;
+        fontSizeLabel.textContent = `${fontSizeInput.value}px`;
+        rotationLabel.textContent = `${rotationInput.value}°`;
+        brushSizeLabel.textContent = `${brushSizeInput.value}px`;
+        zoomLabel.textContent = `${Math.round(state.zoom * 100)}%`;
+        zoomInput.value = String(Math.round(state.zoom * 100));
+      }
+
+      function updateButtons() {
+        const hasImage = Boolean(state.image);
+        const hasSelected = Boolean(selectedObject());
+        const canUndo = state.historyIndex > 0;
+        const canRedo = state.historyIndex >= 0 && state.historyIndex < state.history.length - 1;
+        resetButton.disabled = !hasImage;
+        exportButton.disabled = !hasImage;
+        zoomOutButton.disabled = !hasImage;
+        zoomInButton.disabled = !hasImage;
+        zoomFitButton.disabled = !hasImage;
+        zoomInput.disabled = !hasImage;
+        undoButton.disabled = !canUndo;
+        redoButton.disabled = !canRedo;
+        deleteButton.disabled = !hasSelected;
+        updateLabels();
+      }
+
+      function setTool(tool) {
+        finishTextEdit(true);
+        state.tool = tool;
+        if (tool === 'brush' || tool === 'patch') state.lastRepairTool = tool;
+        canvas.dataset.tool = tool;
+        toolButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.tool === tool)));
+        if (tool === 'brush') setStatus('ブラシ上塗り：スポイトで取った色などで細部を補修できます。');
+        if (tool === 'patch') setStatus('範囲上塗り：ドラッグした範囲を補修色で一括上書きします。Shiftで正方形。');
+        if (tool === 'eyedropper') setStatus('スポイト：画像上をクリックすると色を取得し、範囲上塗りへ切り替わります。');
+        if (tool === 'text') setStatus('文字：キャンバスをクリックすると文字枠を作り、その場で編集できます。');
+        if (tool === 'select') setStatus('選択：図形や文字をクリックして移動・編集できます。背景を掴むと表示位置を動かせます。');
+        updateBrushCursorVisibility();
+        updateCanvasPanCursor();
+      }
+
+      function setZoom(nextZoom, focus) {
+        if (!state.image) return;
+        const oldZoom = state.zoom;
+        const next = clamp(nextZoom, 0.2, 4);
+        if (Math.abs(next - oldZoom) < 0.001) return;
+
+        let focusCanvasPoint = null;
+        let focusClient = null;
+        if (focus && Number.isFinite(focus.clientX) && Number.isFinite(focus.clientY)) {
+          focusCanvasPoint = toPointFromClient(focus.clientX, focus.clientY);
+          focusClient = { x: focus.clientX, y: focus.clientY };
+        } else {
+          const rect = canvasShell.getBoundingClientRect();
+          focusCanvasPoint = {
+            x: (canvasShell.scrollLeft + rect.width / 2) / oldZoom,
+            y: (canvasShell.scrollTop + rect.height / 2) / oldZoom
+          };
+          focusClient = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        }
+
+        state.zoom = next;
+        applyCanvasCssSize();
+        updateButtons();
+        window.requestAnimationFrame(() => {
+          const shellRect = canvasShell.getBoundingClientRect();
+          canvasShell.scrollLeft = focusCanvasPoint.x * state.zoom - (focusClient.x - shellRect.left);
+          canvasShell.scrollTop = focusCanvasPoint.y * state.zoom - (focusClient.y - shellRect.top);
+          positionTextEditor();
+          positionFloatingPalette();
+          render();
+        });
+      }
+
+      function fitToView() {
+        if (!state.image) return;
+        const availableWidth = Math.max(320, canvasShell.clientWidth - 48);
+        const availableHeight = Math.max(240, canvasShell.clientHeight - 48);
+        const next = clamp(Math.min(availableWidth / canvas.width, availableHeight / canvas.height, 1), 0.2, 1);
+        state.zoom = next;
+        applyCanvasCssSize();
+        updateButtons();
+        render();
+      }
+
+      function applyCanvasCssSize() {
+        const width = Math.max(1, canvas.width * state.zoom);
+        const height = Math.max(1, canvas.height * state.zoom);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        canvasViewport.style.width = `${width}px`;
+        canvasViewport.style.height = `${height}px`;
+      }
+
+      function toPoint(event) {
+        return toPointFromClient(event.clientX, event.clientY);
+      }
+
+      function toPointFromClient(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: clamp((clientX - rect.left) * (canvas.width / Math.max(rect.width, 1)), 0, canvas.width),
+          y: clamp((clientY - rect.top) * (canvas.height / Math.max(rect.height, 1)), 0, canvas.height)
+        };
+      }
+
+      function normalizeBox(x, y, w, h) {
+        const nx = w < 0 ? x + w : x;
+        const ny = h < 0 ? y + h : y;
+        return { x: nx, y: ny, w: Math.abs(w), h: Math.abs(h) };
+      }
+
+      function getBounds(object) {
+        if (!object) return null;
+        if (object.type === 'line' || object.type === 'arrow') {
+          const x = Math.min(object.x1, object.x2);
+          const y = Math.min(object.y1, object.y2);
+          return { x, y, w: Math.abs(object.x2 - object.x1), h: Math.abs(object.y2 - object.y1) };
+        }
+        return { x: object.x, y: object.y, w: object.w, h: object.h };
+      }
+
+      function moveObject(object, dx, dy) {
+        if (object.type === 'line' || object.type === 'arrow') {
+          object.x1 += dx; object.x2 += dx; object.y1 += dy; object.y2 += dy;
+        } else {
+          object.x += dx; object.y += dy;
+        }
+      }
+
+      function rotateLineEndpoints(object, deltaDegrees) {
+        const radians = (Number(deltaDegrees) || 0) * Math.PI / 180;
+        if (!radians || !object || (object.type !== 'line' && object.type !== 'arrow')) return;
+        const cx = (object.x1 + object.x2) / 2;
+        const cy = (object.y1 + object.y2) / 2;
+        const rotatePoint = (x, y) => {
+          const dx = x - cx;
+          const dy = y - cy;
+          return {
+            x: cx + dx * Math.cos(radians) - dy * Math.sin(radians),
+            y: cy + dx * Math.sin(radians) + dy * Math.cos(radians)
+          };
+        };
+        const start = rotatePoint(object.x1, object.y1);
+        const end = rotatePoint(object.x2, object.y2);
+        object.x1 = start.x; object.y1 = start.y;
+        object.x2 = end.x; object.y2 = end.y;
+      }
+
+      function setObjectRotation(object, nextRotation) {
+        if (!object) return;
+        const next = clamp(Number(nextRotation) || 0, -180, 180);
+        const previous = Number(object.rotation) || 0;
+        if (object.type === 'line' || object.type === 'arrow') {
+          rotateLineEndpoints(object, next - previous);
+        }
+        object.rotation = next;
+      }
+
+      function rotatePointIntoObjectSpace(object, point) {
+        const rotation = Number(object.rotation) || 0;
+        if (!rotation || !['text', 'rect', 'ellipse'].includes(object.type)) return point;
+        const radians = -rotation * Math.PI / 180;
+        const cx = object.x + object.w / 2;
+        const cy = object.y + object.h / 2;
+        const dx = point.x - cx;
+        const dy = point.y - cy;
+        return {
+          x: cx + dx * Math.cos(radians) - dy * Math.sin(radians),
+          y: cy + dx * Math.sin(radians) + dy * Math.cos(radians)
+        };
+      }
+
+      function resizeObjectFromStart(startObject, handle, point, shiftKey) {
+        const object = deepClone(startObject);
+        if (object.type === 'line' || object.type === 'arrow') {
+          if (handle === 'start') {
+            object.x1 = point.x; object.y1 = point.y;
+          } else {
+            object.x2 = point.x; object.y2 = point.y;
+          }
+          if (shiftKey) snapLineAngle(object);
+          return object;
+        }
+
+        let { x, y, w, h } = startObject;
+        const right = x + w;
+        const bottom = y + h;
+        let nextX = x;
+        let nextY = y;
+        let nextRight = right;
+        let nextBottom = bottom;
+        if (handle.includes('w')) nextX = point.x;
+        if (handle.includes('e')) nextRight = point.x;
+        if (handle.includes('n')) nextY = point.y;
+        if (handle.includes('s')) nextBottom = point.y;
+        let nextW = nextRight - nextX;
+        let nextH = nextBottom - nextY;
+
+        if (shiftKey && (object.type === 'rect' || object.type === 'ellipse')) {
+          const size = Math.max(Math.abs(nextW), Math.abs(nextH));
+          nextW = nextW < 0 ? -size : size;
+          nextH = nextH < 0 ? -size : size;
+          if (handle.includes('w')) nextX = right - nextW;
+          if (handle.includes('n')) nextY = bottom - nextH;
+        }
+
+        const box = normalizeBox(nextX, nextY, nextW, nextH);
+        object.x = box.x;
+        object.y = box.y;
+        object.w = Math.max(MIN_SHAPE_SIZE, box.w);
+        object.h = Math.max(MIN_SHAPE_SIZE, box.h);
+        return object;
+      }
+
+      function snapLineAngle(object) {
+        const dx = object.x2 - object.x1;
+        const dy = object.y2 - object.y1;
+        const length = Math.hypot(dx, dy);
+        if (!length) return;
+        const angle = Math.atan2(dy, dx);
+        const snapped = Math.round(angle / (Math.PI / 4)) * (Math.PI / 4);
+        object.x2 = object.x1 + Math.cos(snapped) * length;
+        object.y2 = object.y1 + Math.sin(snapped) * length;
+      }
+
+      function getHandles(object) {
+        const handleSize = visualToCanvas(HANDLE_VISUAL_SIZE);
+        if (!object) return [];
+        if (object.type === 'line' || object.type === 'arrow') {
+          return [
+            { name: 'start', x: object.x1, y: object.y1, size: handleSize },
+            { name: 'end', x: object.x2, y: object.y2, size: handleSize }
+          ];
+        }
+        const { x, y, w, h } = getBounds(object);
+        return [
+          { name: 'nw', x, y, size: handleSize }, { name: 'n', x: x + w / 2, y, size: handleSize },
+          { name: 'ne', x: x + w, y, size: handleSize }, { name: 'e', x: x + w, y: y + h / 2, size: handleSize },
+          { name: 'se', x: x + w, y: y + h, size: handleSize }, { name: 's', x: x + w / 2, y: y + h, size: handleSize },
+          { name: 'sw', x, y: y + h, size: handleSize }, { name: 'w', x, y: y + h / 2, size: handleSize }
+        ];
+      }
+
+      function hitHandle(point) {
+        const object = selectedObject();
+        if (!object) return null;
+        const handles = getHandles(object);
+        for (const handle of handles) {
+          const size = Math.max(handle.size, visualToCanvas(12));
+          if (Math.abs(point.x - handle.x) <= size && Math.abs(point.y - handle.y) <= size) return handle.name;
+        }
+        return null;
+      }
+
+      function pointToSegmentDistance(point, x1, y1, x2, y2) {
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        if (dx === 0 && dy === 0) return Math.hypot(point.x - x1, point.y - y1);
+        const t = clamp(((point.x - x1) * dx + (point.y - y1) * dy) / (dx * dx + dy * dy), 0, 1);
+        const x = x1 + t * dx;
+        const y = y1 + t * dy;
+        return Math.hypot(point.x - x, point.y - y);
+      }
+
+      function hitObject(object, point) {
+        if (object.type === 'line' || object.type === 'arrow') {
+          return pointToSegmentDistance(point, object.x1, object.y1, object.x2, object.y2) <= Math.max(visualToCanvas(8), object.strokeWidth + visualToCanvas(4));
+        }
+        const localPoint = rotatePointIntoObjectSpace(object, point);
+        const b = getBounds(object);
+        if (object.type === 'ellipse') {
+          const cx = b.x + b.w / 2;
+          const cy = b.y + b.h / 2;
+          const rx = Math.max(b.w / 2, 1);
+          const ry = Math.max(b.h / 2, 1);
+          const normalized = ((localPoint.x - cx) ** 2) / (rx ** 2) + ((localPoint.y - cy) ** 2) / (ry ** 2);
+          return normalized <= 1.05;
+        }
+        return localPoint.x >= b.x && localPoint.x <= b.x + b.w && localPoint.y >= b.y && localPoint.y <= b.y + b.h;
+      }
+
+      function hitTest(point) {
+        for (let i = state.objects.length - 1; i >= 0; i--) {
+          const object = state.objects[i];
+          if (hitObject(object, point)) return object;
+        }
+        return null;
+      }
+
+      function collectSnapTargets(excludeId) {
+        const xTargets = [0, canvas.width / 2, canvas.width];
+        const yTargets = [0, canvas.height / 2, canvas.height];
+        state.objects.forEach((object) => {
+          if (object.id === excludeId) return;
+          const b = getBounds(object);
+          xTargets.push(b.x, b.x + b.w / 2, b.x + b.w);
+          yTargets.push(b.y, b.y + b.h / 2, b.y + b.h);
+        });
+        return { xTargets, yTargets };
+      }
+
+      function getSnapPoints(bounds) {
+        return {
+          x: [bounds.x, bounds.x + bounds.w / 2, bounds.x + bounds.w],
+          y: [bounds.y, bounds.y + bounds.h / 2, bounds.y + bounds.h]
+        };
+      }
+
+      function snapMovedObject(proposed, excludeId) {
+        const threshold = visualToCanvas(SNAP_VISUAL_THRESHOLD);
+        const bounds = getBounds(proposed);
+        const points = getSnapPoints(bounds);
+        const targets = collectSnapTargets(excludeId);
+        let bestX = null;
+        let bestY = null;
+
+        points.x.forEach((source) => {
+          targets.xTargets.forEach((target) => {
+            const delta = target - source;
+            if (Math.abs(delta) <= threshold && (!bestX || Math.abs(delta) < Math.abs(bestX.delta))) bestX = { delta, target };
+          });
+        });
+        points.y.forEach((source) => {
+          targets.yTargets.forEach((target) => {
+            const delta = target - source;
+            if (Math.abs(delta) <= threshold && (!bestY || Math.abs(delta) < Math.abs(bestY.delta))) bestY = { delta, target };
+          });
+        });
+
+        const snapped = deepClone(proposed);
+        const guides = [];
+        if (bestX) {
+          moveObject(snapped, bestX.delta, 0);
+          guides.push({ type: 'v', x: bestX.target });
+        }
+        if (bestY) {
+          moveObject(snapped, 0, bestY.delta);
+          guides.push({ type: 'h', y: bestY.target });
+        }
+        return { snapped, guides };
+      }
+
+      function drawBaseImage() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (state.image) ctx.drawImage(state.image, 0, 0, canvas.width, canvas.height);
+      }
+
+      function drawRepair(repair) {
+        ctx.save();
+        ctx.fillStyle = repair.color || DEFAULT_BLACK;
+        ctx.strokeStyle = repair.color || DEFAULT_BLACK;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        if (repair.type === 'stroke') {
+          ctx.lineWidth = repair.lineWidth || 24;
+          ctx.beginPath();
+          repair.points.forEach((point, index) => {
+            if (index === 0) ctx.moveTo(point.x, point.y);
+            else ctx.lineTo(point.x, point.y);
+          });
+          ctx.stroke();
+        }
+        if (repair.type === 'patch') {
+          const box = normalizeBox(repair.x, repair.y, repair.w, repair.h);
+          ctx.fillRect(box.x, box.y, box.w, box.h);
+        }
+        ctx.restore();
+      }
+
+      function drawBoxWithRotation(object, drawCallback) {
+        const rotation = Number(object.rotation) || 0;
+        if (!rotation) {
+          drawCallback(object);
+          return;
+        }
+        ctx.save();
+        ctx.translate(object.x + object.w / 2, object.y + object.h / 2);
+        ctx.rotate(rotation * Math.PI / 180);
+        drawCallback({ ...object, x: -object.w / 2, y: -object.h / 2 });
+        ctx.restore();
+      }
+
+      function drawObject(object) {
+        ctx.save();
+        if (object.type === 'rect') drawBoxWithRotation(object, drawRectObject);
+        if (object.type === 'ellipse') drawBoxWithRotation(object, drawEllipseObject);
+        if (object.type === 'line' || object.type === 'arrow') drawLineObject(object);
+        if (object.type === 'text') drawBoxWithRotation(object, drawTextObject);
+        ctx.restore();
+      }
+
+      function drawFillForBox(object) {
+        if (!object.fillColor) return;
+        ctx.save();
+        ctx.globalAlpha = object.fillOpacity ?? 0.3;
+        ctx.fillStyle = object.fillColor;
+        if (object.type === 'ellipse') {
+          ctx.beginPath();
+          ctx.ellipse(object.x + object.w / 2, object.y + object.h / 2, Math.abs(object.w / 2), Math.abs(object.h / 2), 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillRect(object.x, object.y, object.w, object.h);
+        }
+        ctx.restore();
+      }
+
+      function drawStrokeForBox(object, useDefaultStroke = false) {
+        const strokeColor = object.strokeColor || (useDefaultStroke ? DEFAULT_BLACK : null);
+        const strokeWidth = Number(object.strokeWidth) || 0;
+        if (!strokeColor || strokeWidth <= 0) return;
+        ctx.save();
+        ctx.lineWidth = strokeWidth;
+        ctx.strokeStyle = strokeColor;
+        if (object.type === 'ellipse') {
+          ctx.beginPath();
+          ctx.ellipse(object.x + object.w / 2, object.y + object.h / 2, Math.abs(object.w / 2), Math.abs(object.h / 2), 0, 0, Math.PI * 2);
+          ctx.stroke();
+        } else {
+          ctx.strokeRect(object.x, object.y, object.w, object.h);
+        }
+        ctx.restore();
+      }
+
+      function drawRectObject(object) {
+        drawFillForBox(object);
+        drawStrokeForBox(object, true);
+      }
+
+      function drawEllipseObject(object) {
+        drawFillForBox(object);
+        drawStrokeForBox(object, true);
+      }
+
+      function drawLineObject(object) {
+        ctx.lineWidth = Math.max(1, Number(object.strokeWidth || 1));
+        ctx.strokeStyle = object.strokeColor || DEFAULT_BLACK;
+        ctx.fillStyle = object.strokeColor || DEFAULT_BLACK;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(object.x1, object.y1);
+        ctx.lineTo(object.x2, object.y2);
+        ctx.stroke();
+        if (object.type === 'arrow') drawArrowHead(object);
+      }
+
+      function drawArrowHead(object) {
+        const angle = Math.atan2(object.y2 - object.y1, object.x2 - object.x1);
+        const size = Math.max(10, Math.max(1, Number(object.strokeWidth || 1)) * 3.2);
+        ctx.beginPath();
+        ctx.moveTo(object.x2, object.y2);
+        ctx.lineTo(object.x2 - size * Math.cos(angle - Math.PI / 6), object.y2 - size * Math.sin(angle - Math.PI / 6));
+        ctx.lineTo(object.x2 - size * Math.cos(angle + Math.PI / 6), object.y2 - size * Math.sin(angle + Math.PI / 6));
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      function wrapText(ctx, text, maxWidth) {
+        if (!text) return [''];
+        const chars = Array.from(text);
+        const lines = [];
+        let current = '';
+        chars.forEach((char) => {
+          const next = current + char;
+          if (ctx.measureText(next).width > maxWidth && current) {
+            lines.push(current);
+            current = char;
+          } else {
+            current = next;
+          }
+        });
+        lines.push(current);
+        return lines;
+      }
+
+      function drawTextObject(object) {
+        drawFillForBox(object);
+        drawStrokeForBox(object, false);
+        const padding = Math.max(6, object.fontSize * 0.16);
+        const fontFamily = object.fontFamily || 'Noto Sans JP';
+        const fontSize = object.fontSize || 32;
+        ctx.fillStyle = object.textColor || DEFAULT_BLACK;
+        ctx.font = `700 ${fontSize}px "${fontFamily}", sans-serif`;
+        ctx.textBaseline = 'top';
+        if (object.direction === 'vertical') drawVerticalText(object, padding, fontSize);
+        else drawHorizontalText(object, padding, fontSize);
+      }
+
+      function drawHorizontalText(object, padding, fontSize) {
+        const maxWidth = Math.max(1, object.w - padding * 2);
+        const rawLines = String(object.text || '').split('\n');
+        const lines = rawLines.flatMap((line) => wrapText(ctx, line, maxWidth));
+        const lineHeight = fontSize * 1.28;
+        const totalHeight = lines.length * lineHeight;
+        let y = object.y + padding;
+        if (object.verticalAlign === 'middle') y = object.y + (object.h - totalHeight) / 2;
+        if (object.verticalAlign === 'bottom') y = object.y + object.h - padding - totalHeight;
+        y = Math.max(object.y + padding, y);
+        let x = object.x + padding;
+        ctx.textAlign = 'left';
+        if (object.textAlign === 'center') { x = object.x + object.w / 2; ctx.textAlign = 'center'; }
+        if (object.textAlign === 'right') { x = object.x + object.w - padding; ctx.textAlign = 'right'; }
+        lines.forEach((line, index) => ctx.fillText(line, x, y + index * lineHeight));
+      }
+
+      function buildVerticalColumns(text, maxCharsPerColumn) {
+        const columns = [];
+        const rawLines = String(text || '').split('\n');
+        rawLines.forEach((line, lineIndex) => {
+          const chars = Array.from(line || '');
+          if (chars.length === 0) columns.push(['']);
+          for (let i = 0; i < Math.max(chars.length, 1); i += maxCharsPerColumn) {
+            columns.push(chars.slice(i, i + maxCharsPerColumn));
+          }
+          if (lineIndex < rawLines.length - 1) columns.push(['']);
+        });
+        return columns.length ? columns : [['']];
+      }
+
+      function drawVerticalText(object, padding, fontSize) {
+        const lineHeight = fontSize * 1.12;
+        const columnWidth = fontSize * 1.22;
+        const maxChars = Math.max(1, Math.floor((object.h - padding * 2) / lineHeight));
+        const columns = buildVerticalColumns(object.text, maxChars);
+        const totalWidth = columns.length * columnWidth;
+        let startX = object.x + object.w - padding - columnWidth / 2;
+        if (object.textAlign === 'center') startX = object.x + object.w / 2 + totalWidth / 2 - columnWidth / 2;
+        if (object.textAlign === 'left') startX = object.x + padding + totalWidth - columnWidth / 2;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        columns.forEach((chars, columnIndex) => {
+          const colHeight = chars.length * lineHeight;
+          let startY = object.y + padding;
+          if (object.verticalAlign === 'middle') startY = object.y + (object.h - colHeight) / 2;
+          if (object.verticalAlign === 'bottom') startY = object.y + object.h - padding - colHeight;
+          startY = Math.max(object.y + padding, startY);
+          const x = startX - columnIndex * columnWidth;
+          chars.forEach((char, charIndex) => ctx.fillText(char, x, startY + charIndex * lineHeight));
+        });
+      }
+
+      function drawSelection(object) {
+        if (!object) return;
+        const b = getBounds(object);
+        ctx.save();
+        ctx.strokeStyle = '#f97316';
+        ctx.lineWidth = visualToCanvas(2);
+        ctx.setLineDash([visualToCanvas(8), visualToCanvas(5)]);
+        ctx.strokeRect(b.x, b.y, Math.max(b.w, 1), Math.max(b.h, 1));
+        ctx.setLineDash([]);
+        getHandles(object).forEach((handle) => {
+          const size = handle.size;
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#f97316';
+          ctx.lineWidth = visualToCanvas(2);
+          ctx.beginPath();
+          ctx.rect(handle.x - size / 2, handle.y - size / 2, size, size);
+          ctx.fill();
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+
+      function drawGuides() {
+        if (!state.guides.length) return;
+        ctx.save();
+        ctx.strokeStyle = '#0ea5e9';
+        ctx.lineWidth = visualToCanvas(1.5);
+        ctx.setLineDash([visualToCanvas(6), visualToCanvas(4)]);
+        state.guides.forEach((guide) => {
+          ctx.beginPath();
+          if (guide.type === 'v') { ctx.moveTo(guide.x, 0); ctx.lineTo(guide.x, canvas.height); }
+          else { ctx.moveTo(0, guide.y); ctx.lineTo(canvas.width, guide.y); }
+          ctx.stroke();
+        });
+        ctx.restore();
+      }
+
+      function drawDraft() {
+        if (!state.draft) return;
+        if (state.draft.kind === 'object') drawObject(state.draft.object);
+        if (state.draft.kind === 'repair') drawRepair(state.draft.repair);
+        if (state.draft.kind === 'patchPreview') {
+          const repair = state.draft.repair;
+          drawRepair(repair);
+          const box = normalizeBox(repair.x, repair.y, repair.w, repair.h);
+          ctx.save();
+          ctx.strokeStyle = '#f97316';
+          ctx.lineWidth = visualToCanvas(2);
+          ctx.setLineDash([visualToCanvas(8), visualToCanvas(5)]);
+          ctx.strokeRect(box.x, box.y, box.w, box.h);
+          ctx.restore();
+        }
+      }
+
+      function render(showUi = true) {
+        drawBaseImage();
+        state.repairs.forEach(drawRepair);
+        state.objects.forEach((object) => {
+          if (object.id !== state.editingTextId) drawObject(object);
+        });
+        drawDraft();
+        if (showUi) {
+          drawGuides();
+          if (!state.editingTextId) drawSelection(selectedObject());
+        }
+        updateBrushCursorVisibility();
+        positionFloatingPalette();
+        positionTextEditor();
+      }
+
+      function updateBrushCursorVisibility(point) {
+        if (state.tool !== 'brush' || !state.image) {
+          brushCursor.style.display = 'none';
+          return;
+        }
+        brushCursor.style.display = 'block';
+        const size = Number(brushSizeInput.value) * state.zoom;
+        brushCursor.style.width = `${Math.max(size, 4)}px`;
+        brushCursor.style.height = `${Math.max(size, 4)}px`;
+        if (point) {
+          brushCursor.style.left = `${point.x * state.zoom}px`;
+          brushCursor.style.top = `${point.y * state.zoom}px`;
+        }
+      }
+
+      function positionFloatingPalette() {
+        const object = selectedObject();
+        if (!object || state.editingTextId) {
+          floatingPalette.style.display = 'none';
+          return;
+        }
+        const b = getBounds(object);
+        floatingPalette.style.display = 'block';
+        const width = floatingPalette.offsetWidth || 360;
+        const height = floatingPalette.offsetHeight || 110;
+        let left = (b.x + b.w + 14) * state.zoom;
+        let top = b.y * state.zoom;
+        const viewportW = canvas.width * state.zoom;
+        const viewportH = canvas.height * state.zoom;
+        if (left + width > viewportW) left = Math.max(0, b.x * state.zoom - width - 14);
+        if (top + height > viewportH) top = Math.max(0, viewportH - height);
+        floatingPalette.style.left = `${left}px`;
+        floatingPalette.style.top = `${top}px`;
+        floatingPalette.setAttribute('aria-hidden', 'false');
+      }
+
+      function startTextEdit(object) {
+        if (!object || object.type !== 'text') return;
+        state.editingTextId = object.id;
+        state.textEditingOriginal = object.text || '';
+        textEditor.value = object.text || '';
+        textEditor.style.display = 'block';
+        positionTextEditor();
+        textEditor.focus();
+        textEditor.select();
+        floatingPalette.style.display = 'none';
+        render();
+      }
+
+      function positionTextEditor() {
+        const object = state.editingTextId ? state.objects.find((candidate) => candidate.id === state.editingTextId) : null;
+        if (!object || object.type !== 'text' || textEditor.style.display === 'none') return;
+        textEditor.style.left = `${object.x * state.zoom}px`;
+        textEditor.style.top = `${object.y * state.zoom}px`;
+        textEditor.style.width = `${Math.max(object.w * state.zoom, 60)}px`;
+        textEditor.style.height = `${Math.max(object.h * state.zoom, 40)}px`;
+        textEditor.style.fontFamily = `"${object.fontFamily || 'Noto Sans JP'}", sans-serif`;
+        textEditor.style.fontSize = `${Math.max(object.fontSize * state.zoom, 10)}px`;
+        textEditor.style.color = object.textColor || DEFAULT_BLACK;
+        textEditor.style.background = object.fillColor ? hexToRgba(object.fillColor, object.fillOpacity ?? 0.3) : 'rgba(255,255,255,0.03)';
+        textEditor.style.borderColor = object.strokeColor || 'var(--hamp)';
+        textEditor.style.borderWidth = `${Math.max(2, (object.strokeWidth || 2) * state.zoom)}px`;
+        textEditor.style.textAlign = object.textAlign || 'left';
+        textEditor.style.writingMode = object.direction === 'vertical' ? 'vertical-rl' : 'horizontal-tb';
+        textEditor.style.transformOrigin = 'center center';
+        textEditor.style.transform = `rotate(${Number(object.rotation) || 0}deg)`;
+      }
+
+      function finishTextEdit(shouldCommit) {
+        if (!state.editingTextId) return;
+        const object = state.objects.find((candidate) => candidate.id === state.editingTextId);
+        if (object && object.type === 'text') {
+          object.text = textEditor.value || '';
+          if (!object.text.trim()) object.text = 'テキスト';
+          if (shouldCommit && object.text !== state.textEditingOriginal) commitHistory();
+        }
+        state.editingTextId = null;
+        state.textEditingOriginal = '';
+        textEditor.style.display = 'none';
+        render();
+      }
+
+      function hexToRgba(hex, alpha) {
+        const normalized = String(hex || DEFAULT_BLACK).replace('#', '');
+        const int = parseInt(normalized.length === 3 ? normalized.split('').map((c) => c + c).join('') : normalized, 16);
+        const r = (int >> 16) & 255;
+        const g = (int >> 8) & 255;
+        const b = int & 255;
+        return `rgba(${r}, ${g}, ${b}, ${clamp(alpha, 0, 1)})`;
+      }
+
+      function syncControlsFromSelection() {
+        if (state.isSyncingControls) return;
+        state.isSyncingControls = true;
+        const object = selectedObject();
+        if (object) {
+          if (object.type === 'text') {
+            fontFamilyInput.value = object.fontFamily || 'Noto Sans JP';
+            fontSizeInput.value = String(object.fontSize || 32);
+            textColorInput.value = object.textColor || DEFAULT_BLACK;
+            miniFontSizeInput.value = String(object.fontSize || 32);
+            miniTextColorInput.value = object.textColor || DEFAULT_BLACK;
+            setButtonGroup(alignButtons, 'align', object.textAlign || 'left');
+            setButtonGroup(valignButtons, 'valign', object.verticalAlign || 'top');
+            setButtonGroup(directionButtons, 'direction', object.direction || 'horizontal');
+          }
+          strokeColorInput.value = object.strokeColor || DEFAULT_BLACK;
+          miniStrokeColorInput.value = object.strokeColor || DEFAULT_BLACK;
+          strokeWidthInput.value = String(object.strokeWidth ?? 4);
+          miniStrokeWidthInput.value = String(object.strokeWidth ?? 4);
+          if ('fillColor' in object) {
+            fillColorInput.value = object.fillColor || state.nextFillColor || DEFAULT_BLACK;
+            miniFillColorInput.value = object.fillColor || state.nextFillColor || DEFAULT_BLACK;
+            fillOpacityInput.value = String(Math.round((object.fillOpacity ?? 0.3) * 100));
+          }
+          rotationInput.value = String(Math.round(Number(object.rotation) || 0));
+          miniRotationInput.value = String(Math.round(Number(object.rotation) || 0));
+        }
+        updateLabels();
+        state.isSyncingControls = false;
+      }
+
+      function applySelectedStyle(patch, shouldCommit = false) {
+        const object = selectedObject();
+        if (!object) return;
+        Object.entries(patch).forEach(([key, value]) => {
+          if (key === 'fontFamily' && object.type !== 'text') return;
+          if (key === 'fontSize' && object.type !== 'text') return;
+          if (key === 'textColor' && object.type !== 'text') return;
+          if (key === 'textAlign' && object.type !== 'text') return;
+          if (key === 'verticalAlign' && object.type !== 'text') return;
+          if (key === 'direction' && object.type !== 'text') return;
+          if (key === 'rotation') { setObjectRotation(object, value); return; }
+          if ((key === 'fillColor' || key === 'fillOpacity') && !['text', 'rect', 'ellipse'].includes(object.type)) return;
+          if ((key === 'strokeColor' || key === 'strokeWidth') && !['text', 'rect', 'ellipse', 'line', 'arrow'].includes(object.type)) return;
+          object[key] = value;
+        });
+        syncControlsFromSelection();
+        render();
+        if (shouldCommit) commitHistory();
+      }
+
+      function applyFillColor(color, shouldCommit = false) {
+        state.nextFillColor = color;
+        fillColorInput.value = color;
+        miniFillColorInput.value = color;
+        const object = selectedObject();
+        if (object && ['text', 'rect', 'ellipse'].includes(object.type)) {
+          applySelectedStyle({ fillColor: color, fillOpacity: Number(fillOpacityInput.value) / 100 }, shouldCommit);
+        }
+      }
+
+      function clearFill(shouldCommit = true) {
+        const object = selectedObject();
+        if (object && ['text', 'rect', 'ellipse'].includes(object.type)) {
+          applySelectedStyle({ fillColor: null }, shouldCommit);
+        }
+      }
+
+      function clearStroke(shouldCommit = true) {
+        const object = selectedObject();
+        if (object && ['text', 'rect', 'ellipse', 'line', 'arrow'].includes(object.type)) {
+          applySelectedStyle({ strokeColor: null, strokeWidth: object.type === 'text' ? object.strokeWidth : 0 }, shouldCommit);
+        }
+      }
+
+      function createTextObject(point) {
+        const defaults = getDefaults();
+        const object = {
+          id: createId(), type: 'text', text: 'テキスト',
+          x: point.x, y: point.y, w: 220, h: 92,
+          textColor: defaults.textColor,
+          strokeColor: null,
+          strokeWidth: defaults.strokeWidth,
+          fillColor: defaults.fillColor,
+          fillOpacity: defaults.fillOpacity,
+          fontFamily: defaults.fontFamily,
+          fontSize: defaults.fontSize,
+          textAlign: defaults.textAlign,
+          verticalAlign: defaults.verticalAlign,
+          direction: defaults.direction,
+          rotation: defaults.rotation
+        };
+        state.objects.push(object);
+        state.selectedId = object.id;
+        commitHistory();
+        setTool('select');
+        syncControlsFromSelection();
+        startTextEdit(object);
+      }
+
+      function createDraftObject(type, point) {
+        const defaults = getDefaults();
+        if (type === 'rect' || type === 'ellipse') {
+          return { id: createId(), type, x: point.x, y: point.y, w: 0, h: 0, strokeColor: defaults.strokeColor, strokeWidth: defaults.strokeWidth, fillColor: defaults.fillColor, fillOpacity: defaults.fillOpacity, rotation: defaults.rotation };
+        }
+        return { id: createId(), type, x1: point.x, y1: point.y, x2: point.x, y2: point.y, strokeColor: defaults.strokeColor, strokeWidth: defaults.strokeWidth, rotation: 0 };
+      }
+
+      function updateDraftObject(point, shiftKey) {
+        if (!state.draft || state.draft.kind !== 'object') return;
+        const object = state.draft.object;
+        if (object.type === 'rect' || object.type === 'ellipse') {
+          object.w = point.x - state.draft.start.x;
+          object.h = point.y - state.draft.start.y;
+          if (shiftKey) {
+            const size = Math.max(Math.abs(object.w), Math.abs(object.h));
+            object.w = object.w < 0 ? -size : size;
+            object.h = object.h < 0 ? -size : size;
+          }
+        }
+        if (object.type === 'line' || object.type === 'arrow') {
+          object.x2 = point.x;
+          object.y2 = point.y;
+          if (shiftKey) snapLineAngle(object);
+        }
+      }
+
+      function finalizeDraftObject() {
+        const draft = state.draft;
+        if (!draft || draft.kind !== 'object') return;
+        const object = draft.object;
+        let shouldCommit = true;
+        if (object.type === 'rect' || object.type === 'ellipse') {
+          const box = normalizeBox(object.x, object.y, object.w, object.h);
+          object.x = box.x; object.y = box.y; object.w = box.w; object.h = box.h;
+          shouldCommit = object.w >= MIN_SHAPE_SIZE && object.h >= MIN_SHAPE_SIZE;
+        }
+        if (object.type === 'line' || object.type === 'arrow') {
+          shouldCommit = Math.hypot(object.x2 - object.x1, object.y2 - object.y1) >= MIN_SHAPE_SIZE;
+        }
+        if (shouldCommit) {
+          state.objects.push(object);
+          state.selectedId = object.id;
+          setTool('select');
+          syncControlsFromSelection();
+          commitHistory();
+        }
+      }
+
+      function sampleColor(point) {
+        if (!state.image) return;
+        render(false);
+        const pixel = ctx.getImageData(Math.round(point.x), Math.round(point.y), 1, 1).data;
+        const hex = `#${[pixel[0], pixel[1], pixel[2]].map((value) => value.toString(16).padStart(2, '0')).join('')}`;
+        repairColorInput.value = hex;
+        strokeColorInput.value = hex;
+        setTool('patch');
+        setStatus(`スポイトで ${hex} を取得しました。ドラッグした範囲をこの色で上書きできます。`);
+        render();
+      }
+
+      function onPointerDown(event) {
+        if (!state.image) return;
+        if (event.target !== canvas) return;
+        event.preventDefault();
+        finishTextEdit(true);
+        const point = toPoint(event);
+        canvas.setPointerCapture(event.pointerId);
+        updateBrushCursorVisibility(point);
+
+        if (state.tool === 'eyedropper') {
+          sampleColor(point);
+          return;
+        }
+
+        if (state.tool !== 'brush' && state.tool !== 'patch') {
+          const handle = hitHandle(point);
+          if (handle) {
+            const object = selectedObject();
+            state.resize = { id: object.id, handle, startObject: deepClone(object), moved: false };
+            state.pointerMode = 'resize';
+            return;
+          }
+          const target = hitTest(point);
+          if (target) {
+            state.selectedId = target.id;
+            setTool('select');
+            syncControlsFromSelection();
+            state.drag = { id: target.id, startPoint: point, startObject: deepClone(target), moved: false };
+            state.pointerMode = 'drag';
+            render();
+            return;
+          }
+        }
+
+        if (state.tool === 'select') {
+          state.selectedId = null;
+          state.pointerMode = 'pan';
+          state.pan = { startClientX: event.clientX, startClientY: event.clientY, startScrollLeft: canvasShell.scrollLeft, startScrollTop: canvasShell.scrollTop };
+          canvas.classList.add('is-grabbing');
+          updateButtons();
+          render();
+          return;
+        }
+
+        if (state.tool === 'brush') {
+          state.draft = { kind: 'repair', repair: { type: 'stroke', color: repairColorInput.value || DEFAULT_BLACK, lineWidth: Number(brushSizeInput.value), points: [point] } };
+          state.pointerMode = 'brush';
+          render();
+          return;
+        }
+
+        if (state.tool === 'patch') {
+          state.draft = { kind: 'patchPreview', start: point, repair: { type: 'patch', color: repairColorInput.value || DEFAULT_BLACK, x: point.x, y: point.y, w: 0, h: 0 } };
+          state.pointerMode = 'patch';
+          render();
+          return;
+        }
+
+        if (state.tool === 'text') {
+          createTextObject(point);
+          return;
+        }
+
+        if (['rect', 'ellipse', 'line', 'arrow'].includes(state.tool)) {
+          state.draft = { kind: 'object', start: point, object: createDraftObject(state.tool, point) };
+          state.pointerMode = 'drawObject';
+          render();
+        }
+      }
+
+      function onPointerMove(event) {
+        if (!state.image) return;
+        const point = toPoint(event);
+        updateBrushCursorVisibility(point);
+
+        if (state.pointerMode === 'pan' && state.pan) {
+          canvasShell.scrollLeft = state.pan.startScrollLeft - (event.clientX - state.pan.startClientX);
+          canvasShell.scrollTop = state.pan.startScrollTop - (event.clientY - state.pan.startClientY);
+          return;
+        }
+
+        if (state.pointerMode === 'drag' && state.drag) {
+          const object = state.objects.find((candidate) => candidate.id === state.drag.id);
+          if (!object) return;
+          const dx = point.x - state.drag.startPoint.x;
+          const dy = point.y - state.drag.startPoint.y;
+          const proposed = deepClone(state.drag.startObject);
+          moveObject(proposed, dx, dy);
+          const { snapped, guides } = snapMovedObject(proposed, object.id);
+          Object.assign(object, snapped);
+          state.guides = guides;
+          state.drag.moved = true;
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'resize' && state.resize) {
+          const object = state.objects.find((candidate) => candidate.id === state.resize.id);
+          if (!object) return;
+          const next = resizeObjectFromStart(state.resize.startObject, state.resize.handle, point, event.shiftKey);
+          Object.assign(object, next);
+          state.resize.moved = true;
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'brush' && state.draft?.kind === 'repair') {
+          state.draft.repair.points.push(point);
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'patch' && state.draft?.kind === 'patchPreview') {
+          let w = point.x - state.draft.start.x;
+          let h = point.y - state.draft.start.y;
+          if (event.shiftKey) {
+            const size = Math.max(Math.abs(w), Math.abs(h));
+            w = w < 0 ? -size : size;
+            h = h < 0 ? -size : size;
+          }
+          state.draft.repair.w = w;
+          state.draft.repair.h = h;
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'drawObject') {
+          updateDraftObject(point, event.shiftKey);
+          render();
+        }
+      }
+
+      function onPointerUp(event) {
+        if (!state.image) return;
+        try { canvas.releasePointerCapture(event.pointerId); } catch (_) {}
+        canvas.classList.remove('is-grabbing');
+
+        if (state.pointerMode === 'pan') {
+          state.pan = null;
+          state.pointerMode = null;
+          return;
+        }
+
+        if (state.pointerMode === 'drag' && state.drag) {
+          if (state.drag.moved) commitHistory();
+          state.drag = null;
+          state.pointerMode = null;
+          state.guides = [];
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'resize' && state.resize) {
+          if (state.resize.moved) commitHistory();
+          state.resize = null;
+          state.pointerMode = null;
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'brush' && state.draft?.kind === 'repair') {
+          if (state.draft.repair.points.length > 1) {
+            state.repairs.push(state.draft.repair);
+            commitHistory();
+          }
+          state.draft = null;
+          state.pointerMode = null;
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'patch' && state.draft?.kind === 'patchPreview') {
+          const patch = state.draft.repair;
+          const box = normalizeBox(patch.x, patch.y, patch.w, patch.h);
+          if (box.w >= MIN_SHAPE_SIZE && box.h >= MIN_SHAPE_SIZE) {
+            state.repairs.push({ type: 'patch', color: patch.color, x: box.x, y: box.y, w: box.w, h: box.h });
+            commitHistory();
+          }
+          state.draft = null;
+          state.pointerMode = null;
+          render();
+          return;
+        }
+
+        if (state.pointerMode === 'drawObject') {
+          finalizeDraftObject();
+          state.draft = null;
+          state.pointerMode = null;
+          render();
+        }
+      }
+
+      function onDoubleClick(event) {
+        if (!state.image) return;
+        const point = toPoint(event);
+        const target = hitTest(point);
+        if (target && target.type === 'text') {
+          state.selectedId = target.id;
+          syncControlsFromSelection();
+          startTextEdit(target);
+        }
+      }
+
+      function loadImage(file) {
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          setStatus('画像ファイルを選択してください。');
+          return;
+        }
+        finishTextEdit(false);
+        const objectUrl = URL.createObjectURL(file);
+        const image = new Image();
+        image.onload = () => {
+          const scale = Math.min(1, MAX_CANVAS_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight));
+          canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+          canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+          state.image = image;
+          state.objects = [];
+          state.repairs = [];
+          state.selectedId = null;
+          state.draft = null;
+          state.guides = [];
+          state.history = [];
+          state.historyIndex = -1;
+          state.originalFileName = file.name.replace(/\.[^.]+$/, '') || 'hamp-map-edited';
+          state.zoom = 1;
+          applyCanvasCssSize();
+          commitHistory();
+          fitToView();
+          render();
+          imageInfo.textContent = `${file.name} / ${image.naturalWidth}×${image.naturalHeight}px${scale < 1 ? ` → ${canvas.width}×${canvas.height}pxに縮小` : ''}`;
+          setStatus('画像を読み込みました。スポイト・範囲上塗り・文字・図形を使って編集できます。');
+          updateButtons();
+          URL.revokeObjectURL(objectUrl);
+        };
+        image.onerror = () => {
+          URL.revokeObjectURL(objectUrl);
+          setStatus('画像を読み込めませんでした。別の画像をお試しください。');
+        };
+        image.src = objectUrl;
+      }
+
+      function resetAll() {
+        if (!state.image) return;
+        if (!window.confirm('現在の編集内容をリセットしますか？')) return;
+        state.objects = [];
+        state.repairs = [];
+        state.selectedId = null;
+        state.draft = null;
+        state.history = [];
+        state.historyIndex = -1;
+        commitHistory();
+        render();
+        setStatus('編集内容をリセットしました。');
+      }
+
+      function deleteSelected() {
+        finishTextEdit(true);
+        if (!state.selectedId) return;
+        state.objects = state.objects.filter((object) => object.id !== state.selectedId);
+        state.selectedId = null;
+        commitHistory();
+        updateButtons();
+        render();
+      }
+
+      function copySelected() {
+        const object = selectedObject();
+        if (!object) return;
+        state.clipboard = deepClone(object);
+        setStatus('選択中の要素をコピーしました。');
+      }
+
+      function pasteClipboard() {
+        if (!state.clipboard) return;
+        finishTextEdit(true);
+        const clone = deepClone(state.clipboard);
+        clone.id = createId();
+        moveObject(clone, visualToCanvas(24), visualToCanvas(24));
+        state.objects.push(clone);
+        state.selectedId = clone.id;
+        state.clipboard = deepClone(clone);
+        commitHistory();
+        syncControlsFromSelection();
+        render();
+        setStatus('コピーした要素を貼り付けました。');
+      }
+
+      function exportWebp() {
+        if (!state.image) return;
+        finishTextEdit(true);
+        render(false);
+        canvas.toBlob((blob) => {
+          render(true);
+          if (!blob) {
+            setStatus('WebP書き出しに失敗しました。');
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `${state.originalFileName}-edited.webp`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+          setStatus('WebPを書き出しました。');
+        }, 'image/webp', 0.92);
+      }
+
+      function handleDrop(event) {
+        event.preventDefault();
+        canvasShell.classList.remove('is-dragover');
+        const file = Array.from(event.dataTransfer?.files || []).find((candidate) => candidate.type.startsWith('image/'));
+        if (file) loadImage(file);
+        else setStatus('PNG / JPG / WebP の画像ファイルをドロップしてください。');
+      }
+
+      function updateCanvasPanCursor() {
+        if (state.tool === 'select' && state.image) canvas.classList.add('is-panning');
+        else canvas.classList.remove('is-panning');
+      }
+
+      function wireEvents() {
+        toolButtons.forEach((button) => button.addEventListener('click', () => setTool(button.dataset.tool)));
+        imageInput.addEventListener('change', (event) => loadImage(event.target.files?.[0]));
+        resetButton.addEventListener('click', resetAll);
+        exportButton.addEventListener('click', exportWebp);
+        undoButton.addEventListener('click', () => restoreHistory(state.historyIndex - 1));
+        redoButton.addEventListener('click', () => restoreHistory(state.historyIndex + 1));
+        deleteButton.addEventListener('click', deleteSelected);
+        miniDeleteButton.addEventListener('click', deleteSelected);
+
+        zoomOutButton.addEventListener('click', () => setZoom(state.zoom / 1.2));
+        zoomInButton.addEventListener('click', () => setZoom(state.zoom * 1.2));
+        zoomFitButton.addEventListener('click', fitToView);
+        zoomInput.addEventListener('input', () => setZoom(Number(zoomInput.value) / 100));
+
+        canvas.addEventListener('pointerdown', onPointerDown);
+        canvas.addEventListener('pointermove', onPointerMove);
+        canvas.addEventListener('pointerup', onPointerUp);
+        canvas.addEventListener('pointercancel', onPointerUp);
+        canvas.addEventListener('dblclick', onDoubleClick);
+        canvas.addEventListener('pointerleave', () => { if (state.tool === 'brush' && state.pointerMode !== 'brush') brushCursor.style.display = 'none'; });
+        canvas.addEventListener('pointerenter', () => updateBrushCursorVisibility());
+        canvas.addEventListener('wheel', (event) => {
+          if (!event.ctrlKey && !event.metaKey) return;
+          event.preventDefault();
+          setZoom(state.zoom * (event.deltaY < 0 ? 1.12 : 1 / 1.12), event);
+        }, { passive: false });
+
+        [canvasShell, canvasViewport, dropOverlay].forEach((element) => {
+          element.addEventListener('dragenter', (event) => { event.preventDefault(); canvasShell.classList.add('is-dragover'); });
+          element.addEventListener('dragover', (event) => { event.preventDefault(); canvasShell.classList.add('is-dragover'); });
+          element.addEventListener('dragleave', (event) => {
+            if (event.target === canvasShell || event.target === canvasViewport || event.target === dropOverlay) canvasShell.classList.remove('is-dragover');
+          });
+          element.addEventListener('drop', handleDrop);
+        });
+
+        textEditor.addEventListener('input', () => {
+          const object = state.objects.find((candidate) => candidate.id === state.editingTextId);
+          if (!object) return;
+          object.text = textEditor.value;
+          render();
+        });
+        textEditor.addEventListener('blur', () => finishTextEdit(true));
+        textEditor.addEventListener('keydown', (event) => {
+          if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') finishTextEdit(true);
+          if (event.key === 'Escape') finishTextEdit(true);
+        });
+
+        fontFamilyInput.addEventListener('change', () => applySelectedStyle({ fontFamily: fontFamilyInput.value }, true));
+        fontSizeInput.addEventListener('input', () => { updateLabels(); applySelectedStyle({ fontSize: Number(fontSizeInput.value) }, false); });
+        fontSizeInput.addEventListener('change', () => commitHistory());
+        miniFontSizeInput.addEventListener('input', () => { fontSizeInput.value = miniFontSizeInput.value; updateLabels(); applySelectedStyle({ fontSize: Number(miniFontSizeInput.value) }, false); });
+        miniFontSizeInput.addEventListener('change', () => commitHistory());
+
+        rotationInput.addEventListener('input', () => { updateLabels(); applySelectedStyle({ rotation: Number(rotationInput.value) }, false); });
+        rotationInput.addEventListener('change', () => commitHistory());
+        miniRotationInput.addEventListener('input', () => { rotationInput.value = miniRotationInput.value; updateLabels(); applySelectedStyle({ rotation: Number(miniRotationInput.value) }, false); });
+        miniRotationInput.addEventListener('change', () => commitHistory());
+
+        textColorInput.addEventListener('input', () => applySelectedStyle({ textColor: textColorInput.value }, false));
+        textColorInput.addEventListener('change', () => commitHistory());
+        miniTextColorInput.addEventListener('input', () => { textColorInput.value = miniTextColorInput.value; applySelectedStyle({ textColor: miniTextColorInput.value }, false); });
+        miniTextColorInput.addEventListener('change', () => commitHistory());
+
+        strokeColorInput.addEventListener('pointerdown', () => applySelectedStyle({ strokeColor: strokeColorInput.value || DEFAULT_BLACK }, true));
+        strokeColorInput.addEventListener('input', () => applySelectedStyle({ strokeColor: strokeColorInput.value }, false));
+        strokeColorInput.addEventListener('change', () => commitHistory());
+        miniStrokeColorInput.addEventListener('pointerdown', () => { strokeColorInput.value = miniStrokeColorInput.value; applySelectedStyle({ strokeColor: miniStrokeColorInput.value || DEFAULT_BLACK }, true); });
+        miniStrokeColorInput.addEventListener('input', () => { strokeColorInput.value = miniStrokeColorInput.value; applySelectedStyle({ strokeColor: miniStrokeColorInput.value }, false); });
+        miniStrokeColorInput.addEventListener('change', () => commitHistory());
+        clearStrokeButton.addEventListener('click', () => clearStroke(true));
+        miniClearStrokeButton.addEventListener('click', () => clearStroke(true));
+
+        strokeWidthInput.addEventListener('input', () => { updateLabels(); applySelectedStyle({ strokeWidth: Number(strokeWidthInput.value) }, false); });
+        strokeWidthInput.addEventListener('change', () => commitHistory());
+        miniStrokeWidthInput.addEventListener('input', () => { strokeWidthInput.value = miniStrokeWidthInput.value; updateLabels(); applySelectedStyle({ strokeWidth: Number(miniStrokeWidthInput.value) }, false); });
+        miniStrokeWidthInput.addEventListener('change', () => commitHistory());
+
+        fillColorInput.addEventListener('pointerdown', () => applyFillColor(fillColorInput.value, true));
+        fillColorInput.addEventListener('input', () => applyFillColor(fillColorInput.value, false));
+        fillColorInput.addEventListener('change', () => commitHistory());
+        miniFillColorInput.addEventListener('pointerdown', () => { fillColorInput.value = miniFillColorInput.value; applyFillColor(miniFillColorInput.value, true); });
+        miniFillColorInput.addEventListener('input', () => { fillColorInput.value = miniFillColorInput.value; applyFillColor(miniFillColorInput.value, false); });
+        miniFillColorInput.addEventListener('change', () => commitHistory());
+        clearFillButton.addEventListener('click', () => clearFill(true));
+        miniClearFillButton.addEventListener('click', () => clearFill(true));
+
+        fillOpacityInput.addEventListener('input', () => { updateLabels(); applySelectedStyle({ fillOpacity: Number(fillOpacityInput.value) / 100 }, false); });
+        fillOpacityInput.addEventListener('change', () => commitHistory());
+
+        alignButtons.forEach((button) => button.addEventListener('click', () => {
+          setButtonGroup(alignButtons, 'align', button.dataset.align);
+          applySelectedStyle({ textAlign: button.dataset.align }, true);
+        }));
+        valignButtons.forEach((button) => button.addEventListener('click', () => {
+          setButtonGroup(valignButtons, 'valign', button.dataset.valign);
+          applySelectedStyle({ verticalAlign: button.dataset.valign }, true);
+        }));
+        directionButtons.forEach((button) => button.addEventListener('click', () => {
+          setButtonGroup(directionButtons, 'direction', button.dataset.direction);
+          applySelectedStyle({ direction: button.dataset.direction }, true);
+        }));
+
+        repairColorInput.addEventListener('input', () => { if (state.tool === 'brush') updateBrushCursorVisibility(); });
+        brushSizeInput.addEventListener('input', () => { updateLabels(); updateBrushCursorVisibility(); });
+
+        floatingPalette.addEventListener('pointerdown', (event) => event.stopPropagation());
+        floatingPalette.addEventListener('click', (event) => event.stopPropagation());
+
+        document.addEventListener('keydown', (event) => {
+          if (document.activeElement === textEditor) return;
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') { event.preventDefault(); restoreHistory(state.historyIndex - 1); return; }
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'y') { event.preventDefault(); restoreHistory(state.historyIndex + 1); return; }
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'c') { event.preventDefault(); copySelected(); return; }
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'v') { event.preventDefault(); pasteClipboard(); return; }
+          if (event.key === 'Delete' || event.key === 'Backspace') {
+            if (selectedObject()) { event.preventDefault(); deleteSelected(); }
+          }
+        });
+
+        window.addEventListener('resize', () => { positionTextEditor(); positionFloatingPalette(); });
+      }
+
+      wireEvents();
+      applyCanvasCssSize();
+      updateButtons();
+      render();
+      setTool('select');
+    })();
+  </script>
+</body>
+</html>
