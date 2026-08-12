@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>hampでリアクティブ配置図を作る方法</title>
+    <meta
+      name="description"
+      content="hampのリアクティブ配置図エディタで、会場見取り図や既存配置図画像を下地に、スペース番号・ブロック・サークル情報を重ねて公開するまでの手順です。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="read-progress" aria-hidden="true"><span></span></div>
+
+    <header class="site-header">
+      <a class="brand" href="https://lp.hamp.ai" aria-label="hamp LPへ戻る">
+        <img class="brand-logo" src="./image/logo/logo.svg" alt="hamp" />
+      </a>
+      <nav class="header-nav" aria-label="ページ内メニュー">
+        <a class="header-cta" href="#flow">作業の流れ</a>
+        <a href="#prepare">準備</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">主催者向けガイド</p>
+          <h1>hampでリアクティブ配置図を作る方法</h1>
+          <p class="hero-lead">
+            会場の見取り図や既存の配置図画像を背景にして、hamp上のスペース番号・ブロック・サークル情報を重ね、あとから修正・検証・公開できる配置図を作る手順です。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#flow">手順を見る</a>
+            <a class="button button-secondary" href="#faq">よくあるつまずきへ</a>
+          </div>
+          <p class="hero-note">
+            既存の配置図画像を使う場合は、画像上のスペース枠や番号を一度消してから、hamp側のスペースを重ねるときれいに作れます。
+          </p>
+        </div>
+        <div
+          class="guide-shot guide-shot-hero js-guide-shot"
+          data-src="./images/reactive-layout/01-hero-editor-loaded.jpg"
+          data-title="リアクティブ配置図エディタ"
+          data-note="背景画像の上に、hampのSPデータを重ねて配置している画面を入れてください。"
+        ></div>
+      </section>
+
+      <section class="section" id="prepare">
+        <div class="section-heading">
+          <p class="eyebrow">準備</p>
+          <h2>最初に用意するもの</h2>
+          <p>配置図エディタに入る前に、下地画像とSPデータを揃えます。ここを整えると、後工程の修正が大きく減ります。</p>
+        </div>
+        <div class="prepare-list" aria-label="用意するもの一覧">
+          <article class="prepare-card">
+            <span>01</span>
+            <h3>イベント管理権限</h3>
+            <p>イベント管理画面に入れる主催者、または編集権限のあるアカウントでログインします。</p>
+          </article>
+          <article class="prepare-card">
+            <span>02</span>
+            <h3>サークル・SPデータ</h3>
+            <p>接頭辞、開始番号、SP数、サークルリスト、子イベントがある場合は対象イベントを確認します。</p>
+          </article>
+          <article class="prepare-card">
+            <span>03</span>
+            <h3>背景画像</h3>
+            <p>会場見取り図、ホール図、または既存配置図からスペース表示を消した画像を用意します。</p>
+          </article>
+          <article class="prepare-card">
+            <span>04</span>
+            <h3>色付き背景</h3>
+            <p>ジャンル分け、導線、本部、入口、特設エリアを強調したい場合は、背景側に色や文字を入れます。</p>
+          </article>
+          <article class="prepare-card">
+            <span>05</span>
+            <h3>ブロック設計</h3>
+            <p>横一列、縦一列、島、自由配置のどれで作るかを、実際の会場図に合わせて決めます。</p>
+          </article>
+          <article class="prepare-card">
+            <span>06</span>
+            <h3>公開前チェック</h3>
+            <p>SP数、接頭辞、番号重複、画面外にはみ出したSP、保存と公開の違いを確認します。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="flow">
+        <div class="section-heading">
+          <p class="eyebrow">進め方</p>
+          <h2>作業の流れ</h2>
+          <p>上から順番に進めます。会場見取り図から作る場合も、既存配置図画像から作る場合も、基本の流れは同じです。</p>
+        </div>
+        <ol class="flow-list">
+          <li><a href="#step-1"><span>1</span>リアクティブ配置図を理解する</a></li>
+          <li><a href="#step-2"><span>2</span>下地画像を作る</a></li>
+          <li><a href="#step-3"><span>3</span>エディタを使える状態にする</a></li>
+          <li><a href="#step-4"><span>4</span>背景画像とSPデータを読み込む</a></li>
+          <li><a href="#step-5"><span>5</span>ブロックを作成・調整する</a></li>
+          <li><a href="#step-6"><span>6</span>同じ接頭辞を分割する</a></li>
+          <li><a href="#step-7"><span>7</span>保存・書出し・公開する</a></li>
+          <li><a href="#step-8"><span>8</span>公開前に検証する</a></li>
+        </ol>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="toc" aria-label="ページ内目次">
+          <p>目次</p>
+          <a href="#step-1">1. リアクティブ配置図とは</a>
+          <a href="#step-2">2. 下地画像を作る</a>
+          <a href="#step-3">3. エディタの事前設定</a>
+          <a href="#step-4">4. 基本操作</a>
+          <a href="#step-5">5. ブロックの使い方</a>
+          <a href="#step-6">6. 接頭辞の分割</a>
+          <a href="#step-7">7. 保存・公開</a>
+          <a href="#step-8">8. 公開前チェック</a>
+          <a href="#faq">FAQ</a>
+        </aside>
+
+        <div class="guide-content">
+          <section class="step" id="step-1">
+            <div class="step-heading">
+              <span class="step-number">1</span>
+              <div>
+                <h2>リアクティブ配置図とは</h2>
+                <p>1枚の配置図画像を表示するのではなく、背景画像にSPデータを重ねて作る配置図です。</p>
+              </div>
+            </div>
+            <p>
+              通常の配置図画像は、スペース枠や番号が画像に焼き込まれています。リアクティブ配置図では、スペース番号やブロックをhamp上のデータとして扱うため、サークルリストやチェックリスト、検索機能と連動しやすくなります。
+            </p>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>項目</th><th>通常の配置図画像</th><th>リアクティブ配置図</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>作り方</td><td>完成画像をそのまま表示</td><td>背景画像にSPデータを重ねて作成</td></tr>
+                  <tr><td>スペース番号</td><td>画像に焼き込まれている</td><td>データとして編集可能</td></tr>
+                  <tr><td>修正</td><td>画像を作り直す必要がある</td><td>ブロック単位・SP単位で修正可能</td></tr>
+                  <tr><td>検証</td><td>目視確認が中心</td><td>重複・不足・画面外SPなどを確認可能</td></tr>
+                  <tr><td>公開後</td><td>画像表示のみ</td><td>サークルリストやチェックリストと連動しやすい</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/07-public-map.jpg"
+              data-title="公開ページの配置図表示"
+              data-note="参加者が見る配置図ページのスクリーンショットを入れてください。"
+            ></div>
+            <div class="info-box">
+              <h3>一言で説明するなら</h3>
+              <p>リアクティブ配置図は、「会場図」ではなく「会場図の上に置いたSPデータ」です。あとから直せて、照合できて、公開後の導線にもつなげられる点が違いです。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-2">
+            <div class="step-heading">
+              <span class="step-number">2</span>
+              <div>
+                <h2>下地画像を作る</h2>
+                <p>会場見取り図から作る場合と、既存配置図画像から作る場合で下準備が少し変わります。</p>
+              </div>
+            </div>
+            <div class="two-column">
+              <div class="mini-table">
+                <h3>会場見取り図から作る</h3>
+                <p>ホール図、白地図、区画図を背景に読み込み、その上にSPを配置します。背景に番号やサークル名が入っていなくても問題ありません。</p>
+              </div>
+              <div class="mini-table">
+                <h3>既存配置図画像から作る</h3>
+                <p>既に画像で配置図を作っている場合は、スペース枠・番号・サークル名を一度消してから背景として使います。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>元になる会場図、または既存配置図画像を用意します。</li>
+              <li>「配置図画像かんたん編集」で画像を開きます。</li>
+              <li>スポイトで背景色を取り、範囲上塗り・ブラシ上塗りで既存のスペース枠や番号を消します。</li>
+              <li>必要に応じて、色分け、案内線、入口、本部、矢印、注意書きを追加します。</li>
+              <li>WebPとして書き出し、配置図エディタの背景画像として使います。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/02-image-prep-tool.jpg"
+              data-title="配置図画像かんたん編集"
+              data-note="既存配置図画像のスペース部分を消したり、色付き背景を作ったりする下準備画面を入れてください。"
+            ></div>
+            <div class="warning-box">
+              <h3>既存画像をそのまま読み込まない</h3>
+              <p>既存画像にスペース枠や番号が残っていると、hamp側で重ねるSPと二重表示になります。背景だけに近い状態にしてから読み込むのが安全です。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-3">
+            <div class="step-heading">
+              <span class="step-number">3</span>
+              <div>
+                <h2>配置図エディタを使える状態にする</h2>
+                <p>下地画像だけでは完成しません。hamp上のSPデータと編集権限が必要です。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>イベント管理画面に入れるアカウントでログインします。</li>
+              <li>サークルリストを登録し、スペース接頭辞、番号、SP数を確認します。</li>
+              <li>子イベントがある場合は、どの子イベントの配置図を作るか確認します。</li>
+              <li>配置図エディタを開き、SPデータが読み込まれているか確認します。</li>
+              <li>背景画像がない場合は、先に下地画像を読み込みます。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/03-editor-sp-only.jpg"
+              data-title="SPデータのみ読み込み済みの状態"
+              data-note="SPデータはあるが背景画像がまだない状態のスクリーンショットを入れてください。"
+            ></div>
+            <div class="info-box">
+              <h3>「SPデータのみ読み込み済み」と表示されたら</h3>
+              <p>サークル・スペース情報は読み込まれていますが、背景画像がまだ入っていない状態です。「ファイル読込」から会場図や加工済み背景画像を読み込んでください。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-4">
+            <div class="step-heading">
+              <span class="step-number">4</span>
+              <div>
+                <h2>基本操作</h2>
+                <p>背景画像を読み込み、基本サイズを決め、ブロックを配置していきます。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>右上の「ファイル読込」から、会場見取り図または加工済み背景画像を読み込みます。</li>
+              <li>画面上部の「基本サイズ」で、1スペースあたりの幅と高さを設定します。</li>
+              <li>左側の「ブロック一覧」から既存ブロックを選ぶか、「新規ブロック」を押します。</li>
+              <li>ブロックを選択し、右側の編集パネルで接頭辞、SP数、開始番号、座標、方向、数字位置を調整します。</li>
+              <li>背景とSPの位置が合うように、ブロックをドラッグまたは数値入力で調整します。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/04-background-loaded.jpg"
+              data-title="背景画像を読み込んだ状態"
+              data-note="背景画像の上にブロックを重ねている画面を入れてください。"
+            ></div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>設定</th><th>何を変えるか</th><th>よく使う場面</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>基本サイズ</td><td>1SPの幅・高さ</td><td>全体の机サイズを合わせたいとき</td></tr>
+                  <tr><td>接頭辞</td><td>「A」「あ」「八百万」などのブロック名</td><td>サークルリストと照合するとき</td></tr>
+                  <tr><td>SP数</td><td>そのブロックに並べるスペース数</td><td>番号範囲を合わせたいとき</td></tr>
+                  <tr><td>開始番号</td><td>最初の番号</td><td>同じ接頭辞を分割するとき</td></tr>
+                  <tr><td>方向・数字位置</td><td>番号の並び順、通路側表示</td><td>会場図と番号向きを合わせたいとき</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="step" id="step-5">
+            <div class="step-heading">
+              <span class="step-number">5</span>
+              <div>
+                <h2>ブロックの使い方</h2>
+                <p>配置の形に合わせて、横一列・縦一列・島・自由配置を使い分けます。</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>ブロック種別</th><th>向いている配置</th><th>調整する項目</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>1列横ブロック</td><td>壁沿い、通路沿いの横並び</td><td>SP数、開始番号、方向、数字位置、幅・高さ</td></tr>
+                  <tr><td>1列縦ブロック</td><td>縦に並んだ机、細長いエリア</td><td>SP数、開始番号、方向、数字位置、幅・高さ</td></tr>
+                  <tr><td>島ブロック</td><td>複数行・複数列のまとまった島</td><td>行数、列数、番号順、誕生日席、奇数行・奇数列</td></tr>
+                  <tr><td>自由配置ブロック</td><td>斜め配置、変形会場、特設スペース</td><td>個別SPの位置、番号位置、手動調整</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/05-block-edit-panel.jpg"
+              data-title="ブロック編集パネル"
+              data-note="ブロック種別、接頭辞、SP数、開始番号、方向、数字位置を編集している画面を入れてください。"
+            ></div>
+            <div class="info-box">
+              <h3>迷ったときの選び方</h3>
+              <p>まずは1列横・1列縦・島で作ります。どうしても再現できない変形部分だけ自由配置にすると、後からの修正と検証がしやすくなります。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-6">
+            <div class="step-heading">
+              <span class="step-number">6</span>
+              <div>
+                <h2>同じ接頭辞を複数ブロックに分ける</h2>
+                <p>同じ接頭辞でも、実際の会場では複数列・複数箇所に分かれることがあります。</p>
+              </div>
+            </div>
+            <p>たとえば「八百万」という接頭辞で、実際の配置が複数列に分かれている場合は、接頭辞は同じまま、開始番号とSP数を変えてブロックを分割します。</p>
+            <div class="two-column">
+              <div class="mini-table">
+                <h3>分割例</h3>
+                <table>
+                  <tbody>
+                    <tr><td>八百万</td><td>01〜04</td></tr>
+                    <tr><td>八百万</td><td>05〜08</td></tr>
+                    <tr><td>八百万</td><td>09〜12</td></tr>
+                    <tr><td>八百万</td><td>13〜18</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mini-table">
+                <h3>注意点</h3>
+                <p>同じ接頭辞・同じ番号が重複しないようにしてください。番号が重なると検証で警告が出ます。</p>
+              </div>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/06-split-prefix-blocks.jpg"
+              data-title="同じ接頭辞を分割している状態"
+              data-note="同じ接頭辞のブロックを複数に分けて、開始番号とSP数を調整している画面を入れてください。"
+            ></div>
+          </section>
+
+          <section class="step" id="step-7">
+            <div class="step-heading">
+              <span class="step-number">7</span>
+              <div>
+                <h2>保存・SVG書き出し・公開</h2>
+                <p>作業中の保存と、参加者に見せる公開は別の操作です。</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>操作</th><th>意味</th><th>使うタイミング</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>途中保存</td><td>作業中のドラフトを保存します。参加者には公開されません。</td><td>作業を中断するとき、大きな修正前</td></tr>
+                  <tr><td>SVG書き出し</td><td>バックアップや再編集用に配置図をSVGで書き出します。</td><td>公開前、構成変更前、作業の区切り</td></tr>
+                  <tr><td>配置図を公開</td><td>参加者がイベントページの配置図タブで見られる状態にします。</td><td>検証と目視確認が終わった後</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warning-box">
+              <h3>途中保存だけでは公開されません</h3>
+              <p>参加者に見せるには、最後に「配置図を公開」を押す必要があります。公開前には必ず検証結果と実際の表示を確認してください。</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-8">
+            <div class="step-heading">
+              <span class="step-number">8</span>
+              <div>
+                <h2>公開前に検証する</h2>
+                <p>検証欄に警告が出ている場合は、公開前に原因を確認します。</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>背景画像が正しく読み込まれているか確認します。</li>
+              <li>スペースが背景の机・区画と重なって見やすいか確認します。</li>
+              <li>接頭辞がサークルリストと一致しているか確認します。</li>
+              <li>SP数がサークルリストと一致しているか確認します。</li>
+              <li>同じSP番号が重複していないか確認します。</li>
+              <li>キャンバス外にはみ出したSPがないか確認します。</li>
+              <li>番号の向きと数字位置が、実際の会場導線と合っているか確認します。</li>
+              <li>必要に応じてSVGを書き出してから、配置図を公開します。</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/reactive-layout/08-clean-background.jpg"
+              data-title="下地画像の確認"
+              data-note="公開前に、背景画像とSPデータのズレがないか確認している画面を入れてください。"
+            ></div>
+          </section>
+
+          <section class="section faq-section" id="faq">
+            <div class="section-heading compact">
+              <p class="eyebrow">FAQ</p>
+              <h2>よくあるつまずき</h2>
+            </div>
+            <div class="faq-list">
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  リアクティブ配置図とは何ですか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>会場図や配置図画像を背景にして、その上にhamp上のスペース番号・ブロック・サークル情報をデータとして重ねる配置図です。画像だけでなく、SPを編集・検証・公開できる点が違います。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  通常の配置図画像と何が違いますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>通常の配置図画像は完成した1枚絵です。リアクティブ配置図は背景画像とSPデータを分けて扱うため、番号の修正、ブロック単位の調整、サークルリストとの差分確認がしやすくなります。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  会場の見取り図から作れますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>作れます。会場の見取り図、ホール図、白地図、区画図を背景画像として読み込み、その上にSPデータを配置します。背景はできるだけシンプルな方が見やすくなります。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  既に画像で配置図を作っている場合はどうしますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>既存画像に入っているスペース枠・番号・サークル名を一度消して、背景だけに近い状態にしてから読み込みます。そのまま使うと、hamp側のSPと二重表示になります。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  色付きの配置図は作れますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>作れます。ジャンル別の色分け、入口・出口・本部・通路の強調、特設エリアの囲みなどを背景画像側に入れ、その上にリアクティブなSPデータを重ねます。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  「SPデータのみ読み込み済み」と表示されています
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>サークル・スペース情報は読み込まれていますが、背景画像がまだない状態です。「ファイル読込」から会場見取り図や加工済み背景画像を読み込んでください。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  同じ接頭辞のブロックを複数に分けられますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>分けられます。接頭辞は同じまま、開始番号とSP数を変えてブロックを分割します。同じ番号が重複しないように注意してください。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  番号の向きや数字位置は変えられますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>変えられます。ブロック編集パネルで方向や数字位置を調整します。通路側に数字を出したい場合や、番号順が逆になっている場合に使います。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  手動で動かしたSPを元に戻せますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>戻せます。手動変更済みになっている場合は、「ルール配置に戻す」を使うと、ブロック設定に従った配置へ戻せます。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  検証で警告が出たらどうしますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>キャンバス外にはみ出したSP、SP数の不足・過剰、サークルリストにないブロック、番号重複がないか確認します。公開前に意図しない警告は解消してください。</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  途中保存と配置図の公開は何が違いますか？
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>途中保存は作業中のドラフト保存です。参加者には公開されません。参加者に見せるには、確認後に「配置図を公開」を押します。</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>© hamp</p>
+      <a href="#top">ページ上部へ戻る</a>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
