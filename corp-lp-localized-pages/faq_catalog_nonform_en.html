@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How to Create a Catalog with hamp</title>
+    <meta
+      name="description"
+      content="A step-by-step guide to creating an event page in hamp, importing a list of participating circles and circle-cut images, and publishing a web catalog."
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260813-3" />
+    <link rel="alternate" hreflang="ja" href="./faq_catalog_nonform.html" />
+    <link rel="alternate" hreflang="en" href="./faq_catalog_nonform_en.html" />
+    <link rel="alternate" hreflang="ko" href="./faq_catalog_nonform_ko.html" />
+    <link rel="alternate" hreflang="x-default" href="./faq_catalog_nonform.html" />
+  </head>
+  <body>
+    <div class="read-progress" aria-hidden="true"><span></span></div>
+
+    <header class="site-header">
+      <a class="brand" href="https://lp.hamp.ai" aria-label="Return to the hamp website">
+        <img class="brand-logo" src="./image/logo/logo.svg" alt="hamp" />
+      </a>
+      <nav class="header-nav" aria-label="On-page navigation">
+        <a class="header-cta" href="#flow">Workflow</a>
+        <a href="#step-8">Grant Access</a>
+        <a href="#faq">Troubleshooting</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">Guide for Event Organizers</p>
+          <h1>How to Create a Catalog with hamp</h1>
+          <p class="hero-lead">
+            This guide covers catalog-only use—publishing an existing participant list without using hamp's circle application form. You will create an event page, import your participating-circle list and circle-cut images, and publish an easy-to-browse web catalog for attendees. Here, “circle” means an exhibitor or creator group, and a “circle cut” is the image used for that circle's catalog entry.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#flow">View the Steps</a>
+          </div>
+          <p class="hero-note">
+            <strong>Interface language:</strong> The current hamp interface and all screenshots in this guide are in Japanese. Look for the Japanese text shown first in each instruction; its English meaning follows in parentheses. For example: 「イベント作成・管理」 (Create / Manage Events). After publishing the catalog, request activation URLs so each participating circle can edit its own information. hamp staff must approve these URLs before they can be issued.
+          </p>
+        </div>
+        <div
+          class="guide-shot guide-shot-hero js-guide-shot"
+          data-src="./images/13-final-public-page.png"
+          data-link="https://hamp.ai/event/nagoya2026?subEvent=+%E6%9D%B1%E6%96%B9%E5%90%8D%E8%8F%AF%E7%A5%AD20"
+          data-title="「カタログページ」 (Catalog Page)"
+          data-note="Example of the public page attendees will see."
+        ></div>
+      </section>
+
+      <section class="section" id="prepare">
+        <div class="section-heading">
+          <p class="eyebrow">Before You Begin</p>
+          <h2>What to Prepare</h2>
+          <p>Gather the following information before you start so you can move through the setup screens smoothly. You can update anything that has not been finalized yet.</p>
+        </div>
+        <div class="prepare-list" aria-label="Items to prepare">
+          <article class="prepare-card">
+            <span>01</span>
+            <h3>Event Name</h3>
+            <p>Example: 日本創作イベント2026 (Japan Original Works Event 2026)</p>
+          </article>
+          <article class="prepare-card">
+            <span>02</span>
+            <h3>Date and Time</h3>
+            <p>The event date, start time, and end time</p>
+          </article>
+          <article class="prepare-card">
+            <span>03</span>
+            <h3>Venue Details</h3>
+            <p>The venue name and address, or the event format if it will be held online</p>
+          </article>
+          <article class="prepare-card">
+            <span>04</span>
+            <h3>Main Image</h3>
+            <p>The image displayed at the top of the event page. A landscape image with a 16:9 aspect ratio is recommended.</p>
+          </article>
+          <article class="prepare-card">
+            <span>05</span>
+            <h3>Thumbnail Image</h3>
+            <p>A square image displayed in event listings and similar locations</p>
+          </article>
+          <article class="prepare-card">
+            <span>06</span>
+            <h3>Participating-Circle List</h3>
+            <p>Your existing circle list in Excel, Numbers, CSV, or a similar format</p>
+          </article>
+          <article class="prepare-card">
+            <span>07</span>
+            <h3>Circle-Cut Images</h3>
+            <p>Optional. You can add these later if they are not ready yet.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="flow">
+        <div class="section-heading">
+          <p class="eyebrow">Process</p>
+          <h2>Workflow</h2>
+          <p>Complete these steps in order. The workflow covers everything from creating the event through granting circles permission to edit their information after publication.</p>
+        </div>
+        <ol class="flow-list">
+          <li><a href="#step-1"><span>1</span>Create an event</a></li>
+          <li><a href="#step-2"><span>2</span>Enter the event's basic information</a></li>
+          <li><a href="#step-3"><span>3</span>Download the template</a></li>
+          <li><a href="#step-4"><span>4</span>Enter circle information</a></li>
+          <li><a href="#step-5"><span>5</span>Upload the circle list</a></li>
+          <li><a href="#step-6"><span>6</span>Upload circle-cut images</a></li>
+          <li><a href="#step-7"><span>7</span>Apply the data to the live site and check the public page</a></li>
+          <li><a href="#step-8"><span>8</span>Request activation URLs</a></li>
+        </ol>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="toc" aria-label="Table of contents">
+          <p>Contents</p>
+          <a href="#step-1">1. Create an event</a>
+          <a href="#step-2">2. Enter basic information</a>
+          <a href="#step-3">3. Download the template</a>
+          <a href="#step-4">4. Enter circle information</a>
+          <a href="#step-5">5. Upload the list</a>
+          <a href="#step-6">6. Upload circle cuts</a>
+          <a href="#step-7">7. Apply and check the catalog</a>
+          <a href="#step-8">8. Request activation URLs</a>
+          <a href="#faq">Troubleshooting</a>
+        </aside>
+
+        <div class="guide-content">
+          <section class="step" id="step-1">
+            <div class="step-heading">
+              <span class="step-number">1</span>
+              <div>
+                <h2>Create an Event</h2>
+                <p>Sign in to hamp, then create the event page that will contain your catalog.</p>
+              </div>
+            </div>
+            <div class="screen-route" aria-label="Navigation path to the event creation screen">
+              <p>Where to click</p>
+              <ol>
+                <li>「hampトップ」 (hamp Home)</li>
+                <li>「イベント作成・管理」 (Create / Manage Events)</li>
+                <li>「イベントを作成する」 (Create an Event)</li>
+                <li>「同人即売会」 (Doujinshi Sales Event)</li>
+              </ol>
+            </div>
+            <ol class="task-list">
+              <li>Sign in to hamp.</li>
+              <li>On the hamp home page, select <strong class="ui-label">「イベント作成・管理」 (Create / Manage Events)</strong>.</li>
+              <li>On the event management screen, select <strong class="ui-label">「イベントを作成する」 (Create an Event)</strong>.</li>
+              <li>Under event type, select <strong class="ui-label">「同人即売会」 (Doujinshi Sales Event)</strong>.</li>
+              <li>Choose <strong class="ui-label">「単独の主催」 (Standalone Event)</strong> or <strong class="ui-label">「親子型の主催」 (Parent–Child Event Structure)</strong>, depending on how your event is organized.</li>
+              <li>Enter the <strong class="ui-label">「タイトル・イベント名」 (Title / Event Name)</strong>.</li>
+              <li>For <strong class="ui-label">「URL末尾」 (URL Slug)</strong>, enter at least three half-width letters, numbers, hyphens, or underscores.</li>
+              <li>Review the information, then select <strong class="ui-label">「作成」 (Create)</strong>.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/01-create-event.png"
+              data-title="「イベント管理」 (Event Management) / Create a New Event screen"
+              data-note="This screen opens after you select 「イベントを作成する」 (Create an Event). Choose the event structure and enter the event name and URL slug."
+            ></div>
+            <p class="shot-caption">Example: 「イベントを作成する」 (Create an Event) opened from the event management screen</p>
+            <div class="info-box">
+              <h3>Choosing 「単独の主催」 (Standalone Event) or 「親子型の主催」 (Parent–Child Event Structure)</h3>
+              <p>Choose 「単独の主催」 (Standalone Event) when one event has one event name and one catalog.</p>
+              <p>Choose 「親子型の主催」 (Parent–Child Event Structure) when a joint event contains multiple themed or “only” events and you want each catalog displayed on a separate tab.</p>
+            </div>
+            <div class="info-box">
+              <h3>What Is 「URL末尾」 (URL Slug)?</h3>
+              <p>
+                This is the text used at the end of the event page URL. For example, if you enter <code>nihonsousaku2026</code>, that text becomes the final part of the event page URL.
+              </p>
+              <p>Do not use Japanese characters or spaces. Use half-width letters, numbers, hyphens, and underscores only.</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-2">
+            <div class="step-heading">
+              <span class="step-number">2</span>
+              <div>
+                <h2>Enter the Event's Basic Settings</h2>
+                <p>After creating the event, open 「基本設定」 (Basic Settings) from 「即売会トップ」 (Sales Event Home) in event management, then enter the information attendees will see.</p>
+              </div>
+            </div>
+            <ol class="task-list task-list-compact">
+              <li>In event management, open <strong class="ui-label">「即売会トップ」 (Sales Event Home)</strong> for the event you want to edit.</li>
+              <li>From the menu, open <strong class="ui-label">「基本設定」 (Basic Settings)</strong>.</li>
+              <li>Complete every item required for publication. Add optional information as needed.</li>
+              <li>Select <strong class="ui-label">「更新して保存」 (Update and Save)</strong>.</li>
+              <li>When you are ready to make the event publicly visible, change its visibility from <strong class="ui-label">「非公開」 (Private)</strong> to <strong class="ui-label">「公開」 (Public)</strong>, then select <strong class="ui-label">「更新して保存」 (Update and Save)</strong> again.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/02-basic-settings.png?v=20260813"
+              data-title="Current 「基本設定」 (Basic Settings) screen"
+              data-note="Use this screen to set the main image, thumbnail, basic information, detailed description, genre tags, date and location, venue layout, and related links."
+            ></div>
+            <p class="shot-caption">Example: the current 「基本設定」 (Basic Settings) screen. Green and red labels identify fields needed for publication.</p>
+
+            <div class="settings-section">
+              <div class="settings-heading">
+                <h3>Fields Required for Publication</h3>
+                <p>These fields are marked 「必須」 (Required) or 「一般公開に必要」 (Required for Public Release) on the screen.</p>
+              </div>
+              <dl class="setting-list">
+                <div class="setting-row">
+                  <dt>「トップ画像」 (Main Image) <span class="field-status field-status-required">「公開に必要」 (Required for Public Release)</span></dt>
+                  <dd>A landscape image displayed at the top of the event page. A 16:9 image at 1080p to 4K is recommended.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「サムネイル」 (Thumbnail) <span class="field-status field-status-required">「公開に必要」 (Required for Public Release)</span></dt>
+                  <dd>A square image displayed in event listings and similar locations. Approximately 1,000 px square is recommended.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「イベント名」 (Event Name) <span class="field-status field-status-mandatory">「必須」 (Required)</span></dt>
+                  <dd>Enter the event's official name exactly as you want attendees to see it.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「URL末尾」 (URL Slug) <span class="field-status field-status-mandatory">「必須」 (Required)</span></dt>
+                  <dd>This is used in the event page URL. Enter at least three half-width letters, numbers, hyphens, or underscores.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「簡単な説明」 (Short Description) <span class="field-status field-status-required">「公開に必要」 (Required for Public Release)</span></dt>
+                  <dd>Enter a short sentence that clearly tells attendees what the event is about.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「ジャンルタグ」 (Genre Tags) <span class="field-status field-status-mandatory">「必須」 (Required)</span></dt>
+                  <dd>Add at least one genre that fits the event. You can add up to ten.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「開催日時・場所」 (Date, Time, and Location) <span class="field-status field-status-mandatory">「必須」 (Required)</span></dt>
+                  <dd>Set the event date, timetable, venue name, and address.</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="settings-section">
+              <div class="settings-heading">
+                <h3>Fields to Set as Needed</h3>
+                <p>Add these according to how your event will operate and what attendees need to know.</p>
+              </div>
+              <dl class="setting-list">
+                <div class="setting-row">
+                  <dt>「イベント名（読み）」 (Event Name Reading) <span class="field-status">「任意」 (Optional)</span></dt>
+                  <dd>Enter the event name's reading in hiragana or katakana.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「詳細説明」 (Detailed Description)</dt>
+                  <dd>Select 「詳細説明を編集」 (Edit Detailed Description) and add complete event guidance.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「タイムライン」 (Timeline)</dt>
+                  <dd>If you will use the timeline for this event, set it to 「有効」 (Enabled).</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「配置図」 (Venue Layout)</dt>
+                  <dd>Select 「配置図エディタを開く」 (Open Layout Editor) to create or edit the venue layout.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「リンクの一括設定」 (Bulk Link Settings)</dt>
+                  <dd>Enter URLs shared by all child events, such as the event website, X account, circle application form, and ticket sales page. Enter event-specific links in each child event's settings.</dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="step" id="step-3">
+            <div class="step-heading">
+              <span class="step-number">3</span>
+              <div>
+                <h2>Download the Circle-List Template</h2>
+                <p>Download the template used to register participating circles.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>On the event management screen, open 「参加サークル」 (Participating Circles).</li>
+              <li>Under 「hamp外イベント用テンプレート」 (Template for Events Outside hamp), select 「EXCELテンプレートをDL」 (Download Excel Template).</li>
+              <li>Open the downloaded file.</li>
+            </ol>
+            <div class="info-box">
+              <h3>If You Use Numbers on a Mac</h3>
+              <p>Select 「CSV形式でダウンロード」 (Download as CSV) before downloading the template.</p>
+            </div>
+            <p><strong>Do not translate, rename, or delete the Japanese column names in the template's header row.</strong> hamp uses those exact headings when importing the file.</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/03-template-download.png"
+              data-title="Template download screen"
+              data-note="On 「参加サークル」 (Participating Circles), this screen shows the CSV checkbox and 「EXCELテンプレートをDL」 (Download Excel Template) button."
+            ></div>
+          </section>
+
+          <section class="step" id="step-4">
+            <div class="step-heading">
+              <span class="step-number">4</span>
+              <div>
+                <h2>Enter Circle Information in the Template</h2>
+                <p>Open the template and enter one circle per row. Keep each piece of information in its designated column.</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>Template Column</th><th>What to Enter</th><th>Example</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>「スペース」 (Space)</td><td>The circle's booth or space code</td><td>A-01, あ-02, A-04,05</td></tr>
+                  <tr><td>「サークル名」 (Circle Name)</td><td>The circle's display name</td><td>hamp開発</td></tr>
+                  <tr><td>「サークル名（カナ）ひらがな・カタカナ」 (Circle Name in Hiragana or Katakana)</td><td>The circle name's Japanese phonetic reading</td><td>はんぷかいはつ</td></tr>
+                  <tr><td>「作家名」 (Creator Name)</td><td>The representative's name, pen name, or creator name</td><td>開発主任</td></tr>
+                  <tr><td>「作家名（カナ）ひらがな・カタカナ」 (Creator Name in Hiragana or Katakana)</td><td>The creator name's Japanese phonetic reading</td><td>かいはつしゅにん</td></tr>
+                  <tr><td>「サークルカット」 (Circle Cut)</td><td>The circle-cut image's file name, without the extension</td><td>cut01</td></tr>
+                  <tr><td>「メールアドレス」 (Email Address)</td><td>Enter only when needed</td><td>circle@example.com</td></tr>
+                  <tr><td>「X（Twitter）」 (X (Twitter))</td><td>The circle's X URL or ID</td><td>https://x.com/example</td></tr>
+                  <tr><td>pixiv</td><td>The circle's pixiv URL or ID</td><td>https://www.pixiv.net/users/xxxxx</td></tr>
+                  <tr><td>「HP・Web」 (Website)</td><td>The circle's website URL</td><td>https://example.com</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warning-box">
+              <h3>Rules for Entering Space Codes</h3>
+              <ul>
+                <li>Always place a half-width hyphen <code>-</code> between the block name and space number.</li>
+                <li>Valid entries include <code>A-01</code>, <code>あ-2</code>, <code>その他-01</code>, and <code>デジタル-02</code>. Japanese block names are accepted.</li>
+                <li>Suffixes such as <code>あ-01a</code> and <code>A-01b</code> are supported.</li>
+                <li>For two spaces, enter a half-width comma <code>,</code> between the space numbers, as in <code>あ-01,02</code>.</li>
+                <li>For two spaces distinguished by the suffixes in <code>あ-01a</code> and <code>あ-01b</code>, enter <code>あ-01ab</code>.</li>
+              </ul>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/04-template-filled.png"
+              data-title="Completed template example"
+              data-note="Example entries in the 「スペース」 (Space), 「サークル名」 (Circle Name), 「作家名」 (Creator Name), and 「サークルカット」 (Circle Cut) columns in Excel or Numbers."
+            ></div>
+
+            <div class="subsection" id="cut-name">
+              <h3>If You Will Register Circle-Cut Images</h3>
+              <p>In the 「サークルカット」 (Circle Cut) column, enter each image's file name without its extension. The Japanese circle names below are valid sample inputs; use each circle's actual display name in your file.</p>
+              <div class="two-column">
+                <div class="mini-table">
+                  <h4>Template Entries</h4>
+                  <table>
+                    <tbody>
+                      <tr><td>あめんぼ</td><td>cut01</td></tr>
+                      <tr><td>あかいな</td><td>cut02</td></tr>
+                      <tr><td>hamp開発</td><td>cut03</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mini-table">
+                  <h4>Image File Names</h4>
+                  <table>
+                    <tbody>
+                      <tr><td>cut01</td><td>cut01.png</td></tr>
+                      <tr><td>cut02</td><td>cut02.jpg</td></tr>
+                      <tr><td>cut03</td><td>cut03.webp</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <p>If a name in the template does not match its image file name, the circle cut may not be linked correctly. Put all images directly inside one folder; do not create additional folders inside it.</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-5">
+            <div class="step-heading">
+              <span class="step-number">5</span>
+              <div>
+                <h2>Upload the Circle List</h2>
+                <p>After completing the template, save it and upload it to hamp.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>Save the completed template.</li>
+              <li>On the hamp event management screen, open 「参加サークル」 (Participating Circles).</li>
+              <li>Select 「サークル追加」 (Add Circles) to open 「サークルリストアップロード」 (Circle List Upload).</li>
+              <li>Select 「TSV/Excel/Numbersファイルを選択」 (Choose a TSV/Excel/Numbers File), then choose the template you saved.</li>
+              <li>Choose 「リストへの追加」 (Add to List) to keep the existing list, or 「リストの置換」 (Replace List) only when you intend to replace the entire list.</li>
+              <li>Select 「アップロード」 (Upload).</li>
+              <li>Wait until the upload finishes before leaving the page.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/05-upload-list.png"
+              data-title="Circle-list upload screen"
+              data-note="After selecting 「サークル追加」 (Add Circles), use 「TSV/Excel/Numbersファイルを選択」 (Choose a TSV/Excel/Numbers File), choose how to handle the existing list, and select 「アップロード」 (Upload)."
+            ></div>
+            <p>After the upload, the imported circles appear in the circle list. Confirm that 「状態」 (Status) shows <strong>OK</strong> for every circle.</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/06-upload-result-ok.png"
+              data-title="Post-upload confirmation screen"
+              data-note="This screen shows the imported circle list and an OK result under 「状態」 (Status)."
+            ></div>
+
+            <div class="subsection" id="replace-add">
+              <h3>If a Circle List Already Exists</h3>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr><th>Option</th><th>When to Use It</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>「リストの置換」 (Replace List)</td><td>Use this to delete the entire current list and replace it with a new one.</td></tr>
+                    <tr><td>「リストへの追加」 (Add to List)</td><td>Use this to keep the current list and add only new circles.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>If you are unsure, use 「リストへの追加」 (Add to List). Use 「リストの置換」 (Replace List) only when you intend to re-import all circle information.</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-6">
+            <div class="step-heading">
+              <span class="step-number">6</span>
+              <div>
+                <h2>Upload Circle-Cut Images</h2>
+                <p>If you will register circle-cut images, do this after uploading the circle list.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>On the event management screen, open 「参加サークル」 (Participating Circles).</li>
+              <li>Select 「カット」 (Cuts).</li>
+              <li>On 「サークルカット管理」 (Circle Cut Management), open 「一括アップロード」 (Bulk Upload).</li>
+              <li>Drag a ZIP file or folder onto 「ZIPファイルまたはフォルダをドロップ」 (Drop a ZIP File or Folder). To choose a folder through a dialog instead, select 「フォルダ選択」 (Choose Folder).</li>
+              <li>Follow the on-screen confirmation and wait for the upload to finish.</li>
+            </ol>
+            <div class="info-box">
+              <h3>Match the File Names Exactly</h3>
+              <p>If you entered <code>cut01</code> in the template, name the corresponding image <code>cut01.png</code> or <code>cut01.jpg</code>.</p>
+              <p>Images may also be linked when their names match the circle or creator name, but simple identifiers such as <code>cut01</code> and <code>cut02</code> reduce mistakes.</p>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/07-cut-upload.png"
+              data-title="Circle-cut bulk-upload screen"
+              data-note="On 「サークルカット管理」 (Circle Cut Management), open 「一括アップロード」 (Bulk Upload), then drag in a ZIP file or folder or use 「フォルダ選択」 (Choose Folder)."
+            ></div>
+          </section>
+
+          <section class="step" id="step-7">
+            <div class="step-heading">
+              <span class="step-number">7</span>
+              <div>
+                <h2>Apply the Data to the Live Site and Check the Public Page</h2>
+                <p>After registering the circle list and circle-cut images, complete both publishing controls—apply the latest data to the live site and publish the circles—then check exactly what attendees will see.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>On the event management screen, open 「参加サークル」 (Participating Circles).</li>
+              <li>Confirm that each circle's status is OK.</li>
+              <li>Select 「本番反映」 (Apply to Live Site), then confirm that it changes to 「反映済み」 (Applied to Live Site).</li>
+              <li>Set 「サークル公開」 (Publish Circles) to 「公開」 (Public).</li>
+              <li>Confirm both states at the same time: 「反映済み」 (Applied to Live Site) and 「公開」 (Public). A circle status of OK alone does not publish the catalog.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/09-production-reflect.png"
+              data-title="「本番反映」 (Apply to Live Site) and 「サークル公開」 (Publish Circles) screen"
+              data-note="These are separate publishing controls. Complete 「本番反映」 (Apply to Live Site) and set 「サークル公開」 (Publish Circles) to 「公開」 (Public)."
+            ></div>
+            <div class="info-box">
+              <h3>If You Need to Change the Block Order</h3>
+              <p>From 「参加サークル」 (Participating Circles) on the event management screen, open 「ブロック」 (Blocks). After changing the order, select 「変更を保存」 (Save Changes).</p>
+            </div>
+            <ol class="task-list">
+              <li>On the event management screen, select 「公開ページへ」 (View Public Page).</li>
+              <li>Confirm that the circle list appears on the public page.</li>
+              <li>Check every circle's name, creator name, space assignment, and circle cut.</li>
+              <li>Check that the circles appear in the intended order.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/08-public-catalog.png"
+              data-title="Public catalog confirmation screen"
+              data-note="This public page shows the circle list and circle-cut images as attendees will see them."
+            ></div>
+            <p>If you change circle information later, review the change, select 「本番反映」 (Apply to Live Site) again, and recheck the public page.</p>
+          </section>
+
+          <section class="step" id="step-8">
+            <div class="step-heading">
+              <span class="step-number">8</span>
+              <div>
+                <h2>Request Activation URLs</h2>
+                <p>Once the catalog is published, prepare to let each participating circle edit its own information.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>Confirm both publishing states: 「公開」 (Public) and 「反映済み」 (Applied to Live Site).</li>
+              <li>Use the <a class="text-link" href="https://hamp.ai/about/form">official hamp inquiry form</a> to request activation URLs. Include the event name and public-page URL so the team can identify the event.</li>
+              <li>After hamp staff approve the request, receive the issued activation URLs.</li>
+              <li>Send the correct activation URL to each participating circle so it can claim editing access to its own entry.</li>
+            </ol>
+            <div class="info-box">
+              <h3>hamp Staff Approval Is Required</h3>
+              <p>At present, hamp staff must approve activation URLs before they are issued. Follow the sharing instructions provided by hamp staff when sending the URLs to participating circles.</p>
+            </div>
+          </section>
+
+          <section class="section faq-section" id="faq">
+            <div class="section-heading compact">
+              <p class="eyebrow">FAQ</p>
+              <h2>Common Problems</h2>
+            </div>
+            <div class="faq-list">
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  I am not sure which template columns to fill in.
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Start with 「スペース」 (Space), 「サークル名」 (Circle Name), 「サークル名（カナ）ひらがな・カタカナ」 (Circle Name in Hiragana or Katakana), 「作家名」 (Creator Name), and 「作家名（カナ）ひらがな・カタカナ」 (Creator Name in Hiragana or Katakana). You can register the list without circle cuts or social-media links and add them later.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  A circle-cut image is not displayed.
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Confirm that the name in the 「サークルカット」 (Circle Cut) column matches the image file name. Also check that the image is not inside a nested folder and that the same image name is not used for more than one circle.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  I am worried that I might overwrite the existing list by mistake.
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>If you only need to add a few circles, use 「リストへの追加」 (Add to List). Use 「リストの置換」 (Replace List) only when you intend to re-import all circle information.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  What is a child event?
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>A child event corresponds to one catalog tab. For example, if a joint event contains several differently named sales events at the same venue on the same day, create two or more child events to give each one its own catalog tab. Every event must have at least one child event.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  The circle list does not appear on the public page.
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Confirm that you completed both 「本番反映」 (Apply to Live Site) and 「サークル公開」 (Publish Circles). Even if each circle's status is OK, the circle list will not appear on the public page until both steps are complete.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>© hamp</p>
+      <nav class="language-nav" aria-label="Choose a language">
+        <a href="./faq_catalog_nonform.html" lang="ja">日本語</a>
+        <a href="./faq_catalog_nonform_en.html" lang="en" aria-current="page">English</a>
+        <a href="./faq_catalog_nonform_ko.html" lang="ko">한국어</a>
+      </nav>
+      <a href="#top">Back to Top</a>
+    </footer>
+
+    <script src="./script.js?v=20260813-2"></script>
+  </body>
+</html>

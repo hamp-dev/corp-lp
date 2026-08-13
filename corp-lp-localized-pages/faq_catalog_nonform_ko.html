@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>hamp에서 카탈로그 만드는 방법</title>
+    <meta
+      name="description"
+      content="hamp에서 이벤트 페이지를 만들고 참가 서클 목록과 서클 컷을 등록하여 웹 카탈로그를 공개하기까지의 절차를 처음부터 차근차근 설명합니다."
+    />
+    <link rel="alternate" hreflang="ja" href="./faq_catalog_nonform.html" />
+    <link rel="alternate" hreflang="en" href="./faq_catalog_nonform_en.html" />
+    <link rel="alternate" hreflang="ko" href="./faq_catalog_nonform_ko.html" />
+    <link rel="alternate" hreflang="x-default" href="./faq_catalog_nonform.html" />
+    <link rel="stylesheet" href="./styles.css?v=20260813-3" />
+  </head>
+  <body>
+    <div class="read-progress" aria-hidden="true"><span></span></div>
+
+    <header class="site-header">
+      <a class="brand" href="https://lp.hamp.ai" aria-label="hamp 홈페이지로 돌아가기">
+        <img class="brand-logo" src="./image/logo/logo.svg" alt="hamp" />
+      </a>
+      <nav class="header-nav" aria-label="페이지 내 메뉴">
+        <a class="header-cta" href="#flow">전체 절차</a>
+        <a href="#step-8">편집 권한 부여</a>
+        <a href="#faq">자주 막히는 부분</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow">주최자용 가이드</p>
+          <h1>hamp에서 카탈로그 만드는 방법</h1>
+          <p class="hero-lead">
+            hamp의 서클 참가 신청 폼은 사용하지 않고, 이미 가지고 있는 참가자 명단으로 카탈로그만 공개하는 방법을 설명합니다. 이벤트 페이지를 만들고 참가 서클 목록과 서클 컷을 등록한 뒤, 참가자가 보기 편한 웹 카탈로그를 공개하기까지 순서대로 안내합니다. 여기서 ‘서클’은 창작자·출전자 팀을, ‘서클 컷’은 카탈로그에 표시되는 대표 이미지를 뜻합니다.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#flow">절차 보기</a>
+          </div>
+          <p class="hero-note">
+            <strong>화면 언어 안내:</strong> 현재 hamp의 화면과 이 가이드의 스크린샷은 일본어로 표시됩니다. 각 단계에서는 화면에서 찾아야 할 정확한 일본어를 먼저 쓰고, 그 뒤에 한국어 뜻을 덧붙였습니다. 예: 「イベント作成・管理」(이벤트 생성·관리). 실제 화면에서는 앞쪽의 일본어를 찾아 주세요. 카탈로그 공개 후에는 「アクティベートURL」(활성화 URL)을 발급하여 서클 참가자에게 편집 권한을 부여하며, 발급에는 hamp 운영팀의 승인이 필요합니다.
+          </p>
+        </div>
+        <div
+          class="guide-shot guide-shot-hero js-guide-shot"
+          data-src="./images/13-final-public-page.png"
+          data-link="https://hamp.ai/event/nagoya2026?subEvent=+%E6%9D%B1%E6%96%B9%E5%90%8D%E8%8F%AF%E7%A5%AD20"
+          data-title="카탈로그 페이지"
+          data-note="참가자에게 실제로 표시되는 공개 카탈로그 페이지의 예시입니다."
+        ></div>
+      </section>
+
+      <section class="section" id="prepare">
+        <div class="section-heading">
+          <p class="eyebrow">사전 준비</p>
+          <h2>먼저 준비할 것</h2>
+          <p>입력 화면에서 헤매지 않도록 아래 정보를 미리 준비해 두세요. 아직 정해지지 않은 내용은 나중에 수정할 수 있습니다.</p>
+        </div>
+        <div class="prepare-list" aria-label="준비할 항목 목록">
+          <article class="prepare-card">
+            <span>01</span>
+            <h3>이벤트명</h3>
+            <p>예: 日本創作イベント2026(일본어 이벤트명 예시)</p>
+          </article>
+          <article class="prepare-card">
+            <span>02</span>
+            <h3>개최 날짜·시간</h3>
+            <p>개최일, 시작 시간, 종료 시간</p>
+          </article>
+          <article class="prepare-card">
+            <span>03</span>
+            <h3>행사장 정보</h3>
+            <p>행사장 이름과 주소. 온라인 행사라면 개최 방식을 준비합니다.</p>
+          </article>
+          <article class="prepare-card">
+            <span>04</span>
+            <h3>상단 이미지</h3>
+            <p>이벤트 페이지 상단에 표시할 이미지입니다. 16:9 가로형 이미지를 권장합니다.</p>
+          </article>
+          <article class="prepare-card">
+            <span>05</span>
+            <h3>썸네일 이미지</h3>
+            <p>이벤트 목록 등에 표시되는 정사각형 이미지입니다.</p>
+          </article>
+          <article class="prepare-card">
+            <span>06</span>
+            <h3>참가 서클 목록</h3>
+            <p>Excel, Numbers, CSV 등으로 관리하고 있는 서클 목록입니다.</p>
+          </article>
+          <article class="prepare-card">
+            <span>07</span>
+            <h3>서클 컷 이미지</h3>
+            <p>선택 사항입니다. 아직 모두 준비되지 않았다면 나중에 등록해도 됩니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="flow">
+        <div class="section-heading">
+          <p class="eyebrow">진행 방법</p>
+          <h2>전체 작업 순서</h2>
+          <p>위에서부터 차례대로 진행하세요. 카탈로그 제작부터 공개 후 편집 권한 부여까지의 전체 흐름입니다.</p>
+        </div>
+        <ol class="flow-list">
+          <li><a href="#step-1"><span>1</span>이벤트 만들기</a></li>
+          <li><a href="#step-2"><span>2</span>이벤트 기본 정보 등록하기</a></li>
+          <li><a href="#step-3"><span>3</span>템플릿 다운로드하기</a></li>
+          <li><a href="#step-4"><span>4</span>서클 정보 입력하기</a></li>
+          <li><a href="#step-5"><span>5</span>서클 목록 업로드하기</a></li>
+          <li><a href="#step-6"><span>6</span>서클 컷 업로드하기</a></li>
+          <li><a href="#step-7"><span>7</span>운영 사이트에 반영하고 공개 페이지 확인하기</a></li>
+          <li><a href="#step-8"><span>8</span>활성화 URL 발급 요청하기</a></li>
+        </ol>
+      </section>
+
+      <div class="guide-layout">
+        <aside class="toc" aria-label="페이지 내 목차">
+          <p>목차</p>
+          <a href="#step-1">1. 이벤트 만들기</a>
+          <a href="#step-2">2. 기본 정보 등록하기</a>
+          <a href="#step-3">3. 템플릿 다운로드하기</a>
+          <a href="#step-4">4. 서클 정보 입력하기</a>
+          <a href="#step-5">5. 목록 업로드하기</a>
+          <a href="#step-6">6. 서클 컷 업로드하기</a>
+          <a href="#step-7">7. 운영 사이트에 반영하고 확인하기</a>
+          <a href="#step-8">8. 활성화 URL 발급 요청하기</a>
+          <a href="#faq">자주 막히는 부분</a>
+        </aside>
+
+        <div class="guide-content">
+          <section class="step" id="step-1">
+            <div class="step-heading">
+              <span class="step-number">1</span>
+              <div>
+                <h2>이벤트 만들기</h2>
+                <p>hamp에 로그인한 다음, 홈 화면에서 카탈로그를 게시할 이벤트 페이지를 만듭니다.</p>
+              </div>
+            </div>
+            <div class="screen-route" aria-label="이벤트 만들기 화면까지 이동하는 순서">
+              <p>화면 이동 순서</p>
+              <ol>
+                <li>「hampトップ」(hamp 홈)</li>
+                <li>「イベント作成・管理」(이벤트 생성·관리)</li>
+                <li>「イベントを作成する」(이벤트 만들기)</li>
+                <li>「同人即売会」(동인지 즉매회)</li>
+              </ol>
+            </div>
+            <ol class="task-list">
+              <li>hamp에 로그인합니다.</li>
+              <li>hamp 홈 화면에서 <strong class="ui-label">「イベント作成・管理」(이벤트 생성·관리)</strong>를 누릅니다.</li>
+              <li>이벤트 관리 화면에서 <strong class="ui-label">「イベントを作成する」(이벤트 만들기)</strong>를 누릅니다.</li>
+              <li>이벤트 유형에서 <strong class="ui-label">「同人即売会」(동인지 즉매회)</strong>를 선택합니다.</li>
+              <li>이벤트 구성에 맞게 <strong class="ui-label">「単独の主催」(단독 이벤트)</strong> 또는 <strong class="ui-label">「親子型の主催」(상위·하위 이벤트 구조)</strong>를 선택합니다.</li>
+              <li><strong class="ui-label">「タイトル・イベント名」(제목·이벤트명)</strong>을 입력합니다.</li>
+              <li><strong class="ui-label">「URL末尾」(URL 끝부분)</strong>에 반각 영문자·숫자, 하이픈 또는 밑줄을 사용하여 3자 이상 입력합니다.</li>
+              <li>입력 내용을 확인한 뒤 <strong class="ui-label">「作成」(만들기)</strong>를 누릅니다.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/01-create-event.png"
+              data-title="이벤트 관리·새 이벤트 만들기 화면"
+              data-note="이벤트 관리 화면에서 「イベントを作成する」(이벤트 만들기)를 열고, 주최 방식, 이벤트명, 「URL末尾」(URL 끝부분)를 입력하는 화면입니다."
+            ></div>
+            <p class="shot-caption">화면 예시: 이벤트 관리 화면에서 「イベントを作成する」(이벤트 만들기)를 연 상태</p>
+            <div class="info-box">
+              <h3>「単独の主催」(단독 이벤트)와 「親子型の主催」(상위·하위 이벤트 구조)의 차이</h3>
+              <p>단독 이벤트는 하나의 이벤트에 하나의 이벤트명과 하나의 카탈로그가 있을 때 선택합니다.</p>
+              <p>상위·하위 이벤트 구조는 합동 이벤트 안에 여러 온리 이벤트 등을 마련하고, 각 하위 이벤트의 카탈로그를 별도 탭으로 나누어 표시할 때 선택합니다.</p>
+            </div>
+            <div class="info-box">
+              <h3>「URL末尾」(URL 끝부분)란?</h3>
+              <p>
+                이벤트 페이지의 URL에 사용되는 문자열입니다. 예를 들어 <code>nihonsousaku2026</code>을 입력하면 이벤트 페이지 URL의 마지막 부분에 이 문자열이 들어갑니다.
+              </p>
+              <p>일본어나 공백은 사용하지 말고, 반각 영문자·숫자, 하이픈, 밑줄을 사용해 주세요.</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-2">
+            <div class="step-heading">
+              <span class="step-number">2</span>
+              <div>
+                <h2>이벤트 기본 설정 등록하기</h2>
+                <p>이벤트를 만든 뒤, 이벤트 관리의 「即売会トップ」(즉매회 홈)에서 「基本設定」(기본 설정)을 열어 참가자에게 보여 줄 정보를 등록합니다.</p>
+              </div>
+            </div>
+            <ol class="task-list task-list-compact">
+              <li>이벤트 관리에서 해당 이벤트의 <strong class="ui-label">「即売会トップ」(즉매회 홈)</strong>을 엽니다.</li>
+              <li>메뉴에서 <strong class="ui-label">「基本設定」(기본 설정)</strong>을 엽니다.</li>
+              <li>공개에 필요한 항목을 입력하고, 필요에 따라 선택 항목도 설정합니다.</li>
+              <li><strong class="ui-label">「更新して保存」(업데이트하여 저장)</strong>을 누릅니다.</li>
+              <li>누구나 볼 수 있게 공개하려면 공개 상태를 <strong class="ui-label">「非公開」(비공개)</strong>에서 <strong class="ui-label">「公開」(공개)</strong>로 바꾼 뒤, <strong class="ui-label">「更新して保存」(업데이트하여 저장)</strong>을 누릅니다.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/02-basic-settings.png?v=20260813"
+              data-title="현재 이벤트 기본 설정 화면"
+              data-note="「トップ画像」(상단 이미지), 「サムネイル」(썸네일), 기본 정보, 「詳細説明」(자세한 설명), 「ジャンルタグ」(장르 태그), 「開催日時・場所」(개최 일시·장소), 「配置図」(배치도), 관련 링크를 설정하는 화면입니다."
+            ></div>
+            <p class="shot-caption">화면 예시: 현재 「基本設定」(기본 설정) 화면. 공개에 필요한 항목은 초록색 또는 빨간색 라벨로 표시됩니다.</p>
+
+            <div class="settings-section">
+              <div class="settings-heading">
+                <h3>공개에 필요한 항목</h3>
+                <p>화면에 「必須」(필수) 또는 「一般公開に必要」(일반 공개에 필요)라고 표시되는 항목입니다.</p>
+              </div>
+              <dl class="setting-list">
+                <div class="setting-row">
+                  <dt>「トップ画像」(상단 이미지) <span class="field-status field-status-required">「公開に必要」(공개에 필요)</span></dt>
+                  <dd>이벤트 페이지 상단에 표시되는 가로형 이미지입니다. 16:9 비율, 1080p~4K를 권장합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「サムネイル」(썸네일) <span class="field-status field-status-required">「公開に必要」(공개에 필요)</span></dt>
+                  <dd>이벤트 목록 등에 표시되는 정사각형 이미지입니다. 약 1000px 크기를 권장합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「イベント名」(이벤트명) <span class="field-status field-status-mandatory">「必須」(필수)</span></dt>
+                  <dd>참가자에게 표시할 이벤트의 공식 명칭을 입력합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「URL末尾」(URL 끝부분) <span class="field-status field-status-mandatory">「必須」(필수)</span></dt>
+                  <dd>이벤트 페이지 URL에 사용됩니다. 반각 영문자·숫자, 하이픈 또는 밑줄을 사용하여 3자 이상 입력합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「簡単な説明」(간단한 설명) <span class="field-status field-status-required">「公開に必要」(공개에 필요)</span></dt>
+                  <dd>이벤트 내용을 짧고 쉽게 알 수 있는 설명문을 입력합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「ジャンルタグ」(장르 태그) <span class="field-status field-status-mandatory">「必須」(필수)</span></dt>
+                  <dd>이벤트에 맞는 장르를 1개 이상, 최대 10개까지 등록합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「開催日時・場所」(개최 일시·장소) <span class="field-status field-status-mandatory">「必須」(필수)</span></dt>
+                  <dd>개최일, 시간표, 행사장 이름과 주소를 설정합니다.</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="settings-section">
+              <div class="settings-heading">
+                <h3>필요에 따라 설정할 항목</h3>
+                <p>이벤트 운영 방식과 안내 내용에 맞춰 추가로 설정합니다.</p>
+              </div>
+              <dl class="setting-list">
+                <div class="setting-row">
+                  <dt>「イベント名（読み）」(이벤트명 읽는 법) <span class="field-status">「任意」(선택)</span></dt>
+                  <dd>히라가나 또는 가타카나로 입력합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「詳細説明」(자세한 설명)</dt>
+                  <dd>「詳細説明を編集」(자세한 설명 편집)을 눌러 이벤트의 상세 안내를 등록합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「タイムライン」(타임라인)</dt>
+                  <dd>이벤트에서 타임라인을 사용하려면 「有効」(활성화)로 설정합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「配置図」(배치도)</dt>
+                  <dd>「配置図エディタを開く」(배치도 에디터 열기)에서 행사장 배치도를 만들거나 수정합니다.</dd>
+                </div>
+                <div class="setting-row">
+                  <dt>「リンクの一括設定」(링크 일괄 설정)</dt>
+                  <dd>모든 자식 이벤트에서 공통으로 사용할 웹사이트, X, 서클 신청, 티켓 판매 URL을 입력합니다. 이벤트마다 다른 링크는 자식 이벤트 설정에 입력합니다.</dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="step" id="step-3">
+            <div class="step-heading">
+              <span class="step-number">3</span>
+              <div>
+                <h2>서클 목록용 템플릿 다운로드하기</h2>
+                <p>참가 서클을 등록할 때 사용할 템플릿을 다운로드합니다.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>이벤트 관리 화면에서 「参加サークル」(참가 서클)을 엽니다.</li>
+              <li>「hamp外イベント用テンプレート」(hamp 외부 이벤트용 템플릿)에서 「EXCELテンプレートをDL」(EXCEL 템플릿 다운로드)를 누릅니다.</li>
+              <li>다운로드한 파일을 엽니다.</li>
+            </ol>
+            <div class="info-box">
+              <h3>Mac에서 Numbers를 사용하는 경우</h3>
+              <p>「CSV形式でダウンロード」(CSV 형식으로 다운로드)에 체크한 뒤 다운로드해 주세요.</p>
+            </div>
+            <p><strong>템플릿 제목 행의 일본어 열 이름은 번역하거나 이름을 바꾸거나 삭제하지 마세요.</strong> hamp는 업로드할 때 이 정확한 열 이름을 사용합니다.</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/03-template-download.png"
+              data-title="템플릿 다운로드 화면"
+              data-note="「参加サークル」(참가 서클) 화면에서 「CSV形式でダウンロード」(CSV 형식으로 다운로드) 체크 상자와 「EXCELテンプレートをDL」(EXCEL 템플릿 다운로드) 버튼의 위치를 확인할 수 있습니다."
+            ></div>
+          </section>
+
+          <section class="step" id="step-4">
+            <div class="step-heading">
+              <span class="step-number">4</span>
+              <div>
+                <h2>템플릿에 서클 정보 입력하기</h2>
+                <p>템플릿을 열고 한 행에 한 서클씩 입력합니다.</p>
+              </div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr><th>열</th><th>입력할 내용</th><th>입력 예시</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>「スペース」(스페이스)</td><td>서클의 배치 번호</td><td>A-01、あ-02、A-04,05</td></tr>
+                  <tr><td>「サークル名」(서클명)</td><td>서클의 이름</td><td>hamp開発</td></tr>
+                  <tr><td>「サークル名（カナ）ひらがな・カタカナ」(서클명·히라가나/가타카나)</td><td>서클명의 일본어 읽는 법</td><td>はんぷかいはつ</td></tr>
+                  <tr><td>「作家名」(작가명)</td><td>대표자명, 필명 등</td><td>開発主任</td></tr>
+                  <tr><td>「作家名（カナ）ひらがな・カタカナ」(작가명·히라가나/가타카나)</td><td>작가명의 일본어 읽는 법</td><td>かいはつしゅにん</td></tr>
+                  <tr><td>「サークルカット」(서클 컷)</td><td>서클 컷 이미지의 파일명</td><td>cut01</td></tr>
+                  <tr><td>「メールアドレス」(이메일 주소)</td><td>필요한 경우에만 입력</td><td>circle@example.com</td></tr>
+                  <tr><td>「X（Twitter）」(X·Twitter)</td><td>X의 URL 또는 ID</td><td>https://x.com/example</td></tr>
+                  <tr><td>pixiv</td><td>pixiv의 URL 또는 ID</td><td>https://www.pixiv.net/users/xxxxx</td></tr>
+                  <tr><td>「HP・Web」(홈페이지·웹)</td><td>웹사이트 URL</td><td>https://example.com</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="warning-box">
+              <h3>스페이스 번호 입력 규칙</h3>
+              <ul>
+                <li>블록명과 스페이스 번호 사이에는 반드시 반각 하이픈 <code>-</code>을 넣어 주세요.</li>
+                <li><code>A-01</code>, <code>あ-2</code>, <code>その他-01</code>, <code>デジタル-02</code>처럼 입력할 수 있습니다. 일본어 블록명도 사용할 수 있다는 예시입니다.</li>
+                <li><code>あ-01a</code>나 <code>A-01b</code>처럼 뒤에 문자를 덧붙이는 표기에도 대응합니다.</li>
+                <li>스페이스가 2개이면 <code>あ-01,02</code>처럼 스페이스 번호 사이에 반각 쉼표 <code>,</code>를 넣습니다.</li>
+                <li><code>あ-01a</code>와 <code>あ-01b</code>처럼 접미사가 붙은 스페이스 2개를 함께 사용할 때는 <code>あ-01ab</code>로 입력합니다.</li>
+              </ul>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/04-template-filled.png"
+              data-title="템플릿 입력 예시"
+              data-note="Excel 또는 Numbers에서 「スペース」(스페이스), 「サークル名」(서클명), 「作家名」(작가명), 「サークルカット」(서클 컷) 열을 입력한 예시입니다."
+            ></div>
+
+            <div class="subsection" id="cut-name">
+              <h3>서클 컷 이미지를 등록하는 경우</h3>
+              <p>템플릿의 「サークルカット」(서클 컷) 열에 이미지 파일명을 입력합니다.</p>
+              <div class="two-column">
+                <div class="mini-table">
+                  <h4>템플릿 입력값</h4>
+                  <table>
+                    <tbody>
+                      <tr><td>あめんぼ</td><td>cut01</td></tr>
+                      <tr><td>あかいな</td><td>cut02</td></tr>
+                      <tr><td>hamp開発</td><td>cut03</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="mini-table">
+                  <h4>이미지 파일명</h4>
+                  <table>
+                    <tbody>
+                      <tr><td>cut01</td><td>cut01.png</td></tr>
+                      <tr><td>cut02</td><td>cut02.jpg</td></tr>
+                      <tr><td>cut03</td><td>cut03.webp</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <p>템플릿의 이름과 이미지 파일명이 일치하지 않으면 서클 컷이 올바르게 연결되지 않을 수 있습니다. 이미지는 하나의 폴더에 모으고, 그 폴더 안에 다른 하위 폴더를 만들지 마세요.</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-5">
+            <div class="step-heading">
+              <span class="step-number">5</span>
+              <div>
+                <h2>서클 목록 업로드하기</h2>
+                <p>템플릿 입력을 마치면 파일을 hamp에 업로드합니다.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>작성한 템플릿을 저장합니다.</li>
+              <li>hamp 이벤트 관리 화면에서 「参加サークル」(참가 서클)을 엽니다.</li>
+              <li>「サークル追加」(서클 추가)를 눌러 「サークルリストアップロード」(서클 목록 업로드)를 엽니다.</li>
+              <li>「TSV/Excel/Numbersファイルを選択」(TSV/Excel/Numbers 파일 선택)을 누르고 앞에서 저장한 템플릿 파일을 선택합니다.</li>
+              <li>기존 목록을 유지하려면 「リストへの追加」(목록에 추가)를 선택합니다. 전체 목록을 완전히 교체할 때만 「リストの置換」(목록 바꾸기)를 선택하세요.</li>
+              <li>「アップロード」(업로드)를 누릅니다.</li>
+              <li>업로드가 끝날 때까지 기다립니다.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/05-upload-list.png"
+              data-title="서클 목록 업로드 화면"
+              data-note="「サークル追加」(서클 추가)를 눌러 이 화면을 연 뒤, 「TSV/Excel/Numbersファイルを選択」(TSV/Excel/Numbers 파일 선택), 기존 목록 처리 방법, 「アップロード」(업로드)를 차례로 선택합니다."
+            ></div>
+            <p>업로드가 끝나면 등록한 서클이 서클 목록에 표시됩니다. 목록의 「状態」(상태)가 <strong>OK</strong>인지 확인해 주세요.</p>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/06-upload-result-ok.png"
+              data-title="업로드 후 확인 화면"
+              data-note="업로드한 서클 목록과 「状態」(상태)의 OK 표시를 확인하는 화면입니다."
+            ></div>
+
+            <div class="subsection" id="replace-add">
+              <h3>이미 서클 목록이 등록되어 있는 경우</h3>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr><th>선택 항목</th><th>사용할 때</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>「リストの置換」(목록 바꾸기)</td><td>현재 목록을 모두 지우고 새 목록으로 완전히 교체할 때</td></tr>
+                    <tr><td>「リストへの追加」(목록에 추가)</td><td>현재 목록은 그대로 두고 새로운 서클만 추가할 때</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>어느 것을 선택해야 할지 모르겠다면 「リストへの追加」(목록에 추가)를 사용하세요. 「リストの置換」(목록 바꾸기)는 모든 서클 정보를 처음부터 다시 넣어야 할 때만 사용합니다.</p>
+            </div>
+          </section>
+
+          <section class="step" id="step-6">
+            <div class="step-heading">
+              <span class="step-number">6</span>
+              <div>
+                <h2>서클 컷 업로드하기</h2>
+                <p>서클 컷 이미지를 등록하려면 먼저 서클 목록 업로드를 끝낸 뒤 아래 절차를 진행합니다.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>이벤트 관리 화면에서 「参加サークル」(참가 서클)을 엽니다.</li>
+              <li>「カット」(컷)을 누릅니다.</li>
+              <li>「サークルカット管理」(서클 컷 관리)에서 「一括アップロード」(일괄 업로드)를 엽니다.</li>
+              <li>「ZIPファイルまたはフォルダをドロップ」(ZIP 파일 또는 폴더 놓기) 영역에 ZIP 파일이나 폴더를 끌어다 놓습니다. 파일 선택 창에서 폴더를 고르려면 「フォルダ選択」(폴더 선택)을 누릅니다.</li>
+              <li>화면의 확인 절차에 따라 업로드가 끝날 때까지 기다립니다.</li>
+            </ol>
+            <div class="info-box">
+              <h3>파일명을 정확히 맞추기</h3>
+              <p>템플릿에 <code>cut01</code>을 입력했다면 이미지 파일명은 <code>cut01.png</code> 또는 <code>cut01.jpg</code>처럼 지정합니다.</p>
+              <p>서클명이나 작가명과 같은 파일명으로도 연결되는 경우가 있지만, 실수를 줄이려면 <code>cut01</code>, <code>cut02</code>처럼 단순하고 겹치지 않는 이름을 권장합니다.</p>
+            </div>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/07-cut-upload.png"
+              data-title="서클 컷 일괄 업로드 화면"
+              data-note="「サークルカット管理」(서클 컷 관리)에서 「一括アップロード」(일괄 업로드)를 연 뒤, ZIP 파일이나 폴더를 끌어다 놓거나 「フォルダ選択」(폴더 선택)을 사용합니다."
+            ></div>
+          </section>
+
+          <section class="step" id="step-7">
+            <div class="step-heading">
+              <span class="step-number">7</span>
+              <div>
+                <h2>운영 사이트에 반영하고 공개 페이지 확인하기</h2>
+                <p>서클 목록과 서클 컷을 등록한 뒤, 최신 데이터를 운영 사이트에 반영하는 작업과 서클을 공개하는 작업을 모두 완료하고 참가자에게 실제로 보이는 페이지를 확인합니다.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>이벤트 관리 화면에서 「参加サークル」(참가 서클)을 엽니다.</li>
+              <li>서클 목록의 「状態」(상태)가 OK인지 확인합니다.</li>
+              <li>「本番反映」(운영 사이트에 반영)을 누른 뒤 표시가 「反映済み」(운영 반영 완료)로 바뀌었는지 확인합니다.</li>
+              <li>「サークル公開」(서클 공개)를 「公開」(공개)로 설정합니다.</li>
+              <li>「反映済み」(운영 반영 완료)와 「公開」(공개)가 동시에 표시되는지 확인합니다. 서클의 「状態」(상태)가 OK인 것만으로는 카탈로그가 공개되지 않습니다.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/09-production-reflect.png"
+              data-title="운영 사이트 반영 및 서클 공개 화면"
+              data-note="두 작업은 서로 다릅니다. 「本番反映」(운영 사이트에 반영)을 완료하고 「サークル公開」(서클 공개)를 「公開」(공개)로 설정합니다."
+            ></div>
+            <div class="info-box">
+              <h3>블록 순서를 변경하려면</h3>
+              <p>이벤트 관리 화면의 「参加サークル」(참가 서클)에서 「ブロック」(블록)을 엽니다. 순서를 변경한 뒤 「変更を保存」(변경 내용 저장)을 눌러 주세요.</p>
+            </div>
+            <ol class="task-list">
+              <li>이벤트 관리 화면에서 「公開ページへ」(공개 페이지로)를 누릅니다.</li>
+              <li>공개 페이지에 서클 목록이 표시되는지 확인합니다.</li>
+              <li>서클명, 작가명, 배치, 서클 컷이 올바른지 확인합니다.</li>
+              <li>표시 순서에 문제가 없는지 확인합니다.</li>
+            </ol>
+            <div
+              class="guide-shot js-guide-shot"
+              data-src="./images/08-public-catalog.png"
+              data-title="공개 카탈로그 확인 화면"
+              data-note="참가자가 보는 공개 페이지에 서클 목록과 서클 컷이 표시된 예시입니다."
+            ></div>
+            <p>나중에 서클 정보를 변경했다면 수정 내용을 확인한 뒤 「本番反映」(운영 사이트에 반영)을 다시 실행하고 공개 페이지를 확인해 주세요.</p>
+          </section>
+
+          <section class="step" id="step-8">
+            <div class="step-heading">
+              <span class="step-number">8</span>
+              <div>
+                <h2>「アクティベートURL」(활성화 URL) 발급 요청하기</h2>
+                <p>카탈로그 공개가 끝나면 서클 참가자가 자신의 정보를 직접 수정할 수 있도록 준비합니다.</p>
+              </div>
+            </div>
+            <ol class="task-list">
+              <li>「公開」(공개)와 「反映済み」(운영 반영 완료)가 모두 표시되는지 확인합니다.</li>
+              <li><a class="text-link" href="https://hamp.ai/about/form">hamp 공식 문의 양식</a>으로 「アクティベートURL」(활성화 URL) 발급을 요청합니다. 운영팀이 이벤트를 찾을 수 있도록 이벤트명과 공개 페이지 URL을 함께 적어 주세요.</li>
+              <li>hamp 운영팀의 승인이 완료되면 발급된 활성화 URL을 받습니다.</li>
+              <li>서클 참가자에게 활성화 URL을 안내하여 각 참가자에게 편집 권한을 부여합니다.</li>
+            </ol>
+            <div class="info-box">
+              <h3>발급에는 hamp 운영팀의 승인이 필요합니다</h3>
+              <p>현재 「アクティベートURL」(활성화 URL)은 hamp 운영팀의 승인을 거쳐 발급됩니다. 참가 서클에 URL을 전달할 때는 hamp 운영팀이 안내하는 공유 방법을 따라 주세요.</p>
+            </div>
+          </section>
+
+          <section class="section faq-section" id="faq">
+            <div class="section-heading compact">
+              <p class="eyebrow">FAQ</p>
+              <h2>자주 막히는 부분</h2>
+            </div>
+            <div class="faq-list">
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  템플릿의 어느 칸에 입력해야 할지 모르겠어요
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>먼저 「スペース」(스페이스), 「サークル名」(서클명), 「サークル名（カナ）ひらがな・カタカナ」(서클명·히라가나/가타카나), 「作家名」(작가명), 「作家名（カナ）ひらがな・カタカナ」(작가명·히라가나/가타카나)를 입력해 주세요. 서클 컷과 SNS 정보는 나중에 추가해도 되고, 비워 둔 상태로도 서클을 등록할 수 있습니다.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  서클 컷이 표시되지 않아요
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>템플릿의 「サークルカット」(서클 컷) 열에 적은 이름과 실제 이미지 파일명이 일치하는지 확인해 주세요. 이미지가 폴더 안의 하위 폴더에 들어 있지는 않은지, 동일한 이미지명을 여러 서클에서 사용하지는 않았는지도 확인해 주세요.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  실수로 기존 목록을 덮어쓸까 봐 걱정돼요
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>일부 서클만 추가하려면 「リストへの追加」(목록에 추가)를 사용하세요. 모든 서클 정보를 새로 입력하여 완전히 교체할 때만 「リストの置換」(목록 바꾸기)를 사용합니다.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  자식 이벤트란 무엇인가요?
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>자식 이벤트는 카탈로그 탭 하나에 해당합니다. 예를 들어 같은 날 같은 행사장에서 이름이 다른 여러 즉매회를 함께 개최한다면, 자식 이벤트를 2개 이상 설정하여 각 카탈로그를 별도의 탭으로 만들 수 있습니다. 자식 이벤트는 반드시 1개 이상 설정해야 합니다.</p>
+                </div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  공개 페이지에 서클 목록이 표시되지 않아요
+                  <span aria-hidden="true"></span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>「本番反映」(운영 사이트에 반영) 작업과 「サークル公開」(서클 공개) 작업이 모두 끝났는지 확인해 주세요. 서클 목록의 「状態」(상태)가 OK여도 이 두 작업을 완료하지 않으면 공개 페이지에 서클 목록이 표시되지 않습니다.</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>© hamp</p>
+      <nav class="language-nav" aria-label="언어 선택">
+        <a href="./faq_catalog_nonform.html" lang="ja">日本語</a>
+        <a href="./faq_catalog_nonform_en.html" lang="en">English</a>
+        <a href="./faq_catalog_nonform_ko.html" lang="ko" aria-current="page">한국어</a>
+      </nav>
+      <a href="#top">페이지 맨 위로 돌아가기</a>
+    </footer>
+
+    <script src="./script.js?v=20260813-2"></script>
+  </body>
+</html>
