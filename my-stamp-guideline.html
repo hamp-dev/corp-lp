@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>マイスタンプガイドライン | hamp</title>
+    <meta
+      name="description"
+      content="hampのマイスタンプを安心して作成・利用するためのガイドラインです。利用できる画像、禁止事項、権利、削除・利用制限、通報についてご案内します。"
+    />
+    <style>
+      :root {
+        --bg: #fffdfa;
+        --paper: #ffffff;
+        --muted: #faf6f1;
+        --line: #eadfd3;
+        --line-strong: #dbc7b4;
+        --text: #1f1a16;
+        --sub: #6e6257;
+        --link: #a85f24;
+        --accent: #f8e8d6;
+        --accent-soft: #fdf4ea;
+        --warning: #fff7e8;
+        --warning-line: #e7c98f;
+        --max: 1080px;
+        --content: 760px;
+        --radius: 14px;
+        --shadow: 0 18px 50px rgba(68, 42, 23, 0.06);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 84px;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 12% 0%, rgba(248, 232, 214, 0.75), transparent 28rem),
+          linear-gradient(180deg, #fffdfa 0%, #fff8f1 100%);
+        font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+          "Yu Gothic", "Noto Sans JP", sans-serif;
+        font-size: 16px;
+        line-height: 1.8;
+      }
+
+      a {
+        color: var(--link);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
+
+      a:focus-visible,
+      summary:focus-visible {
+        outline: 3px solid rgba(168, 95, 36, 0.28);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      .skip-link {
+        position: fixed;
+        z-index: 200;
+        top: 8px;
+        left: 8px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: var(--text);
+        color: #fff;
+        transform: translateY(-150%);
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .read-progress {
+        position: fixed;
+        z-index: 120;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: transparent;
+      }
+
+      .read-progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--link);
+      }
+
+      .site-header {
+        position: sticky;
+        z-index: 100;
+        top: 0;
+        border-bottom: 1px solid rgba(234, 223, 211, 0.88);
+        background: rgba(255, 253, 250, 0.92);
+        backdrop-filter: blur(14px);
+      }
+
+      .header-inner {
+        display: flex;
+        width: min(calc(100% - 32px), var(--max));
+        min-height: 64px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin: 0 auto;
+      }
+
+      .brand {
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .header-nav {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 13px;
+      }
+
+      .header-nav a {
+        color: var(--sub);
+        text-decoration: none;
+      }
+
+      .header-nav a:hover {
+        color: var(--text);
+      }
+
+      .header-nav .header-contact {
+        padding: 7px 12px;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        background: var(--paper);
+        color: var(--text);
+        white-space: nowrap;
+      }
+
+      .page {
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
+        padding: 0 0 72px;
+      }
+
+      .hero {
+        padding: clamp(52px, 9vw, 92px) 0 48px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-label {
+        margin: 0 0 8px;
+        color: var(--link);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        max-width: 780px;
+        margin-bottom: 18px;
+        font-size: clamp(38px, 6vw, 64px);
+        line-height: 1.15;
+        letter-spacing: -0.035em;
+      }
+
+      .hero-copy {
+        max-width: 780px;
+        margin-bottom: 10px;
+        color: var(--sub);
+        font-size: clamp(16px, 2vw, 19px);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 230px minmax(0, var(--content));
+        gap: 48px;
+        align-items: start;
+        justify-content: center;
+        padding-top: 36px;
+      }
+
+      .toc {
+        position: sticky;
+        top: 88px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+      }
+
+      .toc-title {
+        margin-bottom: 8px;
+        color: var(--sub);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .toc a {
+        display: block;
+        padding: 6px 8px;
+        border-radius: 7px;
+        color: var(--sub);
+        font-size: 13px;
+        line-height: 1.45;
+        text-decoration: none;
+      }
+
+      .toc a:hover {
+        background: var(--accent-soft);
+        color: var(--text);
+      }
+
+      .content {
+        min-width: 0;
+      }
+
+      .section {
+        padding: 40px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+
+      .section-label {
+        display: grid;
+        flex: 0 0 36px;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        margin: 1px 0 0;
+        border-radius: 50%;
+        background: var(--accent);
+        color: var(--link);
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-size: clamp(25px, 4vw, 32px);
+        line-height: 1.4;
+        letter-spacing: -0.02em;
+      }
+
+      h3 {
+        margin-bottom: 8px;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .section-copy {
+        margin-bottom: 20px;
+        color: var(--sub);
+      }
+
+      .rule-group + .rule-group {
+        margin-top: 28px;
+      }
+
+      .rule-group p:last-child,
+      .callout p:last-child,
+      .rule-card p:last-child {
+        margin-bottom: 0;
+      }
+
+      ul,
+      ol {
+        padding-left: 1.35em;
+      }
+
+      li + li {
+        margin-top: 7px;
+      }
+
+      .rule-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin: 18px 0;
+      }
+
+      .rule-card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+      }
+
+      .rule-card h3 {
+        font-size: 16px;
+      }
+
+      .rule-card p,
+      .rule-card li {
+        color: var(--sub);
+        font-size: 14px;
+      }
+
+      .callout {
+        margin: 22px 0;
+        padding: 18px 20px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--muted);
+      }
+
+      .callout.warning {
+        border-color: var(--warning-line);
+        background: var(--warning);
+      }
+
+      .callout h3 {
+        margin-bottom: 6px;
+        font-size: 16px;
+      }
+
+      .callout p,
+      .callout li {
+        font-size: 14px;
+      }
+
+      .table-scroll {
+        overflow-x: auto;
+        margin: 18px 0 22px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        width: 34%;
+        background: var(--muted);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      tr:last-child th,
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      details {
+        border-top: 1px solid var(--line);
+      }
+
+      details:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+
+      summary {
+        position: relative;
+        padding: 16px 36px 16px 0;
+        cursor: pointer;
+        font-weight: 700;
+        list-style: none;
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      summary::after {
+        content: "＋";
+        position: absolute;
+        top: 15px;
+        right: 5px;
+        color: var(--link);
+        font-size: 19px;
+        font-weight: 500;
+      }
+
+      details[open] summary::after {
+        content: "−";
+      }
+
+      .details-body {
+        padding: 0 4px 16px;
+        color: var(--sub);
+      }
+
+      .details-body > :last-child {
+        margin-bottom: 0;
+      }
+
+      .flow {
+        display: grid;
+        gap: 10px;
+        margin: 20px 0;
+        counter-reset: action;
+      }
+
+      .flow-item {
+        counter-increment: action;
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 14px;
+        align-items: start;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--paper);
+      }
+
+      .flow-item::before {
+        content: counter(action);
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--muted);
+        color: var(--link);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .flow-item h3 {
+        margin-bottom: 3px;
+        font-size: 16px;
+      }
+
+      .flow-item p {
+        margin: 0;
+        color: var(--sub);
+        font-size: 14px;
+      }
+
+      .link-list {
+        margin: 10px 0 0;
+      }
+
+      .footer {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        color: var(--sub);
+        font-size: 13px;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+
+        .toc {
+          position: static;
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .toc-title {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 680px) {
+        html {
+          scroll-padding-top: 72px;
+        }
+
+        .header-inner,
+        .page {
+          width: min(calc(100% - 24px), var(--max));
+        }
+
+        .header-nav a:not(.header-contact) {
+          display: none;
+        }
+
+        .header-nav .header-contact {
+          padding: 6px 9px;
+          font-size: 12px;
+        }
+
+        .hero {
+          padding-top: 42px;
+        }
+
+        .rule-grid,
+        .toc {
+          grid-template-columns: 1fr;
+        }
+
+        .section {
+          padding: 34px 0;
+        }
+
+        .section-head {
+          gap: 11px;
+        }
+
+        .section-label {
+          width: 32px;
+          height: 32px;
+          flex-basis: 32px;
+        }
+
+        th,
+        td {
+          padding: 11px 12px;
+        }
+
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="read-progress" aria-hidden="true"><span></span></div>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="#top" class="brand">hamp マイスタンプガイドライン</a>
+        <nav class="header-nav" aria-label="主なページ内リンク">
+          <a href="#rights">画像の権利とAI</a>
+          <a href="#prohibited">禁止される内容</a>
+          <a href="#moderation">削除・利用制限</a>
+          <a class="header-contact" href="https://hamp.ai/about/form" aria-label="通報・お問い合わせ">通報・連絡</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page" id="main-content">
+      <section class="hero" id="top">
+        <p class="hero-label">My Stamp Guidelines</p>
+        <h1>マイスタンプガイドライン</h1>
+        <p class="hero-copy">
+          マイスタンプは、自分で用意した画像をhamp内のリアクションとして使える機能です。
+          作成したスタンプは、他の利用者の画面にも表示され、保存・再利用される場合があります。
+        </p>
+        <p class="hero-copy">
+          安心して気持ちを伝えられるように、登録できる画像と使い方のルールを定めています。
+          作成・利用する前に、このガイドラインをご確認ください。
+        </p>
+
+      </section>
+
+      <div class="layout">
+        <aside class="toc" aria-label="目次">
+          <p class="toc-title">目次</p>
+          <a href="#basic">1. 適用範囲と基本ルール</a>
+          <a href="#specs">2. 登録できる画像</a>
+          <a href="#rights">3. 画像の権利・二次創作・AI</a>
+          <a href="#prohibited">4. 禁止される内容</a>
+          <a href="#usage">5. 利用時の禁止行為</a>
+          <a href="#deletion">6. 作成者による削除</a>
+          <a href="#moderation">7. hampによる措置</a>
+          <a href="#faq">8. よくある質問</a>
+          <a href="#links">9. 関連リンク</a>
+        </aside>
+
+        <div class="content">
+          <section class="section" id="basic">
+            <div class="section-head">
+              <p class="section-label">1</p>
+              <h2>適用範囲と基本ルール</h2>
+            </div>
+            <p class="section-copy">
+              本ガイドラインは、マイスタンプの作成、保存、共有およびhamp内での利用に適用されます。
+            </p>
+
+            <div class="rule-group">
+              <h3>1-1. スタンプは非公開の素材ではありません</h3>
+              <p>
+                マイスタンプは、タイムライン投稿、サークル作品、イベントのサークルスペース、
+                コメント等へのリアクションとして表示されることがあります。
+                他の利用者が、表示されたスタンプを自分のマイスタンプに保存し、hamp内で再利用する場合があります。
+              </p>
+              <p>
+                非公開設定はありません。自分だけで使うことを前提とした画像や、
+                他の利用者による保存・再利用を許可できない画像は登録しないでください。
+              </p>
+            </div>
+
+            <div class="rule-group">
+              <h3>1-2. 事前申請・事前審査はありません</h3>
+              <p>
+                マイスタンプは、事前の申請や人による審査を経ずに作成できます。
+                ただし、アップロードや利用ができたことは、hampが適法性、権利、安全性、
+                本ガイドラインへの適合を確認または承認したことを意味しません。
+              </p>
+            </div>
+
+          </section>
+
+          <section class="section" id="specs">
+            <div class="section-head">
+              <p class="section-label">2</p>
+              <h2>登録できる画像</h2>
+            </div>
+            <p class="section-copy">
+              登録時に受け付ける形式と上限は次のとおりです。
+            </p>
+
+            <div class="table-scroll">
+              <table>
+                <tbody>
+                  <tr>
+                    <th scope="row">対応形式</th>
+                    <td>GIF、APNG、PNG、JPEG、WebP</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">ファイル容量</th>
+                    <td>2MB以下</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">登録数</th>
+                    <td>1回につき1ファイル</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">配信用画像</th>
+                    <td>縦横最大256pxの範囲に収まるWebPへ自動変換します。縦横比は維持し、元画像より拡大しません。</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">アニメーション</th>
+                    <td>最大60フレーム。処理上の上限を超える画像は登録に失敗する場合があります。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="rule-grid">
+              <article class="rule-card">
+                <h3>表示名</h3>
+                <p>1〜50文字。画像の意味や使い方が分かる、短く具体的な名前を推奨します。</p>
+              </article>
+              <article class="rule-card">
+                <h3>ショートコード</h3>
+                <p>半角小文字の英数字とアンダースコアで2〜32文字。既に使われているものや予約語は登録できません。</p>
+              </article>
+              <article class="rule-card">
+                <h3>検索キーワード</h3>
+                <p>最大10個、1個につき1〜30文字。無関係な人物名・作品名・流行語を検索目的で付けないでください。</p>
+              </article>
+              <article class="rule-card">
+                <h3>見やすさ</h3>
+                <p>小さく表示しても内容が分かり、明るい背景と暗い背景のどちらでも見やすい画像を推奨します。</p>
+              </article>
+            </div>
+
+          </section>
+
+          <section class="section" id="rights">
+            <div class="section-head">
+              <p class="section-label">3</p>
+              <h2>画像の権利・二次創作・生成AI</h2>
+            </div>
+            <p class="section-copy">
+              「ファン活動」「非営利」「身内向け」であることは、権利確認や利用条件の確認を省略できる理由にはなりません。
+            </p>
+
+            <div class="rule-group">
+              <h3>3-1. 自分で作成した画像、または許諾を得た画像だけを使う</h3>
+              <p>
+                自分で作成した画像、またはスタンプとしてhamp内で表示・保存・再利用する許可を
+                権利者から得た画像のみ登録できます。
+              </p>
+              <p>
+                公式画像、ロゴ、商品画像、漫画・アニメ・ゲーム・動画のスクリーンショット、
+                他人のイラストや写真、そのトレース・切り抜き・加工は、
+                権利者がこの利用方法を明示的に許可している場合を除き登録できません。
+                フォントや素材を使う場合も、スタンプとしての共有や再利用が利用条件に含まれるか確認してください。
+              </p>
+            </div>
+
+            <div class="rule-group">
+              <h3>3-2. 二次創作・ファンアート</h3>
+              <p>
+                二次創作・ファンアートもマイスタンプとして登録できます。
+                登録前に、権利者が公開している二次創作ガイドラインや利用条件を確認し、
+                その範囲で利用してください。
+                ガイドラインでスタンプ利用や第三者による保存・再利用が禁止されている場合は登録しないでください。
+              </p>
+            </div>
+
+            <div class="rule-group">
+              <h3>3-3. 生成AIを使用した画像</h3>
+              <p>
+                マイスタンプには生成AIの使用を表示する専用機能がないため、
+                画像生成AIで生成した画像、または画像の主要な部分を生成AIで作成・置換した画像は、現在登録できません。
+                トリミング、サイズ変更、圧縮、色調補正、背景透過等の通常の画像編集は、この禁止には含みません。
+              </p>
+              <p>
+                マイスタンプについては、本項が
+                <a href="guideline.html#ai-content">コミュニティガイドラインのAI生成コンテンツに関する一般規定</a>
+                より優先して適用されます。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="prohibited">
+            <div class="section-head">
+              <p class="section-label">4</p>
+              <h2>禁止される内容</h2>
+            </div>
+            <p class="section-copy">
+              次の画像、文字、表示名、ショートコード、検索キーワードは登録できません。
+              以下は例示であり、これらに限りません。
+            </p>
+
+            <details open>
+              <summary>4-1. 権利・肖像・プライバシーを侵害するもの</summary>
+              <div class="details-body">
+                <ul>
+                  <li>無許諾のキャラクター、作品、イラスト、写真、ロゴ、商標、フォント、素材</li>
+                  <li>本人の明示的な許諾がない、実在人物を特定できる写真、似顔絵、デフォルメ、台詞等</li>
+                  <li>他人のSNS投稿、プロフィール、DM、私的な会話、個人情報の切り抜き</li>
+                  <li>削除、利用停止または権利者からの要請を回避するための加工・再登録</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>4-2. 誹謗中傷・差別・嫌がらせ</summary>
+              <div class="details-body">
+                <ul>
+                  <li>特定の個人や集団を侮辱、嘲笑、威圧、脅迫または攻撃するもの</li>
+                  <li>晒し、いじめ、つきまとい、望まない性的文脈での利用を目的とするもの</li>
+                  <li>人種、国籍、民族、性別、性的指向、性自認、障害、病気、信条その他の属性に基づく差別やヘイト</li>
+                  <li>自殺、自傷、犯罪、薬物、危険行為または暴力を称賛・助長するもの</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>4-3. 成人向け・性的・残虐なもの</summary>
+              <div class="details-body">
+                <ul>
+                  <li>性器、性行為、裸体の強調、性的な搾取または性的満足を主目的とするもの</li>
+                  <li>未成年者を性的に描写・示唆するもの、または児童の安全を害するもの</li>
+                  <li>強い流血、身体の損壊、死体その他の残虐な表現</li>
+                  <li>伏字、モザイク、切り抜き等を用いて上記の内容を実質的に表示するもの</li>
+                </ul>
+                <p>
+                  マイスタンプには、閲覧前の警告表示や年齢制限を設定できません。
+                  そのため、センシティブ表示を付ければ許可されるという扱いはありません。
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>4-4. なりすまし・誤認・不正誘導</summary>
+              <div class="details-body">
+                <ul>
+                  <li>hamp、イベント主催者、公式アカウント、権利者または他の利用者になりすますもの</li>
+                  <li>「公式」「承認済み」「購入済み」「審査通過」等、運営判断や利用状態と誤認させるもの</li>
+                  <li>フィッシング、詐欺、マルウェア、不正なサービスへの誘導を目的とするもの</li>
+                  <li>URL、QRコード、連絡先等を主な内容とするもの</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>4-5. スパム・広告・検索妨害</summary>
+              <div class="details-body">
+                <ul>
+                  <li>同一またはほぼ同一のスタンプを大量に登録する行為</li>
+                  <li>無関係なサービス、商品、アカウントへの広告・勧誘を主目的とするもの</li>
+                  <li>無関係な著名人名、作品名、流行語等を表示名や検索キーワードに設定する行為</li>
+                  <li>他の利用者の検索や利用を妨げる表示名、ショートコード、キーワード</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>4-6. 視認性・安全性に問題があるもの</summary>
+              <div class="details-body">
+                <ul>
+                  <li>1秒間に3回を超える点滅その他、発作や強い不快感を引き起こすおそれのあるアニメーション</li>
+                  <li>極端に激しい動き、内容を判別しにくい表示、画面表示を偽装するもの</li>
+                  <li>透明画像、内容のない画像、破損した画像</li>
+                  <li>法令、利用規約、コミュニティガイドラインまたは公序良俗に反するもの</li>
+                </ul>
+              </div>
+            </details>
+          </section>
+
+          <section class="section" id="usage">
+            <div class="section-head">
+              <p class="section-label">5</p>
+              <h2>利用時の禁止行為</h2>
+            </div>
+            <p class="section-copy">
+              画像自体が本ガイドラインに適合していても、使い方や文脈によって違反となる場合があります。
+            </p>
+            <ul>
+              <li>拒否されている相手に繰り返しスタンプを付けること</li>
+              <li>相手を嘲笑、威圧、監視または孤立させる目的で使うこと</li>
+              <li>成人向け、性的、差別的、暴力的な意味を持たせて使うこと</li>
+              <li>複数人で特定の利用者、サークル、作品、イベントを攻撃するために使うこと</li>
+              <li>スタンプの保存・再利用機能を用いて、削除や利用制限を回避すること</li>
+              <li>自動操作等により大量または不自然なリアクションを行うこと</li>
+            </ul>
+            <p>
+              作成者だけでなく、スタンプを保存・利用した人も、自分の利用方法について責任を負います。
+            </p>
+          </section>
+
+          <section class="section" id="deletion">
+            <div class="section-head">
+              <p class="section-label">6</p>
+              <h2>作成者による削除</h2>
+            </div>
+            <p class="section-copy">
+              作成者は、自分が作成したマイスタンプを削除できます。
+            </p>
+            <ul>
+              <li>削除すると、スタンプ画像は利用できなくなります。</li>
+              <li>他の利用者がマイスタンプに保存していた場合、その保存からも取り除かれます。</li>
+              <li>同じショートコードは、削除後に他のスタンプで使われる場合があります。</li>
+              <li>安全対策、トラブル対応、利用状況の集計等のため、過去のリアクション記録、通知記録または件数等が残る場合があります。</li>
+            </ul>
+            <div class="callout">
+              <h3>削除前にご確認ください</h3>
+              <p>
+                削除したスタンプの画像や設定を元に戻すことはできません。
+                画像を差し替えたい場合は、必要に応じて元のスタンプを削除し、新しいスタンプとして登録してください。
+              </p>
+            </div>
+          </section>
+
+          <section class="section" id="moderation">
+            <div class="section-head">
+              <p class="section-label">7</p>
+              <h2>hampによる削除・利用制限</h2>
+            </div>
+            <p class="section-copy">
+              hampは、問題のあるスタンプを事後に確認し、内容と状況に応じて必要な措置を行います。
+            </p>
+
+            <div class="callout warning">
+              <h3>事前通知なく対応する場合があります</h3>
+              <p>
+                法令、利用規約、本ガイドラインへの違反、権利侵害、利用者の安全または
+                サービス運営上の支障があるとhampが合理的に判断した場合、
+                作成者の承諾を得ず、事前通知なく、スタンプの非表示、利用停止、削除・抹消、
+                表示名・ショートコード・検索キーワードの変更その他必要な措置を行うことがあります。
+              </p>
+            </div>
+
+            <div class="flow" aria-label="違反時に行う措置の例">
+              <article class="flow-item">
+                <div>
+                  <h3>軽微または初回の違反</h3>
+                  <p>対象スタンプの非表示・削除、設定変更、作成者への注意または警告。</p>
+                </div>
+              </article>
+              <article class="flow-item">
+                <div>
+                  <h3>反復、故意または処分回避</h3>
+                  <p>マイスタンプの作成・保存・利用機能の一時的または継続的な制限。</p>
+                </div>
+              </article>
+              <article class="flow-item">
+                <div>
+                  <h3>悪質または重大な違反</h3>
+                  <p>アカウント機能の制限、一時停止、利用停止、アカウント削除または再登録の拒否。</p>
+                </div>
+              </article>
+            </div>
+
+            <p>
+              措置は、違反の重大性、故意性、反復性、被害や危険の大きさ、過去の措置、
+              調査への協力状況、処分回避の有無等を考慮して決定します。
+              児童の性的搾取、脅迫、フィッシング、重大な権利侵害、緊急の安全上の問題等では、
+              警告を経ず直ちにアカウントを停止する場合があります。
+            </p>
+            <p>
+              法令上または安全上の支障がない限り、措置後に、対象、理由区分、該当するルール、
+              措置内容を案内します。
+            </p>
+          </section>
+
+          <section class="section" id="faq">
+            <div class="section-head">
+              <p class="section-label">8</p>
+              <h2>よくある質問</h2>
+            </div>
+
+            <details>
+              <summary>自分だけで使うつもりなら、許諾のない画像でも登録できますか？</summary>
+              <div class="details-body">
+                <p>
+                  できません。マイスタンプには非公開設定がなく、他の利用者の画面に表示され、
+                  保存・再利用される場合があります。利用範囲を許可できる画像だけを登録してください。
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>有名なネットミームになっている人物なら使えますか？</summary>
+              <div class="details-body">
+                <p>
+                  使えません。インターネット上で広く知られていることは、本人の許諾の代わりにはなりません。
+                  写真だけでなく、似顔絵、デフォルメ、台詞、呼称、ポーズ等から人物を特定できる場合も対象です。
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>ファンアートや二次創作は使えますか？</summary>
+              <div class="details-body">
+                <p>
+                  登録できます。登録前に、権利者が公開している二次創作ガイドラインや
+                  利用条件を確認し、その範囲で利用してください。
+                  スタンプ利用や第三者による保存・再利用が禁止されている場合は登録できません。
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>生成AIで作った画像は使えますか？</summary>
+              <div class="details-body">
+                <p>
+                  現在は使えません。マイスタンプには生成AIの使用を表示する専用機能がないため、
+                  画像生成AIで作成した画像や、主要部分を生成AIで作成・置換した画像は禁止しています。
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>削除されたスタンプを保存していた人は、引き続き使えますか？</summary>
+              <div class="details-body">
+                <p>
+                  使えません。削除・利用停止後は新たな利用や保存ができなくなり、
+                  マイスタンプの保存からも取り除かれる場合があります。
+                  ただし、過去のリアクション記録や件数等は残ることがあります。
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>問題のあるスタンプは、作成者に直接連絡すべきですか？</summary>
+              <div class="details-body">
+                <p>
+                  直接の連絡でトラブルになるおそれがあるため、hampのお問い合わせフォームから通報してください。
+                  権利者本人からの申告である場合は、その旨もお知らせください。
+                </p>
+              </div>
+            </details>
+          </section>
+
+          <section class="section" id="links">
+            <div class="section-head">
+              <p class="section-label">9</p>
+              <h2>関連リンク</h2>
+            </div>
+            <p class="section-copy">
+              本ガイドラインに定めのない事項には、利用規約およびコミュニティガイドラインが適用されます。
+              内容が重なる場合、マイスタンプに固有の事項については本ガイドラインが優先します。
+            </p>
+            <ul class="link-list">
+              <li><a href="guideline.html">コミュニティガイドライン</a></li>
+              <li><a href="https://verbose-sing-ad8.notion.site/33b523bcc7408056a17dd6e8c90db520?pvs=74">利用規約</a></li>
+              <li><a href="https://verbose-sing-ad8.notion.site/33a523bcc7408008b9f7dc11b937d8f5?pvs=74">プライバシーポリシー</a></li>
+              <li><a href="https://hamp.ai/about/form">お問い合わせ</a></li>
+            </ul>
+          </section>
+
+          <footer class="footer">
+            <p>最終更新日：2026年8月15日</p>
+          </footer>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (() => {
+        const bar = document.querySelector(".read-progress span");
+        const updateProgress = () => {
+          if (!bar) return;
+          const top = window.scrollY || document.documentElement.scrollTop;
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const value = max > 0 ? Math.min(100, Math.max(0, top / max * 100)) : 0;
+          bar.style.width = value + "%";
+        };
+        updateProgress();
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress);
+      })();
+    </script>
+  </body>
+</html>
